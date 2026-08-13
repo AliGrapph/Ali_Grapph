@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0d0d0f">
+<meta name="description" content="علی گراف | طراح گرافیک | خلاقیت در قالب تصویر">
+<title>علی گراف | Ali_Grapph</title>
+
+<style>
+:root{
+    --red:#e21b23;
+    --red2:#ff4b51;
+    --bg:#0d0d0f;
+    --surface:#151518;
+    --surface2:#1b1b20;
+    --text:#f8f8f8;
+    --muted:#8d8d96;
+    --line:rgba(255,255,255,.075);
+    --shadow:0 12px 35px rgba(0,0,0,.28);
+    --glow:rgba(226,27,35,.18);
+}
+
+body.light{
+    --bg:#f5f5f7;
+    --surface:#ffffff;
+    --surface2:#fafafa;
+    --text:#141416;
+    --muted:#77777f;
+    --line:rgba(0,0,0,.07);
+    --shadow:0 12px 35px rgba(0,0,0,.08);
+    --glow:rgba(226,27,35,.12);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+        radial-gradient(
+            circle at 50% -8%,
+            var(--glow),
+            transparent 34%
+        ),
+        var(--bg);
+    color:var(--text);
+    font-family:Tahoma,Arial,sans-serif;
+    transition:background .3s ease,color .3s ease;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+}
+
+button{
+    font-family:inherit;
+}
+
+.page{
+    width:min(100% - 24px,760px);
+    margin:auto;
+    padding:15px 0 30px;
+}
+
+/* TOP */
+
+.topbar{
+    display:flex;
+    justify-content:flex-end;
+    height:43px;
+}
+
+.settings-btn,
+.theme-btn{
+    width:41px;
+    height:41px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--text);
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.settings-btn:hover,
+.theme-btn:hover{
+    transform:translateY(-2px) scale(1.05);
+}
+
+.settings-btn svg,
+.theme-btn svg{
+    width:19px;
+    height:19px;
+}
+
+/* PROFILE */
+
+.profile{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:4px;
+}
+
+.logo-wrap{
+    width:102px;
+    height:102px;
+    padding:4px;
+    border-radius:29px;
+    background:linear-gradient(135deg,var(--red),var(--red2));
+    box-shadow:
+        0 12px 35px rgba(226,27,35,.22),
+        0 0 55px rgba(226,27,35,.08);
+    animation:logoIn .55s ease both;
+}
+
+.logo{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    border-radius:25px;
+}
+
+.name{
+    margin-top:17px;
+    font-size:clamp(38px,8vw,55px);
+    font-weight:900;
+    line-height:1.05;
+    letter-spacing:-1.5px;
+    background:linear-gradient(135deg,var(--red),var(--red2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.username{
+    direction:ltr;
+    margin-top:7px;
+    color:var(--muted);
+    font:12px Arial,sans-serif;
+    letter-spacing:2px;
+}
+
+.subtitle{
+    margin-top:13px;
+    font-size:14px;
+    font-weight:800;
+}
+
+.description{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* SECTION */
+
+.section{
+    margin-top:31px;
+}
+
+.section-head{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:15px;
+    margin:0 3px 13px;
+}
+
+.section-title h2{
+    font-size:18px;
+    font-weight:900;
+}
+
+.section-title p{
+    color:var(--muted);
+    font-size:10px;
+    margin-top:5px;
+}
+
+.more-btn{
+    border:0;
+    background:none;
+    color:var(--muted);
+    cursor:pointer;
+    font-size:10px;
+    white-space:nowrap;
+    transition:.25s ease;
+}
+
+.more-btn:hover{
+    color:var(--red2);
+    transform:translateX(-3px);
+}
+
+/* PORTFOLIO */
+
+.portfolio{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.work{
+    position:relative;
+    aspect-ratio:1/1;
+    overflow:hidden;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.work:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 17px 38px rgba(0,0,0,.3),
+        0 0 28px var(--glow);
+}
+
+.work img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    transition:transform .45s ease;
+}
+
+.work:hover img{
+    transform:scale(1.045);
+}
+
+.work::after{
+    content:"مشاهده";
+    position:absolute;
+    left:11px;
+    bottom:11px;
+    padding:6px 9px;
+    border-radius:9px;
+    background:rgba(0,0,0,.58);
+    color:#fff;
+    font-size:9px;
+    opacity:0;
+    transform:translateY(5px);
+    transition:.25s ease;
+}
+
+.work:hover::after{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* CTA */
+
+.cta{
+    margin-top:12px;
+    width:100%;
+    min-height:55px;
+    border:1px solid rgba(226,27,35,.25);
+    border-radius:17px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(226,27,35,.13),
+            rgba(255,75,81,.05)
+        ),
+        var(--surface);
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    font-size:12px;
+    font-weight:800;
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+
+.cta:hover{
+    transform:translateY(-3px);
+    border-color:rgba(226,27,35,.5);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.2),
+        0 0 25px var(--glow);
+}
+
+/* ORDER */
+
+.order-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:11px;
+}
+
+.order{
+    min-height:65px;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:10px 13px;
+    color:var(--text);
+    text-decoration:none;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+
+.order:hover{
+    transform:translateY(-4px);
+    border-color:rgba(226,27,35,.25);
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.2),
+        0 0 25px var(--glow);
+}
+
+.order-icon{
+    width:41px;
+    height:41px;
+    min-width:41px;
+    border-radius:13px;
+    background:rgba(226,27,35,.11);
+    color:var(--red2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.order-icon svg{
+    width:22px;
+    height:22px;
+    fill:currentColor;
+}
+
+.order-info{
+    min-width:0;
+}
+
+.order-title{
+    display:block;
+    font-size:12px;
+    font-weight:900;
+}
+
+.order-sub{
+    display:block;
+    direction:ltr;
+    text-align:right;
+    margin-top:3px;
+    color:var(--muted);
+    font:9px Arial,sans-serif;
+}
+
+/* SOCIAL */
+
+.socials{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+}
+
+.social{
+    min-height:62px;
+    padding:9px 13px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:var(--text);
+    text-decoration:none;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    transition:.25s ease;
+}
+
+.social:hover{
+    transform:translateY(-3px);
+    border-color:rgba(226,27,35,.25);
+}
+
+.social-icon{
+    width:40px;
+    height:40px;
+    min-width:40px;
+    border-radius:12px;
+    background:rgba(226,27,35,.1);
+    color:var(--red2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.social-icon svg{
+    width:22px;
+    height:22px;
+}
+
+.social-info{
+    flex:1;
+}
+
+.social-title{
+    display:block;
+    font-size:12px;
+    font-weight:900;
+}
+
+.social-sub{
+    display:block;
+    direction:ltr;
+    text-align:right;
+    margin-top:3px;
+    color:var(--muted);
+    font:9px Arial,sans-serif;
+}
+
+.arrow{
+    color:var(--muted);
+    font-size:18px;
+    transition:.25s ease;
+}
+
+.social:hover .arrow{
+    color:var(--red2);
+    transform:translateX(-3px);
+}
+
+/* SHARE */
+
+.share{
+    margin-top:10px;
+    width:100%;
+    min-height:54px;
+    border:1px solid var(--line);
+    border-radius:17px;
+    background:var(--surface);
+    color:var(--text);
+    cursor:pointer;
+    box-shadow:var(--shadow);
+    font-size:11px;
+    font-weight:800;
+    transition:.25s ease;
+}
+
+.share:hover{
+    transform:translateY(-3px);
+    border-color:rgba(226,27,35,.25);
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+}
+
+.copy{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.signature{
+    direction:ltr;
+    margin-top:7px;
+    color:var(--muted);
+    opacity:.55;
+    font:9px Arial,sans-serif;
+    letter-spacing:1.5px;
+}
+
+/* MODAL / GALLERY */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(5,5,7,.94);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.open{
+    display:flex;
+}
+
+.gallery-box{
+    width:min(900px,100%);
+    max-height:92vh;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.gallery-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#fff;
+}
+
+.gallery-title{
+    font-size:14px;
+    font-weight:900;
+}
+
+.gallery-count{
+    color:#999;
+    font:10px Arial,sans-serif;
+    direction:ltr;
+}
+
+.close{
+    width:39px;
+    height:39px;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.gallery-main{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:0;
+}
+
+.gallery-image{
+    max-width:calc(100vw - 60px);
+    max-height:76vh;
+    object-fit:contain;
+    border-radius:14px;
+    user-select:none;
+    -webkit-user-drag:none;
+}
+
+.nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:43px;
+    height:43px;
+    border:1px solid rgba(255,255,255,.13);
+    border-radius:50%;
+    background:rgba(0,0,0,.48);
+    color:#fff;
+    cursor:pointer;
+    font-size:24px;
+}
+
+.prev{
+    right:8px;
+}
+
+.next{
+    left:8px;
+}
+
+.thumbs{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding:3px 1px 5px;
+    scrollbar-width:none;
+}
+
+.thumbs::-webkit-scrollbar{
+    display:none;
+}
+
+.thumb{
+    flex:0 0 55px;
+    height:55px;
+    border-radius:9px;
+    overflow:hidden;
+    opacity:.48;
+    border:1px solid transparent;
+    cursor:pointer;
+}
+
+.thumb.active{
+    opacity:1;
+    border-color:var(--red2);
+}
+
+.thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* SETTINGS */
+
+.settings{
+    position:fixed;
+    inset:0;
+    z-index:1100;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+    display:none;
+    align-items:flex-start;
+    justify-content:flex-end;
+    padding:70px 15px 15px;
+}
+
+.settings.open{
+    display:flex;
+}
+
+.settings-card{
+    width:min(310px,100%);
+    background:var(--surface);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.35);
+    padding:18px;
+}
+
+.settings-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:17px;
+}
+
+.settings-head strong{
+    font-size:14px;
+}
+
+.settings-close{
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:50%;
+    background:var(--surface2);
+    color:var(--text);
+    cursor:pointer;
+    font-size:18px;
+}
+
+.setting{
+    padding:13px 0;
+    border-top:1px solid var(--line);
+}
+
+.setting-label{
+    display:block;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.choice-row{
+    display:flex;
+    gap:7px;
+}
+
+.choice{
+    flex:1;
+    min-height:38px;
+    border:1px solid var(--line);
+    background:var(--surface2);
+    color:var(--text);
+    border-radius:11px;
+    cursor:pointer;
+    font-size:10px;
+    transition:.2s ease;
+}
+
+.choice.active{
+    border-color:var(--red);
+    color:var(--red2);
+    box-shadow:0 0 15px var(--glow);
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:22px;
+    transform:translate(-50%,20px);
+    z-index:2000;
+    background:var(--red);
+    color:#fff;
+    padding:10px 16px;
+    border-radius:13px;
+    font-size:11px;
+    font-weight:bold;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s ease;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+
+/* ===== EXTRA FEATURES ===== */
+.extra-links{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:11px;
+    flex-wrap:wrap;
+}
+.mini-link{
+    border:0;
+    background:none;
+    color:var(--muted);
+    font-size:10px;
+    cursor:pointer;
+    padding:4px 7px;
+    transition:.2s ease;
+}
+.mini-link:hover{color:var(--red2);transform:translateY(-1px)}
+.about-card{
+    width:min(420px,100%);
+    background:var(--surface);
+    color:var(--text);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.35);
+    padding:22px;
+    text-align:center;
+}
+.about-logo{
+    width:70px;height:70px;margin:0 auto 13px;
+    border-radius:20px;padding:3px;
+    background:linear-gradient(135deg,var(--red),var(--red2));
+}
+.about-logo img{width:100%;height:100%;object-fit:cover;border-radius:17px}
+.about-card h3{font-size:19px;margin-bottom:5px}
+.about-card p{color:var(--muted);font-size:11px;line-height:2}
+.about-close{
+    margin-top:15px;width:100%;min-height:42px;border:1px solid var(--line);
+    border-radius:12px;background:var(--surface2);color:var(--text);cursor:pointer
+}
+.gallery-tools{
+    display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+}
+.gallery-tool{
+    border:1px solid rgba(255,255,255,.12);border-radius:11px;
+    background:rgba(255,255,255,.07);color:#fff;padding:8px 12px;
+    font-size:10px;cursor:pointer;transition:.2s ease
+}
+.gallery-tool:hover{background:rgba(226,27,35,.35);transform:translateY(-1px)}
+.faq-card{
+    width:min(560px,100%);
+    max-height:86vh;overflow:auto;
+    background:var(--surface);color:var(--text);
+    border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 25px 70px rgba(0,0,0,.35);padding:17px;
+}
+.faq-head{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:8px
+}
+.faq-head strong{font-size:14px}
+.faq-item{border-top:1px solid var(--line);padding:12px 2px}
+.faq-item summary{cursor:pointer;font-size:11px;font-weight:800;list-style:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"+";float:left;color:var(--red2);font-size:15px}
+.faq-item[open] summary::after{content:"−"}
+.faq-answer{color:var(--muted);font-size:10px;line-height:1.9;padding:9px 2px 2px}
+.lang-row{display:flex;gap:7px}
+.gallery-tools[dir="ltr"]{direction:ltr}
+.easter{
+    position:fixed;inset:0;z-index:2500;pointer-events:none;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transition:.25s ease;
+}
+.easter.show{opacity:1}
+.easter-box{
+    background:rgba(13,13,15,.94);border:1px solid rgba(226,27,35,.45);
+    color:#fff;border-radius:20px;padding:18px 25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45),0 0 40px rgba(226,27,35,.18);
+    text-align:center;transform:scale(.92);transition:.25s ease
+}
+.easter.show .easter-box{transform:scale(1)}
+.easter-title{font-weight:900;font-size:17px}
+.easter-sub{font-size:10px;color:#aaa;margin-top:6px}
+
+/* ANIMATIONS */
+
+@keyframes logoIn{
+    from{
+        opacity:0;
+        transform:translateY(-12px) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+        scroll-behavior:auto!important;
+    }
+}
+
+@media(max-width:600px){
+
+    .page{
+        width:calc(100% - 22px);
+    }
+
+    .logo-wrap{
+        width:94px;
+        height:94px;
+    }
+
+    .name{
+        font-size:39px;
+    }
+
+    .order-grid{
+        gap:9px;
+    }
+
+    .order{
+        min-height:61px;
+        padding:9px;
+    }
+
+    .order-title{
+        font-size:11px;
+    }
+
+    .portfolio{
+        gap:9px;
+    }
+
+    .work{
+        border-radius:17px;
+    }
+
+    .modal{
+        padding:12px;
+    }
+
+    .gallery-image{
+        max-width:calc(100vw - 30px);
+        max-height:72vh;
+    }
+
+    .nav{
+        width:38px;
+        height:38px;
+    }
+
+    .prev{
+        right:2px;
+    }
+
+    .next{
+        left:2px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- TOP -->
+<div class="topbar">
+    <div class="top-actions">
+
+        <button class="settings-btn" id="settingsBtn" aria-label="تنظیمات">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V22h-2.4v-.2a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.4 15a1.7 1.7 0 0 0-1.56-1.03H6.6v-2.4h.24A1.7 1.7 0 0 0 8.4 10a1.7 1.7 0 0 0-.34-1.88L8 8.06l1.7-1.7.06.06A1.7 1.7 0 0 0 11.64 6a1.7 1.7 0 0 0 1.03-1.56V4h2.4v.44A1.7 1.7 0 0 0 16.1 6a1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 19.4 9c.2.6.77 1 1.4 1h.2v2.4h-.2A1.7 1.7 0 0 0 19.4 15Z"/>
+            </svg>
+        </button>
+
+        <button class="theme-btn" id="themeBtn" aria-label="تغییر تم">
+            <svg id="moon" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M21 15.3A9 9 0 0 1 8.7 3 9.2 9.2 0 1 0 21 15.3Z"/>
+            </svg>
+            <svg id="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/>
+            </svg>
+        </button>
+
+    </div>
+</div>
+
+<!-- PROFILE -->
+<section class="profile">
+
+    <div class="logo-wrap">
+        <img class="logo" src="logo.png" alt="لوگوی علی گراف">
+    </div>
+
+    <h1 class="name">علی گراف</h1>
+
+    <div class="username">Ali_Grapph</div>
+
+    <p class="subtitle">طراح گرافیک | خلاقیت در قالب تصویر</p>
+
+    <p class="description">
+        ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید. ❤️
+    </p>
+
+</section>
+
+
+<!-- PORTFOLIO -->
+<section class="section">
+
+    <div class="section-head">
+
+        <div class="section-title">
+            <h2>🎨 نمونه‌کارها</h2>
+            <p>بخشی از کارهای علی‌گراف</p>
+        </div>
+
+        <button class="more-btn" id="moreBtn">
+            نمونه‌کارهای بیشتر →
+        </button>
+
+    </div>
+
+    <div class="portfolio">
+
+        <div class="work" data-image="portfolio/work1.jpg">
+            <img src="portfolio/work1.jpg" alt="نمونه‌کار اول" loading="eager">
+        </div>
+
+        <div class="work" data-image="portfolio/work2.jpg">
+            <img src="portfolio/work2.jpg" alt="نمونه‌کار دوم" loading="eager">
+        </div>
+
+        <div class="work" data-image="portfolio/work3.jpg">
+            <img src="portfolio/work3.jpg" alt="نمونه‌کار سوم" loading="lazy">
+        </div>
+
+        <div class="work" data-image="portfolio/work4.jpg">
+            <img src="portfolio/work4.jpg" alt="نمونه‌کار چهارم" loading="lazy">
+        </div>
+
+    </div>
+
+    <button class="cta" id="galleryCta">
+        مشاهده همه نمونه‌کارها
+        <span>←</span>
+    </button>
+
+</section>
+
+
+<!-- ORDER -->
+<section class="section">
+
+    <div class="section-head">
+        <div class="section-title">
+            <h2>💼 سفارش طراحی</h2>
+            <p>برای شروع یک پروژه جدید با من در ارتباط باشید.</p>
+        </div>
+    </div>
+
+    <div class="order-grid">
+
+        <a class="order"
+           href="https://eitaa.com/admin_ali_grapph"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="order-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.15 2 11.3c0 5.15 4.48 9.3 10 9.3 1.1 0 2.17-.17 3.16-.5l4.24 1.9c.75.34 1.6-.2 1.53-1.02l-.38-3.66c.92-1.67 1.45-3.78 1.45-6.02C22 6.15 17.52 2 12 2Z"/>
+                </svg>
+            </span>
+
+            <span class="order-info">
+                <span class="order-title">سفارش از ایتا</span>
+                <span class="order-sub">admin_ali_grapph</span>
+            </span>
+
+        </a>
+
+
+        <a class="order"
+           href="https://t.me/AARSTGR"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="order-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21.4 3.4 18.1 20.1c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1.1.5l.4-5.3 9.6-8.7c.4-.4-.1-.6-.6-.3L5.3 13.3.2 11.7c-1.1-.4-1.1-1.1.2-1.6l19.8-7.7c.9-.3 1.7.2 1.2 1Z"/>
+                </svg>
+            </span>
+
+            <span class="order-info">
+                <span class="order-title">سفارش از تلگرام</span>
+                <span class="order-sub">AARSTGR</span>
+            </span>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- SOCIAL -->
+<section class="section">
+
+    <div class="section-head">
+        <div class="section-title">
+            <h2>🌐 شبکه‌های اجتماعی</h2>
+            <p>ما رو هرجا که راحت‌ترید دنبال کنید ❤️</p>
+        </div>
+    </div>
+
+
+    <div class="socials">
+
+
+        <!-- EITAA -->
+        <a class="social"
+           href="https://eitaa.com/Ali_Grapph"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="social-icon">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 2C6.48 2 2 6.15 2 11.3c0 5.15 4.48 9.3 10 9.3 1.1 0 2.17-.17 3.16-.5l4.24 1.9c.75.34 1.6-.2 1.53-1.02l-.38-3.66C21.47 15.65 22 13.54 22 11.3 22 6.15 17.52 2 12 2Z"/>
+                </svg>
+            </span>
+
+            <span class="social-info">
+                <span class="social-title">ایتا</span>
+                <span class="social-sub">Eitaa</span>
+            </span>
+
+            <span class="arrow">‹</span>
+
+        </a>
+
+
+        <!-- TELEGRAM -->
+        <a class="social"
+           href="https://t.me/Ali_Grapph"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="social-icon">
+                <svg viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M21.4 3.4 18.1 20.1c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1.1.5l.4-5.3 9.6-8.7c.4-.4-.1-.6-.6-.3L5.3 13.3.2 11.7c-1.1-.4-1.1-1.1.2-1.6l19.8-7.7c.9-.3 1.7.2 1.2 1Z"/>
+                </svg>
+            </span>
+
+            <span class="social-info">
+                <span class="social-title">تلگرام</span>
+                <span class="social-sub">Telegram</span>
+            </span>
+
+            <span class="arrow">‹</span>
+
+        </a>
+
+
+        <!-- INSTAGRAM -->
+        <a class="social"
+           href="https://www.instagram.com/ali_grapph?igsh=cWpyNzRpNzlyY3Fy"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="social-icon">
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <rect x="3" y="3" width="18" height="18" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1"
+                            fill="currentColor"
+                            stroke="none"/>
+
+                </svg>
+            </span>
+
+            <span class="social-info">
+                <span class="social-title">اینستاگرام</span>
+                <span class="social-sub">Instagram</span>
+            </span>
+
+            <span class="arrow">‹</span>
+
+        </a>
+
+
+        <!-- RUBIKA -->
+        <a class="social"
+           href="https://rubika.ir/page/Ali_Grapph"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="social-icon">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+
+                    <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z"/>
+                    <path d="m4 7.5 8 4.5 8-4.5"/>
+                    <path d="M12 12v9"/>
+
+                </svg>
+
+            </span>
+
+            <span class="social-info">
+                <span class="social-title">روبیکا</span>
+                <span class="social-sub">Rubika</span>
+            </span>
+
+            <span class="arrow">‹</span>
+
+        </a>
+
+
+        <!-- BOT -->
+        <a class="social"
+           href="https://t.me/Ali_Grapph_bot"
+           target="_blank"
+           rel="noopener noreferrer">
+
+            <span class="social-icon">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round">
+
+                    <path d="M12 4V2"/>
+                    <circle cx="12" cy="2" r="1"
+                            fill="currentColor"
+                            stroke="none"/>
+
+                    <rect x="5" y="6" width="14" height="13" rx="4"/>
+
+                    <circle cx="9" cy="12" r="1"
+                            fill="currentColor"
+                            stroke="none"/>
+
+                    <circle cx="15" cy="12" r="1"
+                            fill="currentColor"
+                            stroke="none"/>
+
+                    <path d="M9 16h6"/>
+                    <path d="M5 11H3M19 11h2"/>
+
+                </svg>
+
+            </span>
+
+            <span class="social-info">
+                <span class="social-title">ربات تلگرام</span>
+                <span class="social-sub">Ali_Grapph Bot</span>
+            </span>
+
+            <span class="arrow">‹</span>
+
+        </a>
+
+    </div>
+
+
+    <button class="share" id="shareBtn">
+        🔗 اشتراک‌گذاری صفحه
+    </button>
+
+    <div class="extra-links">
+        <button class="mini-link" id="aboutBtn">درباره علی‌گراف</button>
+        <button class="mini-link" id="faqBtn">سؤالات متداول</button>
+        <button class="mini-link" id="langBtn">English</button>
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="copy">
+        © 2026 علی گراف | تمامی حقوق محفوظ است.
+    </div>
+
+    <div class="signature">
+        Design by Ali_Grapph
+    </div>
+</footer>
+
+</div>
+
+
+<!-- GALLERY MODAL -->
+
+<div class="modal" id="gallery">
+
+    <div class="gallery-box">
+
+        <div class="gallery-top">
+
+            <div class="gallery-title">
+                نمونه‌کارهای علی‌گراف
+            </div>
+
+            <div style="display:flex;align-items:center;gap:9px">
+                <span class="gallery-count" id="count"></span>
+
+                <button class="close" id="closeGallery">
+                    ×
+                </button>
+            </div>
+
+        </div>
+
+
+        <div class="gallery-main">
+
+            <button class="nav prev" id="prev">
+                ›
+            </button>
+
+            <img
+                class="gallery-image"
+                id="galleryImage"
+                src=""
+                alt="نمونه‌کار علی گراف"
+                draggable="false"
+            >
+
+            <button class="nav next" id="next">
+                ‹
+            </button>
+
+        </div>
+
+
+        <div class="thumbs" id="thumbs"></div>
+
+    </div>
+
+</div>
+
+
+<!-- SETTINGS -->
+
+<div class="settings" id="settings">
+
+    <div class="settings-card">
+
+        <div class="settings-head">
+
+            <strong>⚙️ تنظیمات ظاهر</strong>
+
+            <button class="settings-close" id="closeSettings">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="setting">
+
+            <span class="setting-label">
+                تم
+            </span>
+
+            <div class="choice-row">
+
+                <button class="choice" data-theme="dark">
+                    🌙 شب
+                </button>
+
+                <button class="choice" data-theme="light">
+                    ☀️ روز
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <span class="setting-label">
+                انیمیشن
+            </span>
+
+            <div class="choice-row">
+
+                <button class="choice" data-motion="on">
+                    ✨ روشن
+                </button>
+
+                <button class="choice" data-motion="off">
+                    خاموش
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ABOUT -->
+<div class="modal" id="aboutModal">
+    <div class="about-card">
+        <div class="about-logo"><img src="logo.png" alt="Ali Graph"></div>
+        <h3 id="aboutTitle">علی گراف</h3>
+        <p id="aboutText">
+            طراح گرافیک و خالق محتوای بصری؛ فعال در طراحی پوستر، بنر، کاور و هویت بصری.
+            برای سفارش یا همکاری از طریق راه‌های ارتباطی صفحه با من در تماس باشید.
+        </p>
+        <button class="about-close" id="closeAbout">بستن</button>
+    </div>
+</div>
+
+<!-- FAQ -->
+<div class="modal" id="faqModal">
+    <div class="faq-card">
+        <div class="faq-head">
+            <strong id="faqTitle">❓ سؤالات متداول</strong>
+            <button class="close" id="closeFaq">×</button>
+        </div>
+
+        <details class="faq-item"><summary>چه خدماتی ارائه می‌کنی؟</summary><div class="faq-answer">طراحی پوستر، بنر، کاور، لوگو و سایر کارهای گرافیکی متناسب با نیاز پروژه.</div></details>
+        <details class="faq-item"><summary>چطور سفارش طراحی ثبت کنم؟</summary><div class="faq-answer">از بخش «سفارش طراحی» یکی از راه‌های ارتباطی ایتا یا تلگرام را انتخاب کنید.</div></details>
+        <details class="faq-item"><summary>قبل از شروع پروژه چه اطلاعاتی لازم است؟</summary><div class="faq-answer">موضوع، ابعاد، متن، رنگ‌های موردنظر، نمونه‌های الهام و زمان تحویل موردنیاز را ارسال کنید.</div></details>
+        <details class="faq-item"><summary>آیا امکان اصلاح طرح وجود دارد؟</summary><div class="faq-answer">بله؛ جزئیات تعداد و شرایط اصلاح قبل از شروع پروژه هماهنگ می‌شود.</div></details>
+        <details class="faq-item"><summary>نمونه‌کارهای بیشتری دارید؟</summary><div class="faq-answer">بله. روی «نمونه‌کارهای بیشتر» بزنید تا گالری کامل نمایش داده شود.</div></details>
+        <details class="faq-item"><summary>فایل نهایی با چه فرمتی تحویل می‌شود؟</summary><div class="faq-answer">فرمت خروجی بر اساس کاربرد پروژه انتخاب می‌شود؛ مانند PNG، JPG یا PDF.</div></details>
+        <details class="faq-item"><summary>برای طراحی چه اطلاعاتی باید بفرستم؟</summary><div class="faq-answer">هرچه توضیحات پروژه دقیق‌تر باشد، طراحی نهایی سریع‌تر و نزدیک‌تر به خواسته شما خواهد بود.</div></details>
+        <details class="faq-item"><summary>آیا طراحی اختصاصی انجام می‌شود؟</summary><div class="faq-answer">بله؛ طرح‌ها بر اساس نیاز و هویت پروژه ساخته می‌شوند.</div></details>
+        <details class="faq-item"><summary>چطور برای همکاری با علی‌گراف تماس بگیرم؟</summary><div class="faq-answer">از لینک‌های ایتا و تلگرام موجود در صفحه استفاده کنید.</div></details>
+    </div>
+</div>
+
+<div class="easter" id="easter">
+    <div class="easter-box">
+        <div class="easter-title">🎨 Ali Graph Mode</div>
+        <div class="easter-sub">خلاقیت فعال شد! 🗿🚬</div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* =========================
+   GALLERY
+========================= */
+
+const galleryImages = [
+    "portfolio/work1.jpg",
+    "portfolio/work2.jpg",
+    "portfolio/work3.jpg",
+    "portfolio/work4.jpg",
+
+    "portfolio/more1.jpg",
+    "portfolio/more2.jpg",
+    "portfolio/more3.jpg",
+    "portfolio/more4.jpg",
+    "portfolio/more5.jpg",
+    "portfolio/more6.jpg"
+];
+
+const gallery =
+    document.getElementById("gallery");
+
+const galleryImage =
+    document.getElementById("galleryImage");
+
+const thumbs =
+    document.getElementById("thumbs");
+
+const count =
+    document.getElementById("count");
+
+let current = 0;
+
+
+/* Build thumbnails */
+
+galleryImages.forEach((src,index)=>{
+
+    const thumb =
+        document.createElement("button");
+
+    thumb.className="thumb";
+
+    thumb.innerHTML =
+        `<img src="${src}" alt="" loading="lazy">`;
+
+    thumb.addEventListener(
+        "click",
+        ()=>showImage(index)
+    );
+
+    thumbs.appendChild(thumb);
+
+});
+
+
+function showImage(index){
+
+    if(index<0)
+        index=galleryImages.length-1;
+
+    if(index>=galleryImages.length)
+        index=0;
+
+    current=index;
+
+    galleryImage.src =
+        galleryImages[current];
+
+    count.textContent =
+        `${current+1} / ${galleryImages.length}`;
+
+    document
+        .querySelectorAll(".thumb")
+        .forEach((el,i)=>{
+            el.classList.toggle(
+                "active",
+                i===current
+            );
+        });
+
+}
+
+
+function openGallery(){
+
+    gallery.classList.add("open");
+
+    document.body.style.overflow="hidden";
+
+    showImage(0);
+}
+
+
+function closeGallery(){
+
+    gallery.classList.remove("open");
+
+    document.body.style.overflow="";
+
+}
+
+
+document
+    .getElementById("moreBtn")
+    .addEventListener("click",openGallery);
+
+document
+    .getElementById("galleryCta")
+    .addEventListener("click",openGallery);
+
+document
+    .getElementById("closeGallery")
+    .addEventListener("click",closeGallery);
+
+
+document
+    .querySelectorAll(".work")
+    .forEach((work,index)=>{
+
+        work.addEventListener(
+            "click",
+            ()=>{
+                openGallery();
+                showImage(index);
+            }
+        );
+
+    });
+
+
+document
+    .getElementById("prev")
+    .addEventListener(
+        "click",
+        ()=>{
+            showImage(current-1);
+        }
+    );
+
+
+document
+    .getElementById("next")
+    .addEventListener(
+        "click",
+        ()=>{
+            showImage(current+1);
+        }
+    );
+
+
+gallery.addEventListener(
+    "click",
+    e=>{
+        if(e.target===gallery)
+            closeGallery();
+    }
+);
+
+
+/* Keyboard */
+
+document.addEventListener(
+    "keydown",
+    e=>{
+
+        if(!gallery.classList.contains("open"))
+            return;
+
+        if(e.key==="Escape")
+            closeGallery();
+
+        if(e.key==="ArrowRight")
+            showImage(current-1);
+
+        if(e.key==="ArrowLeft")
+            showImage(current+1);
+
+    }
+);
+
+
+/* Swipe */
+
+let touchStartX=0;
+
+galleryImage.addEventListener(
+    "touchstart",
+    e=>{
+        touchStartX=e.changedTouches[0].screenX;
+    },
+    {passive:true}
+);
+
+galleryImage.addEventListener(
+    "touchend",
+    e=>{
+
+        const touchEndX =
+            e.changedTouches[0].screenX;
+
+        const diff =
+            touchStartX-touchEndX;
+
+        if(Math.abs(diff)<45)
+            return;
+
+        if(diff>0)
+            showImage(current+1);
+        else
+            showImage(current-1);
+
+    },
+    {passive:true}
+);
+
+
+/* =========================
+   THEME
+========================= */
+
+const body =
+    document.body;
+
+const themeBtn =
+    document.getElementById("themeBtn");
+
+const moon =
+    document.getElementById("moon");
+
+const sun =
+    document.getElementById("sun");
+
+
+function setTheme(theme){
+
+    if(theme==="light"){
+
+        body.classList.add("light");
+
+        moon.style.display="none";
+        sun.style.display="block";
+
+    }else{
+
+        body.classList.remove("light");
+
+        moon.style.display="block";
+        sun.style.display="none";
+
+    }
+
+    localStorage.setItem(
+        "aliGraphTheme",
+        theme
+    );
+
+    updateThemeChoices(theme);
+}
+
+
+function updateThemeChoices(theme){
+
+    document
+        .querySelectorAll("[data-theme]")
+        .forEach(btn=>{
+            btn.classList.toggle(
+                "active",
+                btn.dataset.theme===theme
+            );
+        });
+
+}
+
+
+const savedTheme =
+    localStorage.getItem("aliGraphTheme") || "dark";
+
+setTheme(savedTheme);
+
+
+themeBtn.addEventListener(
+    "click",
+    ()=>{
+        setTheme(
+            body.classList.contains("light")
+                ? "dark"
+                : "light"
+        );
+    }
+);
+
+
+document
+    .querySelectorAll("[data-theme]")
+    .forEach(btn=>{
+
+        btn.addEventListener(
+            "click",
+            ()=>{
+                setTheme(btn.dataset.theme);
+            }
+        );
+
+    });
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+const settings =
+    document.getElementById("settings");
+
+document
+    .getElementById("settingsBtn")
+    .addEventListener(
+        "click",
+        ()=>{
+            settings.classList.add("open");
+        }
+    );
+
+
+document
+    .getElementById("closeSettings")
+    .addEventListener(
+        "click",
+        ()=>{
+            settings.classList.remove("open");
+        }
+    );
+
+
+settings.addEventListener(
+    "click",
+    e=>{
+        if(e.target===settings)
+            settings.classList.remove("open");
+    }
+);
+
+
+/* =========================
+   MOTION
+========================= */
+
+const savedMotion =
+    localStorage.getItem("aliGraphMotion") || "on";
+
+
+function setMotion(value){
+
+    if(value==="off"){
+
+        document.body.classList.add("no-motion");
+
+        const style =
+            document.createElement("style");
+
+        style.id="motionStyle";
+
+        style.textContent=`
+            *,*::before,*::after{
+                animation:none!important;
+                transition:none!important;
+                scroll-behavior:auto!important;
+            }
+        `;
+
+        document.head.appendChild(style);
+
+    }else{
+
+        document
+            .getElementById("motionStyle")
+            ?.remove();
+
+        document.body.classList.remove("no-motion");
+
+    }
+
+    localStorage.setItem(
+        "aliGraphMotion",
+        value
+    );
+
+    document
+        .querySelectorAll("[data-motion]")
+        .forEach(btn=>{
+            btn.classList.toggle(
+                "active",
+                btn.dataset.motion===value
+            );
+        });
+
+}
+
+
+setMotion(savedMotion);
+
+
+document
+    .querySelectorAll("[data-motion]")
+    .forEach(btn=>{
+
+        btn.addEventListener(
+            "click",
+            ()=>{
+                setMotion(btn.dataset.motion);
+            }
+        );
+
+    });
+
+
+/* =========================
+   SHARE
+========================= */
+
+const shareBtn =
+    document.getElementById("shareBtn");
+
+
+shareBtn.addEventListener(
+    "click",
+    async()=>{
+
+        const data={
+            title:"علی گراف | Ali_Grapph",
+            text:"صفحه رسمی علی گراف 🎨",
+            url:location.href
+        };
+
+        try{
+
+            if(navigator.share){
+
+                await navigator.share(data);
+
+            }else{
+
+                await navigator.clipboard.writeText(
+                    location.href
+                );
+
+                toast("✓ لینک صفحه کپی شد");
+
+            }
+
+        }catch(err){
+
+            if(err.name!=="AbortError"){
+
+                try{
+
+                    await navigator.clipboard.writeText(
+                        location.href
+                    );
+
+                    toast("✓ لینک صفحه کپی شد");
+
+                }catch(e){
+
+                    toast("لینک صفحه را کپی کنید");
+
+                }
+
+            }
+
+        }
+
+    }
+);
+
+
+
+/* =========================
+   EXTRA FEATURES
+========================= */
+
+const aboutModal = document.getElementById("aboutModal");
+const faqModal = document.getElementById("faqModal");
+
+document.getElementById("aboutBtn").addEventListener("click",()=>{
+    aboutModal.classList.add("open");
+    document.body.style.overflow="hidden";
+});
+document.getElementById("closeAbout").addEventListener("click",()=>{
+    aboutModal.classList.remove("open");
+    document.body.style.overflow="";
+});
+aboutModal.addEventListener("click",e=>{
+    if(e.target===aboutModal){
+        aboutModal.classList.remove("open");
+        document.body.style.overflow="";
+    }
+});
+
+document.getElementById("faqBtn").addEventListener("click",()=>{
+    faqModal.classList.add("open");
+    document.body.style.overflow="hidden";
+});
+document.getElementById("closeFaq").addEventListener("click",()=>{
+    faqModal.classList.remove("open");
+    document.body.style.overflow="";
+});
+faqModal.addEventListener("click",e=>{
+    if(e.target===faqModal){
+        faqModal.classList.remove("open");
+        document.body.style.overflow="";
+    }
+});
+
+/* Real download + share for each portfolio item */
+const downloadWork = document.getElementById("downloadWork");
+const shareWork = document.getElementById("shareWork");
+
+downloadWork.addEventListener("click",()=>{
+    const src = galleryImages[current];
+    const a = document.createElement("a");
+    a.href = src;
+    a.download = src.split("/").pop();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+});
+
+shareWork.addEventListener("click",async()=>{
+    const src = galleryImages[current];
+    const workUrl = new URL(location.href);
+    workUrl.hash = "work-" + (current + 1);
+
+    const data = {
+        title:"نمونه‌کار علی گراف 🎨",
+        text:"یک نمونه‌کار از علی‌گراف",
+        url:workUrl.href
+    };
+
+    try{
+        if(navigator.share){
+            await navigator.share(data);
+        }else{
+            await navigator.clipboard.writeText(workUrl.href);
+            toast("✓ لینک نمونه‌کار کپی شد");
+        }
+    }catch(err){
+        if(err.name!=="AbortError"){
+            try{
+                await navigator.clipboard.writeText(workUrl.href);
+                toast("✓ لینک نمونه‌کار کپی شد");
+            }catch(e){
+                toast("لینک نمونه‌کار را کپی کنید");
+            }
+        }
+    }
+});
+
+/* Simple bilingual UI — no external API */
+let currentLang = localStorage.getItem("aliGraphLang") || "fa";
+
+const faText = {
+    name:"علی گراف",
+    subtitle:"طراح گرافیک | خلاقیت در قالب تصویر",
+    description:"ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید. ❤️",
+    portfolio:"🎨 نمونه‌کارها",
+    portfolioSub:"بخشی از کارهای علی‌گراف",
+    more:"نمونه‌کارهای بیشتر →",
+    all:"مشاهده همه نمونه‌کارها",
+    order:"💼 سفارش طراحی",
+    orderSub:"برای شروع یک پروژه جدید با من در ارتباط باشید.",
+    social:"🌐 شبکه‌های اجتماعی",
+    socialSub:"ما رو هرجا که راحت‌ترید دنبال کنید ❤️",
+    share:"🔗 اشتراک‌گذاری صفحه",
+    about:"درباره علی‌گراف",
+    faq:"سؤالات متداول",
+    lang:"English"
+};
+
+const enText = {
+    name:"Ali Graph",
+    subtitle:"Graphic Designer | Creativity in Visuals",
+    description:"Follow Ali Graph wherever you prefer. ❤️",
+    portfolio:"🎨 Portfolio",
+    portfolioSub:"A selection of Ali Graph's work",
+    more:"More works →",
+    all:"View all works",
+    order:"💼 Design Order",
+    orderSub:"Let's start your next project together.",
+    social:"🌐 Social Media",
+    socialSub:"Follow me wherever you prefer ❤️",
+    share:"🔗 Share Page",
+    about:"About Ali Graph",
+    faq:"FAQ",
+    lang:"فارسی"
+};
+
+function setLanguage(lang){
+    currentLang=lang;
+    localStorage.setItem("aliGraphLang",lang);
+    const t=lang==="en"?enText:faText;
+
+    document.querySelector(".name").textContent=t.name;
+    document.querySelector(".subtitle").textContent=t.subtitle;
+    document.querySelector(".description").textContent=t.description;
+    document.querySelectorAll(".section-title")[0].querySelector("h2").textContent=t.portfolio;
+    document.querySelectorAll(".section-title")[0].querySelector("p").textContent=t.portfolioSub;
+    document.getElementById("moreBtn").textContent=t.more;
+    document.getElementById("galleryCta").childNodes[0].nodeValue=t.all+" ";
+    document.querySelectorAll(".section-title")[1].querySelector("h2").textContent=t.order;
+    document.querySelectorAll(".section-title")[1].querySelector("p").textContent=t.orderSub;
+    document.querySelectorAll(".section-title")[2].querySelector("h2").textContent=t.social;
+    document.querySelectorAll(".section-title")[2].querySelector("p").textContent=t.socialSub;
+    document.getElementById("shareBtn").textContent=t.share;
+    document.getElementById("aboutBtn").textContent=t.about;
+    document.getElementById("faqBtn").textContent=t.faq;
+    document.getElementById("langBtn").textContent=t.lang;
+
+    document.documentElement.lang=lang==="en"?"en":"fa";
+    document.documentElement.dir=lang==="en"?"ltr":"rtl";
+
+    document.getElementById("aboutTitle").textContent=lang==="en"?"Ali Graph":"علی گراف";
+    document.getElementById("aboutText").textContent=lang==="en"
+        ?"Graphic designer and visual creator, focused on posters, banners, covers and visual identity. For orders or collaborations, use the contact links on this page."
+        :"طراح گرافیک و خالق محتوای بصری؛ فعال در طراحی پوستر، بنر، کاور و هویت بصری. برای سفارش یا همکاری از راه‌های ارتباطی صفحه با من در تماس باشید.";
+    document.getElementById("closeAbout").textContent=lang==="en"?"Close":"بستن";
+    document.getElementById("faqTitle").textContent=lang==="en"?"❓ Frequently Asked Questions":"❓ سؤالات متداول";
+}
+
+document.getElementById("langBtn").addEventListener("click",()=>{
+    setLanguage(currentLang==="fa"?"en":"fa");
+});
+setLanguage(currentLang);
+
+/* Easter egg: tap/click the logo five times */
+let logoClicks=0;
+let logoTimer;
+document.querySelector(".logo").addEventListener("click",()=>{
+    logoClicks++;
+    clearTimeout(logoTimer);
+    logoTimer=setTimeout(()=>logoClicks=0,1500);
+
+    if(logoClicks>=5){
+        logoClicks=0;
+        const easter=document.getElementById("easter");
+        easter.classList.add("show");
+        setTimeout(()=>easter.classList.remove("show"),1800);
+    }
+});
+
+
+/* =========================
+   TOAST
+========================= */
+
+const toastBox =
+    document.getElementById("toast");
+
+
+function toast(message){
+
+    toastBox.textContent=message;
+
+    toastBox.classList.add("show");
+
+    setTimeout(
+        ()=>{
+            toastBox.classList.remove("show");
+        },
+        2200
+    );
+
+}
+
+</script>
+
+</body>
+</html>
