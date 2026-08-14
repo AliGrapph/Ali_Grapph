@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0d0d0f">
 <meta name="description" content="علی گراف | طراح گرافیک | خلاقیت در قالب تصویر">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <title>علی گراف | Ali_Grapph</title>
 
 <style>
@@ -255,8 +257,11 @@ button{
     transform:scale(1.045);
 }
 
+html[dir="ltr"] .work::after{--work-view:"View";}
+html[dir="rtl"] .work::after{--work-view:"مشاهده";}
+
 .work::after{
-    content:"مشاهده";
+    content:var(--work-view,"مشاهده");
     position:absolute;
     left:11px;
     bottom:11px;
@@ -835,6 +840,27 @@ footer{
     }
 }
 
+@keyframes contentIn{
+    from{opacity:0;transform:translateY(10px)}
+    to{opacity:1;transform:none}
+}
+
+.profile .name,.profile .username,.profile .subtitle,.profile .description{
+    opacity:0;
+    animation:contentIn .45s ease both;
+}
+.profile .name{animation-delay:.08s}
+.profile .username{animation-delay:.13s}
+.profile .subtitle{animation-delay:.18s}
+.profile .description{animation-delay:.23s}
+.section{animation:contentIn .45s ease both}
+.section:nth-of-type(2){animation-delay:.08s}
+.section:nth-of-type(3){animation-delay:.14s}
+.section:nth-of-type(4){animation-delay:.20s}
+footer{animation:contentIn .45s ease both;animation-delay:.26s}
+.fa-icon{font-size:1em;line-height:1}
+
+
 @media(prefers-reduced-motion:reduce){
     *,
     *::before,
@@ -904,6 +930,15 @@ footer{
         left:2px;
     }
 }
+
+html[dir="ltr"] .social-sub,html[dir="ltr"] .order-sub{ text-align:left; }
+html[dir="ltr"] .social{ direction:ltr; }
+html[dir="rtl"] .social{ direction:rtl; }
+html[dir="ltr"] .order{ direction:ltr; }
+html[dir="rtl"] .order{ direction:rtl; }
+html[dir="ltr"] .arrow{ margin-left:auto; }
+html[dir="rtl"] .arrow{ margin-right:auto; }
+.gallery-tool .fa-icon{margin-inline-end:4px}
 </style>
 </head>
 
@@ -949,7 +984,7 @@ footer{
     <p class="subtitle">طراح گرافیک | خلاقیت در قالب تصویر</p>
 
     <p class="description">
-        ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید. ❤️
+        ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید.
     </p>
 
 </section>
@@ -961,12 +996,12 @@ footer{
     <div class="section-head">
 
         <div class="section-title">
-            <h2>🎨 نمونه‌کارها</h2>
+            <h2><i class="fa-solid fa-images fa-icon" aria-hidden="true"></i> نمونه‌کارها</h2>
             <p>بخشی از کارهای علی‌گراف</p>
         </div>
 
         <button class="more-btn" id="moreBtn">
-            نمونه‌کارهای بیشتر →
+            نمونه‌کارهای بیشتر <i class="fa-solid fa-arrow-left fa-icon" aria-hidden="true"></i>
         </button>
 
     </div>
@@ -993,7 +1028,7 @@ footer{
 
     <button class="cta" id="galleryCta">
         مشاهده همه نمونه‌کارها
-        <span>←</span>
+        <i class="fa-solid fa-arrow-left fa-icon" aria-hidden="true"></i>
     </button>
 
 </section>
@@ -1004,7 +1039,7 @@ footer{
 
     <div class="section-head">
         <div class="section-title">
-            <h2>💼 سفارش طراحی</h2>
+            <h2><i class="fa-solid fa-briefcase fa-icon" aria-hidden="true"></i> سفارش طراحی</h2>
             <p>برای شروع یک پروژه جدید با من در ارتباط باشید.</p>
         </div>
     </div>
@@ -1016,11 +1051,7 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="order-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.15 2 11.3c0 5.15 4.48 9.3 10 9.3 1.1 0 2.17-.17 3.16-.5l4.24 1.9c.75.34 1.6-.2 1.53-1.02l-.38-3.66c.92-1.67 1.45-3.78 1.45-6.02C22 6.15 17.52 2 12 2Z"/>
-                </svg>
-            </span>
+            <span class="order-icon"><i class="fa-solid fa-comment-dots fa-icon" aria-hidden="true"></i></span>
 
             <span class="order-info">
                 <span class="order-title">سفارش از ایتا</span>
@@ -1035,11 +1066,7 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="order-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M21.4 3.4 18.1 20.1c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1.1.5l.4-5.3 9.6-8.7c.4-.4-.1-.6-.6-.3L5.3 13.3.2 11.7c-1.1-.4-1.1-1.1.2-1.6l19.8-7.7c.9-.3 1.7.2 1.2 1Z"/>
-                </svg>
-            </span>
+            <span class="order-icon"><i class="fa-brands fa-telegram fa-icon" aria-hidden="true"></i></span>
 
             <span class="order-info">
                 <span class="order-title">سفارش از تلگرام</span>
@@ -1058,8 +1085,8 @@ footer{
 
     <div class="section-head">
         <div class="section-title">
-            <h2>🌐 شبکه‌های اجتماعی</h2>
-            <p>ما رو هرجا که راحت‌ترید دنبال کنید ❤️</p>
+            <h2><i class="fa-solid fa-share-nodes fa-icon" aria-hidden="true"></i> شبکه‌های اجتماعی</h2>
+            <p>ما رو هرجا که راحت‌ترید دنبال کنید.</p>
         </div>
     </div>
 
@@ -1073,18 +1100,14 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="social-icon">
-                <svg viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M12 2C6.48 2 2 6.15 2 11.3c0 5.15 4.48 9.3 10 9.3 1.1 0 2.17-.17 3.16-.5l4.24 1.9c.75.34 1.6-.2 1.53-1.02l-.38-3.66C21.47 15.65 22 13.54 22 11.3 22 6.15 17.52 2 12 2Z"/>
-                </svg>
-            </span>
+            <span class="social-icon"><i class="fa-solid fa-comment-dots fa-icon" aria-hidden="true"></i></span>
 
             <span class="social-info">
                 <span class="social-title">ایتا</span>
                 <span class="social-sub">Eitaa</span>
             </span>
 
-            <span class="arrow">‹</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
 
         </a>
 
@@ -1095,18 +1118,14 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="social-icon">
-                <svg viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M21.4 3.4 18.1 20.1c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1.1.5l.4-5.3 9.6-8.7c.4-.4-.1-.6-.6-.3L5.3 13.3.2 11.7c-1.1-.4-1.1-1.1.2-1.6l19.8-7.7c.9-.3 1.7.2 1.2 1Z"/>
-                </svg>
-            </span>
+            <span class="social-icon"><i class="fa-brands fa-telegram fa-icon" aria-hidden="true"></i></span>
 
             <span class="social-info">
                 <span class="social-title">تلگرام</span>
                 <span class="social-sub">Telegram</span>
             </span>
 
-            <span class="arrow">‹</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
 
         </a>
 
@@ -1117,29 +1136,14 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="social-icon">
-                <svg viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2"
-                     stroke-linecap="round"
-                     stroke-linejoin="round">
-
-                    <rect x="3" y="3" width="18" height="18" rx="5"/>
-                    <circle cx="12" cy="12" r="4"/>
-                    <circle cx="17.5" cy="6.5" r="1"
-                            fill="currentColor"
-                            stroke="none"/>
-
-                </svg>
-            </span>
+            <span class="social-icon"><i class="fa-brands fa-instagram fa-icon" aria-hidden="true"></i></span>
 
             <span class="social-info">
                 <span class="social-title">اینستاگرام</span>
                 <span class="social-sub">Instagram</span>
             </span>
 
-            <span class="arrow">‹</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
 
         </a>
 
@@ -1150,27 +1154,14 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="social-icon">
-
-                <svg viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8">
-
-                    <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9L12 3Z"/>
-                    <path d="m4 7.5 8 4.5 8-4.5"/>
-                    <path d="M12 12v9"/>
-
-                </svg>
-
-            </span>
+            <span class="social-icon"><i class="fa-solid fa-cube fa-icon" aria-hidden="true"></i></span>
 
             <span class="social-info">
                 <span class="social-title">روبیکا</span>
                 <span class="social-sub">Rubika</span>
             </span>
 
-            <span class="arrow">‹</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
 
         </a>
 
@@ -1181,51 +1172,21 @@ footer{
            target="_blank"
            rel="noopener noreferrer">
 
-            <span class="social-icon">
-
-                <svg viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="1.8"
-                     stroke-linecap="round">
-
-                    <path d="M12 4V2"/>
-                    <circle cx="12" cy="2" r="1"
-                            fill="currentColor"
-                            stroke="none"/>
-
-                    <rect x="5" y="6" width="14" height="13" rx="4"/>
-
-                    <circle cx="9" cy="12" r="1"
-                            fill="currentColor"
-                            stroke="none"/>
-
-                    <circle cx="15" cy="12" r="1"
-                            fill="currentColor"
-                            stroke="none"/>
-
-                    <path d="M9 16h6"/>
-                    <path d="M5 11H3M19 11h2"/>
-
-                </svg>
-
-            </span>
+            <span class="social-icon"><i class="fa-solid fa-robot fa-icon" aria-hidden="true"></i></span>
 
             <span class="social-info">
                 <span class="social-title">ربات تلگرام</span>
                 <span class="social-sub">Ali_Grapph Bot</span>
             </span>
 
-            <span class="arrow">‹</span>
+            <span class="arrow"><i class="fa-solid fa-chevron-left"></i></span>
 
         </a>
 
     </div>
 
 
-    <button class="share" id="shareBtn">
-        🔗 اشتراک‌گذاری صفحه
-    </button>
+    <button class="share" id="shareBtn"><i class="fa-solid fa-share-nodes fa-icon" aria-hidden="true"></i> اشتراک‌گذاری صفحه</button>
 
     <div class="extra-links">
         <button class="mini-link" id="aboutBtn">درباره علی‌گراف</button>
@@ -1265,9 +1226,7 @@ footer{
             <div style="display:flex;align-items:center;gap:9px">
                 <span class="gallery-count" id="count"></span>
 
-                <button class="close" id="closeGallery">
-                    ×
-                </button>
+                <button class="close" id="closeGallery" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
         </div>
@@ -1275,9 +1234,7 @@ footer{
 
         <div class="gallery-main">
 
-            <button class="nav prev" id="prev">
-                ›
-            </button>
+            <button class="nav prev" id="prev" aria-label="قبلی"><i class="fa-solid fa-chevron-right"></i></button>
 
             <img
                 class="gallery-image"
@@ -1287,14 +1244,17 @@ footer{
                 draggable="false"
             >
 
-            <button class="nav next" id="next">
-                ‹
-            </button>
+            <button class="nav next" id="next" aria-label="بعدی"><i class="fa-solid fa-chevron-left"></i></button>
 
         </div>
 
 
         <div class="thumbs" id="thumbs"></div>
+
+        <div class="gallery-tools">
+            <button class="gallery-tool" id="downloadWork"><i class="fa-solid fa-download fa-icon" aria-hidden="true"></i> دانلود</button>
+            <button class="gallery-tool" id="shareWork"><i class="fa-solid fa-share-nodes fa-icon" aria-hidden="true"></i> اشتراک‌گذاری</button>
+        </div>
 
     </div>
 
@@ -1309,11 +1269,9 @@ footer{
 
         <div class="settings-head">
 
-            <strong>⚙️ تنظیمات ظاهر</strong>
+            <strong><i class="fa-solid fa-sliders fa-icon" aria-hidden="true"></i> تنظیمات ظاهر</strong>
 
-            <button class="settings-close" id="closeSettings">
-                ×
-            </button>
+            <button class="settings-close" id="closeSettings" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
 
         </div>
 
@@ -1327,11 +1285,11 @@ footer{
             <div class="choice-row">
 
                 <button class="choice" data-theme="dark">
-                    🌙 شب
+                    <i class="fa-solid fa-moon fa-icon" aria-hidden="true"></i> شب
                 </button>
 
                 <button class="choice" data-theme="light">
-                    ☀️ روز
+                    <i class="fa-solid fa-sun fa-icon" aria-hidden="true"></i> روز
                 </button>
 
             </div>
@@ -1348,7 +1306,7 @@ footer{
             <div class="choice-row">
 
                 <button class="choice" data-motion="on">
-                    ✨ روشن
+                    <i class="fa-solid fa-wand-magic-sparkles fa-icon" aria-hidden="true"></i> روشن
                 </button>
 
                 <button class="choice" data-motion="off">
@@ -1382,8 +1340,8 @@ footer{
 <div class="modal" id="faqModal">
     <div class="faq-card">
         <div class="faq-head">
-            <strong id="faqTitle">❓ سؤالات متداول</strong>
-            <button class="close" id="closeFaq">×</button>
+            <strong id="faqTitle"><i class="fa-solid fa-circle-question fa-icon" aria-hidden="true"></i> سؤالات متداول</strong>
+            <button class="close" id="closeFaq" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
         <details class="faq-item"><summary>چه خدماتی ارائه می‌کنی؟</summary><div class="faq-answer">طراحی پوستر، بنر، کاور، لوگو و سایر کارهای گرافیکی متناسب با نیاز پروژه.</div></details>
@@ -1400,8 +1358,8 @@ footer{
 
 <div class="easter" id="easter">
     <div class="easter-box">
-        <div class="easter-title">🎨 Ali Graph Mode</div>
-        <div class="easter-sub">خلاقیت فعال شد! 🗿🚬</div>
+        <div class="easter-title"><i class="fa-solid fa-wand-magic-sparkles fa-icon" aria-hidden="true"></i> Ali Graph Mode</div>
+        <div class="easter-sub">خلاقیت فعال شد.</div>
     </div>
 </div>
 
@@ -1425,7 +1383,11 @@ const galleryImages = [
     "portfolio/more3.jpg",
     "portfolio/more4.jpg",
     "portfolio/more5.jpg",
-    "portfolio/more6.jpg"
+    "portfolio/more6.jpg",
+    "portfolio/more7.jpg",
+    "portfolio/more8.jpg",
+    "portfolio/more9.jpg",
+    "portfolio/more10.jpg"
 ];
 
 const gallery =
@@ -1839,7 +1801,7 @@ shareBtn.addEventListener(
 
         const data={
             title:"علی گراف | Ali_Grapph",
-            text:"صفحه رسمی علی گراف 🎨",
+            text:"علی گراف، جایی که می‌تونی گرافیک رو تجربه کنی.",
             url:location.href
         };
 
@@ -1855,7 +1817,7 @@ shareBtn.addEventListener(
                     location.href
                 );
 
-                toast("✓ لینک صفحه کپی شد");
+                toast("لینک صفحه کپی شد");
 
             }
 
@@ -1869,7 +1831,7 @@ shareBtn.addEventListener(
                         location.href
                     );
 
-                    toast("✓ لینک صفحه کپی شد");
+                    toast("لینک صفحه کپی شد");
 
                 }catch(e){
 
@@ -1943,7 +1905,7 @@ shareWork.addEventListener("click",async()=>{
     workUrl.hash = "work-" + (current + 1);
 
     const data = {
-        title:"نمونه‌کار علی گراف 🎨",
+        title:"نمونه‌کار علی گراف",
         text:"یک نمونه‌کار از علی‌گراف",
         url:workUrl.href
     };
@@ -1953,13 +1915,13 @@ shareWork.addEventListener("click",async()=>{
             await navigator.share(data);
         }else{
             await navigator.clipboard.writeText(workUrl.href);
-            toast("✓ لینک نمونه‌کار کپی شد");
+            toast("لینک نمونه‌کار کپی شد");
         }
     }catch(err){
         if(err.name!=="AbortError"){
             try{
                 await navigator.clipboard.writeText(workUrl.href);
-                toast("✓ لینک نمونه‌کار کپی شد");
+                toast("لینک نمونه‌کار کپی شد");
             }catch(e){
                 toast("لینک نمونه‌کار را کپی کنید");
             }
@@ -1967,75 +1929,186 @@ shareWork.addEventListener("click",async()=>{
     }
 });
 
-/* Simple bilingual UI — no external API */
+/* =========================
+   BILINGUAL UI
+========================= */
 let currentLang = localStorage.getItem("aliGraphLang") || "fa";
 
-const faText = {
-    name:"علی گراف",
-    subtitle:"طراح گرافیک | خلاقیت در قالب تصویر",
-    description:"ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید. ❤️",
-    portfolio:"🎨 نمونه‌کارها",
-    portfolioSub:"بخشی از کارهای علی‌گراف",
-    more:"نمونه‌کارهای بیشتر →",
-    all:"مشاهده همه نمونه‌کارها",
-    order:"💼 سفارش طراحی",
-    orderSub:"برای شروع یک پروژه جدید با من در ارتباط باشید.",
-    social:"🌐 شبکه‌های اجتماعی",
-    socialSub:"ما رو هرجا که راحت‌ترید دنبال کنید ❤️",
-    share:"🔗 اشتراک‌گذاری صفحه",
-    about:"درباره علی‌گراف",
-    faq:"سؤالات متداول",
-    lang:"English"
+const translations = {
+    fa: {
+        pageTitle:"علی گراف | Ali_Grapph",
+        name:"علی گراف",
+        subtitle:"طراح گرافیک | خلاقیت در قالب تصویر",
+        description:"ما رو در هر پلتفرمی که راحت‌ترید دنبال کنید.",
+        portfolio:"نمونه‌کارها",
+        portfolioSub:"بخشی از کارهای علی‌گراف",
+        more:"نمونه‌کارهای بیشتر",
+        all:"مشاهده همه نمونه‌کارها",
+        workView:"مشاهده",
+        order:"سفارش طراحی",
+        orderSub:"برای شروع یک پروژه جدید با من در ارتباط باشید.",
+        orderEitaa:"سفارش از ایتا",
+        orderTelegram:"سفارش از تلگرام",
+        social:"شبکه‌های اجتماعی",
+        socialSub:"ما رو هرجا که راحت‌ترید دنبال کنید.",
+        share:"اشتراک‌گذاری صفحه",
+        about:"درباره علی‌گراف",
+        faq:"سؤالات متداول",
+        lang:"English",
+        settings:"تنظیمات ظاهر",
+        theme:"تم",
+        dark:"شب",
+        light:"روز",
+        motion:"انیمیشن",
+        motionOn:"روشن",
+        motionOff:"خاموش",
+        galleryTitle:"نمونه‌کارهای علی‌گراف",
+        galleryAlt:"نمونه‌کار علی گراف",
+        download:"دانلود",
+        shareWork:"اشتراک‌گذاری",
+        close:"بستن",
+        aboutText:"طراح گرافیک و خالق محتوای بصری؛ فعال در طراحی پوستر، بنر، کاور و هویت بصری. برای سفارش یا همکاری از راه‌های ارتباطی صفحه با من در تماس باشید.",
+        faqTitle:"سؤالات متداول",
+        faqItems:[
+            ["چه خدماتی ارائه می‌کنی؟","طراحی پوستر، بنر، کاور، لوگو و سایر کارهای گرافیکی متناسب با نیاز پروژه."],
+            ["چطور سفارش طراحی ثبت کنم؟","از بخش «سفارش طراحی» یکی از راه‌های ارتباطی ایتا یا تلگرام را انتخاب کنید."],
+            ["قبل از شروع پروژه چه اطلاعاتی لازم است؟","موضوع، ابعاد، متن، رنگ‌های موردنظر، نمونه‌های الهام و زمان تحویل موردنیاز را ارسال کنید."],
+            ["آیا امکان اصلاح طرح وجود دارد؟","بله؛ جزئیات تعداد و شرایط اصلاح قبل از شروع پروژه هماهنگ می‌شود."],
+            ["نمونه‌کارهای بیشتری دارید؟","بله. روی «نمونه‌کارهای بیشتر» بزنید تا گالری کامل نمایش داده شود."],
+            ["فایل نهایی با چه فرمتی تحویل می‌شود؟","فرمت خروجی بر اساس کاربرد پروژه انتخاب می‌شود؛ مانند PNG، JPG یا PDF."],
+            ["برای طراحی چه اطلاعاتی باید بفرستم؟","هرچه توضیحات پروژه دقیق‌تر باشد، طراحی نهایی سریع‌تر و نزدیک‌تر به خواسته شما خواهد بود."],
+            ["آیا طراحی اختصاصی انجام می‌شود؟","بله؛ طرح‌ها بر اساس نیاز و هویت پروژه ساخته می‌شوند."],
+            ["چطور برای همکاری با علی‌گراف تماس بگیرم؟","از لینک‌های ایتا و تلگرام موجود در صفحه استفاده کنید."]
+        ]
+    },
+    en: {
+        pageTitle:"Ali Graph | Ali_Grapph",
+        name:"Ali Graph",
+        subtitle:"Graphic Designer | Creativity in Visuals",
+        description:"Follow us on the platform you prefer.",
+        portfolio:"Portfolio",
+        portfolioSub:"A selection of Ali Graph's work",
+        more:"More works",
+        all:"View all works",
+        workView:"View",
+        order:"Design Order",
+        orderSub:"Let's start your next project together.",
+        orderEitaa:"Order via Eitaa",
+        orderTelegram:"Order via Telegram",
+        social:"Social Media",
+        socialSub:"Follow us on the platform you prefer.",
+        share:"Share Page",
+        about:"About Ali Graph",
+        faq:"FAQ",
+        lang:"فارسی",
+        settings:"Appearance Settings",
+        theme:"Theme",
+        dark:"Dark",
+        light:"Light",
+        motion:"Animation",
+        motionOn:"On",
+        motionOff:"Off",
+        galleryTitle:"Ali Graph Portfolio",
+        galleryAlt:"Ali Graph portfolio work",
+        download:"Download",
+        shareWork:"Share",
+        close:"Close",
+        aboutText:"Graphic designer and visual creator, focused on posters, banners, covers and visual identity. For orders or collaborations, use the contact links on this page.",
+        faqTitle:"Frequently Asked Questions",
+        faqItems:[
+            ["What services do you offer?","Poster, banner, cover, logo and other graphic design services tailored to the project."],
+            ["How can I place a design order?","Choose Eitaa or Telegram from the Design Order section."],
+            ["What information is needed before starting a project?","Send the subject, dimensions, text, preferred colors, references and required delivery time."],
+            ["Can the design be revised?","Yes. The number and terms of revisions are agreed on before the project starts."],
+            ["Do you have more portfolio work?","Yes. Tap More works to open the full gallery."],
+            ["Which final formats are available?","The output format depends on the project, such as PNG, JPG or PDF."],
+            ["What should I send for a design request?","The more precise the project details are, the closer and faster the final design can be."],
+            ["Do you create custom designs?","Yes. Designs are created according to the project's needs and visual identity."],
+            ["How can I contact Ali Graph for collaboration?","Use the Eitaa or Telegram links available on this page."]
+        ]
+    }
 };
 
-const enText = {
-    name:"Ali Graph",
-    subtitle:"Graphic Designer | Creativity in Visuals",
-    description:"Follow Ali Graph wherever you prefer. ❤️",
-    portfolio:"🎨 Portfolio",
-    portfolioSub:"A selection of Ali Graph's work",
-    more:"More works →",
-    all:"View all works",
-    order:"💼 Design Order",
-    orderSub:"Let's start your next project together.",
-    social:"🌐 Social Media",
-    socialSub:"Follow me wherever you prefer ❤️",
-    share:"🔗 Share Page",
-    about:"About Ali Graph",
-    faq:"FAQ",
-    lang:"فارسی"
-};
+function setText(el, text){ if(el) el.textContent=text; }
+function setIconText(el, iconClass, text){
+    if(!el) return;
+    el.innerHTML=`<i class="${iconClass} fa-icon" aria-hidden="true"></i> ${text}`;
+}
 
 function setLanguage(lang){
     currentLang=lang;
     localStorage.setItem("aliGraphLang",lang);
-    const t=lang==="en"?enText:faText;
+    const t=translations[lang];
+    const en=lang==="en";
 
-    document.querySelector(".name").textContent=t.name;
-    document.querySelector(".subtitle").textContent=t.subtitle;
-    document.querySelector(".description").textContent=t.description;
-    document.querySelectorAll(".section-title")[0].querySelector("h2").textContent=t.portfolio;
-    document.querySelectorAll(".section-title")[0].querySelector("p").textContent=t.portfolioSub;
-    document.getElementById("moreBtn").textContent=t.more;
-    document.getElementById("galleryCta").childNodes[0].nodeValue=t.all+" ";
-    document.querySelectorAll(".section-title")[1].querySelector("h2").textContent=t.order;
-    document.querySelectorAll(".section-title")[1].querySelector("p").textContent=t.orderSub;
-    document.querySelectorAll(".section-title")[2].querySelector("h2").textContent=t.social;
-    document.querySelectorAll(".section-title")[2].querySelector("p").textContent=t.socialSub;
-    document.getElementById("shareBtn").textContent=t.share;
-    document.getElementById("aboutBtn").textContent=t.about;
-    document.getElementById("faqBtn").textContent=t.faq;
-    document.getElementById("langBtn").textContent=t.lang;
+    document.documentElement.lang=en?"en":"fa";
+    document.documentElement.dir=en?"ltr":"rtl";
+    document.title=t.pageTitle;
 
-    document.documentElement.lang=lang==="en"?"en":"fa";
-    document.documentElement.dir=lang==="en"?"ltr":"rtl";
+    setText(document.querySelector(".name"),t.name);
+    setText(document.querySelector(".subtitle"),t.subtitle);
+    setText(document.querySelector(".description"),t.description);
 
-    document.getElementById("aboutTitle").textContent=lang==="en"?"Ali Graph":"علی گراف";
-    document.getElementById("aboutText").textContent=lang==="en"
-        ?"Graphic designer and visual creator, focused on posters, banners, covers and visual identity. For orders or collaborations, use the contact links on this page."
-        :"طراح گرافیک و خالق محتوای بصری؛ فعال در طراحی پوستر، بنر، کاور و هویت بصری. برای سفارش یا همکاری از راه‌های ارتباطی صفحه با من در تماس باشید.";
-    document.getElementById("closeAbout").textContent=lang==="en"?"Close":"بستن";
-    document.getElementById("faqTitle").textContent=lang==="en"?"❓ Frequently Asked Questions":"❓ سؤالات متداول";
+    const heads=document.querySelectorAll(".section-title");
+    setIconText(heads[0]?.querySelector("h2"),"fa-solid fa-images",t.portfolio);
+    setText(heads[0]?.querySelector("p"),t.portfolioSub);
+    setIconText(heads[1]?.querySelector("h2"),"fa-solid fa-briefcase",t.order);
+    setText(heads[1]?.querySelector("p"),t.orderSub);
+    setIconText(heads[2]?.querySelector("h2"),"fa-solid fa-share-nodes",t.social);
+    setText(heads[2]?.querySelector("p"),t.socialSub);
+
+    setIconText(document.getElementById("moreBtn"),"fa-solid fa-arrow-left",t.more);
+    setIconText(document.getElementById("galleryCta"),"fa-solid fa-arrow-left",t.all);
+    setIconText(document.getElementById("shareBtn"),"fa-solid fa-share-nodes",t.share);
+    setText(document.getElementById("aboutBtn"),t.about);
+    setText(document.getElementById("faqBtn"),t.faq);
+    setText(document.getElementById("langBtn"),t.lang);
+
+    setIconText(document.querySelector(".settings-head strong"),"fa-solid fa-sliders",t.settings);
+    document.querySelector(".setting-label").textContent=t.theme;
+    const themeButtons=document.querySelectorAll("[data-theme]");
+    themeButtons.forEach(b=>setIconText(b,b.dataset.theme==="dark"?"fa-solid fa-moon":"fa-solid fa-sun",b.dataset.theme==="dark"?t.dark:t.light));
+    const motionLabels=document.querySelectorAll("[data-motion]");
+    motionLabels.forEach(b=>setIconText(b,b.dataset.motion==="on"?"fa-solid fa-wand-magic-sparkles":"fa-solid fa-ban",b.dataset.motion==="on"?t.motionOn:t.motionOff));
+    document.querySelectorAll(".setting-label")[1].textContent=t.motion;
+
+    document.querySelectorAll(".order-title")[0].textContent=t.orderEitaa;
+    document.querySelectorAll(".order-title")[1].textContent=t.orderTelegram;
+
+    setText(document.querySelector(".gallery-title"),t.galleryTitle);
+    document.getElementById("galleryImage").alt=t.galleryAlt;
+    setIconText(document.getElementById("downloadWork"),"fa-solid fa-download",t.download);
+    setIconText(document.getElementById("shareWork"),"fa-solid fa-share-nodes",t.shareWork);
+    document.getElementById("closeGallery").setAttribute("aria-label",t.close);
+    document.getElementById("closeSettings").setAttribute("aria-label",t.close);
+    document.getElementById("closeAbout").textContent=t.close;
+    document.getElementById("closeFaq").setAttribute("aria-label",t.close);
+
+    document.getElementById("aboutTitle").textContent=en?"Ali Graph":"علی گراف";
+    document.getElementById("aboutText").textContent=t.aboutText;
+    document.getElementById("faqTitle").innerHTML=`<i class="fa-solid fa-circle-question fa-icon" aria-hidden="true"></i> ${t.faqTitle}`;
+    document.querySelectorAll(".faq-item").forEach((item,i)=>{
+        item.querySelector("summary").textContent=t.faqItems[i][0];
+        item.querySelector(".faq-answer").textContent=t.faqItems[i][1];
+    });
+
+    document.querySelectorAll(".work").forEach((work,i)=>{
+        const img=work.querySelector("img");
+        if(img) img.alt=`${t.workView} ${i+1}`;
+    });
+
+    document.querySelectorAll(".social-title").forEach((el,i)=>{
+        const fa=["ایتا","تلگرام","اینستاگرام","روبیکا","ربات تلگرام"];
+        const enNames=["Eitaa","Telegram","Instagram","Rubika","Telegram Bot"];
+        el.textContent=(en?enNames:fa)[i];
+    });
+    document.querySelectorAll(".social-sub").forEach((el,i)=>{
+        const fa=["Eitaa","Telegram","Instagram","Rubika","Ali_Grapph Bot"];
+        const enNames=["Eitaa","Telegram","Instagram","Rubika","Ali_Grapph Bot"];
+        el.textContent=(en?enNames:fa)[i];
+    });
+
+    document.querySelectorAll(".work::after");
 }
 
 document.getElementById("langBtn").addEventListener("click",()=>{
