@@ -44,20 +44,12 @@ html{
     scroll-behavior:smooth;
 }
 
-body{
-    min-height:100vh;
-    overflow-x:hidden;
-    background:
-        radial-gradient(
-            circle at 50% -8%,
-            var(--glow),
-            transparent 34%
-        ),
-        var(--bg);
-    color:var(--text);
-    font-family:Tahoma,Arial,sans-serif;
-    transition:background .3s ease,color .3s ease;
-}
+body{min-height:100vh;overflow-x:hidden;background:radial-gradient(circle at calc(50% + var(--px,0px)) calc(-8% + var(--py,0px)),var(--glow),transparent 34%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;transition:background .3s ease,color .3s ease;}
+.parallax-layer{position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px);opacity:.22;will-change:transform;transform:translate3d(var(--parallax-x,0px),var(--parallax-y,0px),0);}
+.parallax-layer.one{width:210px;height:210px;top:7%;left:-75px;background:radial-gradient(circle,rgba(226,27,35,.20),transparent 68%);}
+.parallax-layer.two{width:260px;height:260px;top:46%;right:-110px;background:radial-gradient(circle,rgba(255,75,81,.12),transparent 70%);}
+@media(max-width:700px){.parallax-layer{display:none}}
+@media(prefers-reduced-motion:reduce){.parallax-layer{display:none}}
 
 button,
 a{
@@ -125,36 +117,36 @@ button{
 }
 
 .logo-wrap{
-    width:102px;
-    height:102px;
-    padding:4px;
-    border-radius:29px;
-    background:linear-gradient(135deg,var(--red),var(--red2));
-    box-shadow:
-        0 12px 35px rgba(226,27,35,.22),
-        0 0 55px rgba(226,27,35,.08);
+    position:relative;
+    width:118px;
+    height:118px;
+    padding:5px;
+    border-radius:34px;
+    background:linear-gradient(var(--surface),var(--surface)) padding-box,linear-gradient(135deg,var(--red),var(--red2)) border-box;
+    border:2px solid transparent;
+    box-shadow:0 16px 42px rgba(226,27,35,.24),0 0 60px rgba(226,27,35,.10);
     animation:logoIn .55s ease both;
 }
-
-.logo{
-    width:100%;
-    height:100%;
-    display:block;
-    object-fit:cover;
-    border-radius:25px;
+.logo-wrap::before{
+    content:""; position:absolute; inset:-8px; border-radius:40px;
+    border:2px solid transparent;
+    background:
+        linear-gradient(var(--surface),var(--surface)) padding-box,
+        conic-gradient(
+            from 0deg,
+            var(--red),
+            var(--red2),
+            rgba(255,75,81,.35),
+            var(--red)
+        ) border-box;
+    filter:drop-shadow(0 0 7px rgba(255,75,81,.45));
+    animation:logoRing 1s cubic-bezier(.4,0,.2,1) .1s both; pointer-events:none;
 }
+.logo{width:100%;height:100%;display:block;object-fit:cover;border-radius:29px;}
 
-.name{
-    margin-top:17px;
-    font-size:clamp(38px,8vw,55px);
-    font-weight:900;
-    line-height:1.05;
-    letter-spacing:-1.5px;
-    background:linear-gradient(135deg,var(--red),var(--red2));
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-}
+.name{position:relative;display:inline-block;margin-top:17px;padding-bottom:7px;font-size:clamp(38px,8vw,55px);font-weight:900;line-height:1.05;letter-spacing:-1.5px;background:linear-gradient(135deg,var(--red),var(--red2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.name::after{content:"";position:absolute;left:10%;right:10%;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,var(--red2),transparent);box-shadow:0 0 7px rgba(255,75,81,.45);transform:scaleX(.22);transform-origin:center;opacity:.72;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease;}
+.name:hover::after{transform:scaleX(1);opacity:1;}
 
 .username{
     direction:ltr;
@@ -840,6 +832,20 @@ footer{
     }
 }
 
+@keyframes logoRing{
+    from{
+        transform:rotate(0deg);
+        opacity:0;
+    }
+    12%{
+        opacity:1;
+    }
+    to{
+        transform:rotate(360deg);
+        opacity:1;
+    }
+}35%{opacity:1}to{transform:rotate(250deg);opacity:1}}
+
 @keyframes contentIn{
     from{opacity:0;transform:translateY(10px)}
     to{opacity:1;transform:none}
@@ -879,8 +885,8 @@ footer{animation:contentIn .45s ease both;animation-delay:.26s}
     }
 
     .logo-wrap{
-        width:94px;
-        height:94px;
+        width:106px;
+        height:106px;
     }
 
     .name{
@@ -943,6 +949,9 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 </head>
 
 <body>
+
+<div class="parallax-layer one" aria-hidden="true"></div>
+<div class="parallax-layer two" aria-hidden="true"></div>
 
 <div class="page">
 
@@ -2115,6 +2124,16 @@ document.getElementById("langBtn").addEventListener("click",()=>{
     setLanguage(currentLang==="fa"?"en":"fa");
 });
 setLanguage(currentLang);
+
+/* =========================
+   DESKTOP MOUSE PARALLAX
+========================= */
+if(window.matchMedia("(min-width:701px) and (pointer:fine)").matches && !window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    const parallaxLayers=document.querySelectorAll(".parallax-layer");
+    let targetX=0,targetY=0,currentX=0,currentY=0,rafId=null;
+    document.addEventListener("mousemove",e=>{targetX=(e.clientX/window.innerWidth-.5)*10;targetY=(e.clientY/window.innerHeight-.5)*10;if(!rafId)rafId=requestAnimationFrame(updateParallax)},{passive:true});
+    function updateParallax(){currentX+=(targetX-currentX)*.08;currentY+=(targetY-currentY)*.08;parallaxLayers.forEach((layer,index)=>{const factor=index===0?1:-.65;layer.style.setProperty("--parallax-x",`${currentX*factor}px`);layer.style.setProperty("--parallax-y",`${currentY*factor}px`);});if(Math.abs(targetX-currentX)>.01||Math.abs(targetY-currentY)>.01)rafId=requestAnimationFrame(updateParallax);else rafId=null;}
+}
 
 /* Easter egg: tap/click the logo five times */
 let logoClicks=0;
