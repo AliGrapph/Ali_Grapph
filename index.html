@@ -49,7 +49,7 @@ body{
     overflow-x:hidden;
     background:
         radial-gradient(
-            circle at calc(50% + var(--mx,0px)) calc(-8% + var(--my,0px)),
+            circle at 50% -8%,
             var(--glow),
             transparent 34%
         ),
@@ -59,40 +59,19 @@ body{
     transition:background .3s ease,color .3s ease;
 }
 
-.parallax-shape{
-    position:fixed;
-    z-index:-1;
-    pointer-events:none;
-    border-radius:50%;
-    opacity:.18;
-    filter:blur(2px);
-    will-change:transform;
-    transform:translate3d(var(--shape-x,0px),var(--shape-y,0px),0);
-}
 
-.parallax-shape.one{
-    width:210px;
-    height:210px;
-    top:8%;
-    left:-85px;
-    background:radial-gradient(circle,rgba(226,27,35,.22),transparent 68%);
+/* CUSTOM SCROLLBAR */
+html{
+    scrollbar-width:thin;
+    scrollbar-color:rgba(226,27,35,.72) transparent;
 }
-
-.parallax-shape.two{
-    width:250px;
-    height:250px;
-    right:-105px;
-    top:48%;
-    background:radial-gradient(circle,rgba(255,75,81,.13),transparent 70%);
+html::-webkit-scrollbar{width:4px}
+html::-webkit-scrollbar-track{background:transparent}
+html::-webkit-scrollbar-thumb{
+    background:rgba(226,27,35,.72);
+    border-radius:999px;
 }
-
-@media(max-width:700px){
-    .parallax-shape{display:none}
-}
-
-@media(prefers-reduced-motion:reduce){
-    .parallax-shape{display:none}
-}
+html::-webkit-scrollbar-thumb:hover{background:var(--red2)}
 
 button,
 a{
@@ -160,17 +139,14 @@ button{
 }
 
 .logo-wrap{
-    width:116px;
-    height:116px;
-    padding:5px;
-    border-radius:33px;
-    background:
-        linear-gradient(var(--surface),var(--surface)) padding-box,
-        linear-gradient(135deg,var(--red),var(--red2)) border-box;
-    border:2px solid transparent;
+    width:102px;
+    height:102px;
+    padding:4px;
+    border-radius:29px;
+    background:linear-gradient(135deg,var(--red),var(--red2));
     box-shadow:
-        0 16px 42px rgba(226,27,35,.24),
-        0 0 60px rgba(226,27,35,.10);
+        0 12px 35px rgba(226,27,35,.22),
+        0 0 55px rgba(226,27,35,.08);
     animation:logoIn .55s ease both;
 }
 
@@ -179,14 +155,11 @@ button{
     height:100%;
     display:block;
     object-fit:cover;
-    border-radius:28px;
+    border-radius:25px;
 }
 
 .name{
-    position:relative;
-    display:inline-block;
     margin-top:17px;
-    padding-bottom:8px;
     font-size:clamp(38px,8vw,55px);
     font-weight:900;
     line-height:1.05;
@@ -195,33 +168,6 @@ button{
     -webkit-background-clip:text;
     background-clip:text;
     color:transparent;
-}
-
-.name::after{
-    content:"";
-    position:absolute;
-    left:5%;
-    right:5%;
-    bottom:0;
-    height:2px;
-    border-radius:999px;
-    background:linear-gradient(
-        90deg,
-        transparent 0%,
-        transparent 35%,
-        var(--red2) 50%,
-        transparent 65%,
-        transparent 100%
-    );
-    background-size:220% 100%;
-    box-shadow:0 0 8px rgba(255,75,81,.35);
-    opacity:.65;
-    transition:opacity .25s ease,background-position .7s ease;
-}
-
-.name:hover::after{
-    opacity:1;
-    background-position:100% 0;
 }
 
 .username{
@@ -947,8 +893,8 @@ footer{animation:contentIn .45s ease both;animation-delay:.26s}
     }
 
     .logo-wrap{
-        width:106px;
-        height:106px;
+        width:94px;
+        height:94px;
     }
 
     .name{
@@ -1007,13 +953,57 @@ html[dir="rtl"] .order{ direction:rtl; }
 html[dir="ltr"] .arrow{ margin-left:auto; }
 html[dir="rtl"] .arrow{ margin-right:auto; }
 .gallery-tool .fa-icon{margin-inline-end:4px}
+
+/* BACK TO TOP */
+.back-to-top{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:900;
+    width:43px;
+    height:43px;
+    border:1px solid var(--line);
+    border-radius:50%;
+    background:var(--surface);
+    color:var(--text);
+    box-shadow:var(--shadow);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(12px) scale(.92);
+    pointer-events:none;
+    transition:opacity .25s ease,visibility .25s ease,transform .25s ease,color .25s ease,border-color .25s ease;
+}
+.back-to-top.show{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+    pointer-events:auto;
+}
+.back-to-top:hover{
+    color:var(--red2);
+    border-color:rgba(226,27,35,.35);
+    transform:translateY(-3px) scale(1.04);
+}
+.back-to-top:active{transform:translateY(-1px) scale(.98)}
+@media(max-width:600px){
+    .back-to-top{right:13px;bottom:13px;width:40px;height:40px}
+}
+@media(prefers-reduced-motion:reduce){
+    .back-to-top{transition:none}
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="parallax-shape one" aria-hidden="true"></div>
-<div class="parallax-shape two" aria-hidden="true"></div>
+<button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+</button>
 
 <div class="page">
 
@@ -1438,6 +1428,24 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 
 <script>
+
+
+/* BACK TO TOP */
+const backToTop = document.getElementById("backToTop");
+
+function updateBackToTop(){
+    backToTop.classList.toggle("show", window.scrollY > 420);
+}
+
+window.addEventListener("scroll", updateBackToTop, {passive:true});
+updateBackToTop();
+
+backToTop.addEventListener("click",()=>{
+    window.scrollTo({
+        top:0,
+        behavior:document.body.classList.contains("no-motion") ? "auto" : "smooth"
+    });
+});
 
 /* =========================
    GALLERY
@@ -2186,45 +2194,6 @@ document.getElementById("langBtn").addEventListener("click",()=>{
     setLanguage(currentLang==="fa"?"en":"fa");
 });
 setLanguage(currentLang);
-
-/* =========================
-   SUBTLE DESKTOP MOUSE PARALLAX
-========================= */
-if (
-    window.matchMedia("(min-width:701px) and (pointer:fine)").matches &&
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-) {
-    const shapes = document.querySelectorAll(".parallax-shape");
-    let targetX = 0, targetY = 0;
-    let currentX = 0, currentY = 0;
-    let frame = null;
-
-    document.addEventListener("mousemove", (event) => {
-        targetX = (event.clientX / window.innerWidth - 0.5) * 8;
-        targetY = (event.clientY / window.innerHeight - 0.5) * 8;
-        if (!frame) frame = requestAnimationFrame(animateParallax);
-    }, {passive:true});
-
-    function animateParallax(){
-        currentX += (targetX - currentX) * 0.08;
-        currentY += (targetY - currentY) * 0.08;
-
-        shapes.forEach((shape, index) => {
-            const factor = index === 0 ? 1 : -0.65;
-            shape.style.setProperty("--shape-x", `${currentX * factor}px`);
-            shape.style.setProperty("--shape-y", `${currentY * factor}px`);
-        });
-
-        if (
-            Math.abs(targetX - currentX) > 0.01 ||
-            Math.abs(targetY - currentY) > 0.01
-        ) {
-            frame = requestAnimationFrame(animateParallax);
-        } else {
-            frame = null;
-        }
-    }
-}
 
 /* Easter egg: tap/click the logo five times */
 let logoClicks=0;
