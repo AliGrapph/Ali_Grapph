@@ -59,20 +59,6 @@ body{
     transition:background .3s ease,color .3s ease;
 }
 
-
-/* CUSTOM SCROLLBAR */
-html{
-    scrollbar-width:thin;
-    scrollbar-color:rgba(226,27,35,.72) transparent;
-}
-html::-webkit-scrollbar{width:4px}
-html::-webkit-scrollbar-track{background:transparent}
-html::-webkit-scrollbar-thumb{
-    background:rgba(226,27,35,.72);
-    border-radius:999px;
-}
-html::-webkit-scrollbar-thumb:hover{background:var(--red2)}
-
 button,
 a{
     -webkit-tap-highlight-color:transparent;
@@ -954,56 +940,38 @@ html[dir="ltr"] .arrow{ margin-left:auto; }
 html[dir="rtl"] .arrow{ margin-right:auto; }
 .gallery-tool .fa-icon{margin-inline-end:4px}
 
-/* BACK TO TOP */
-.back-to-top{
-    position:fixed;
-    right:18px;
-    bottom:18px;
-    z-index:900;
-    width:43px;
-    height:43px;
-    border:1px solid var(--line);
-    border-radius:50%;
-    background:var(--surface);
-    color:var(--text);
-    box-shadow:var(--shadow);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(12px) scale(.92);
-    pointer-events:none;
-    transition:opacity .25s ease,visibility .25s ease,transform .25s ease,color .25s ease,border-color .25s ease;
-}
-.back-to-top.show{
-    opacity:1;
-    visibility:visible;
-    transform:translateY(0) scale(1);
-    pointer-events:auto;
-}
-.back-to-top:hover{
-    color:var(--red2);
-    border-color:rgba(226,27,35,.35);
-    transform:translateY(-3px) scale(1.04);
-}
-.back-to-top:active{transform:translateY(-1px) scale(.98)}
-@media(max-width:600px){
-    .back-to-top{right:13px;bottom:13px;width:40px;height:40px}
-}
-@media(prefers-reduced-motion:reduce){
-    .back-to-top{transition:none}
-}
+/* ===== STRUCTURE UPDATE ===== */
+.section-anchor{scroll-margin-top:72px}
+.sticky-nav{position:sticky;top:8px;z-index:800;width:min(100%,760px);margin:0 auto 7px;padding:6px;border:1px solid var(--line);border-radius:15px;background:rgba(21,21,24,.82);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 25px rgba(0,0,0,.12)}
+body.light .sticky-nav{background:rgba(255,255,255,.82)}
+.sticky-nav-inner{display:flex;gap:5px}
+.sticky-nav a{flex:1;min-height:32px;display:flex;align-items:center;justify-content:center;gap:5px;padding:5px;color:var(--muted);text-decoration:none;border-radius:10px;font-size:9px;font-weight:800;transition:.2s ease}
+.sticky-nav a:hover{color:var(--text);background:var(--surface2)}
+.hero-socials{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.hero-social{width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px solid var(--line);border-radius:11px;background:var(--surface);text-decoration:none;transition:.2s ease}
+.hero-social:hover{color:var(--red2);border-color:rgba(226,27,35,.3);transform:translateY(-2px)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.stat{min-height:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}
+.stat-number{color:var(--red2);font-size:22px;font-weight:900;line-height:1}
+.stat-label{color:var(--muted);font-size:9px;font-weight:800}
+.order-primary{border-color:rgba(226,27,35,.34)!important;background:linear-gradient(135deg,rgba(226,27,35,.16),rgba(255,75,81,.05)),var(--surface)}
+.order-primary .order-icon{color:#fff;background:linear-gradient(135deg,var(--red),var(--red2))}
+.footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:14px;text-align:right}
+.footer-title{font-size:11px;font-weight:900;margin-bottom:9px}
+.footer-text{color:var(--muted);font-size:9px;line-height:1.9}
+.footer-links{display:flex;flex-direction:column;gap:7px}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:9px;transition:.2s ease}
+.footer-links a:hover{color:var(--red2)}
+.footer-socials{display:flex;flex-wrap:wrap;gap:6px}
+.footer-socials a{width:30px;height:30px;display:flex;align-items:center;justify-content:center;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:9px;text-decoration:none;transition:.2s ease}
+.footer-socials a:hover{color:var(--red2);border-color:rgba(226,27,35,.3)}
+.footer-bottom{margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}
+@media(max-width:600px){.sticky-nav{top:5px}.sticky-nav a{font-size:8px}.footer-grid{grid-template-columns:1fr;text-align:center;gap:18px}.footer-links{align-items:center}.footer-socials{justify-content:center}}
 
 </style>
 </head>
 
 <body>
-
-<button class="back-to-top" id="backToTop" aria-label="بازگشت به بالا">
-    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
-</button>
 
 <div class="page">
 
@@ -1031,6 +999,14 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
     </div>
 </div>
 
+<nav class="sticky-nav" aria-label="Navigation">
+ <div class="sticky-nav-inner">
+  <a href="#portfolioSection"><i class="fa-solid fa-images"></i><span class="nav-portfolio">نمونه‌کارها</span></a>
+  <a href="#orderSection"><i class="fa-solid fa-briefcase"></i><span class="nav-order">سفارش</span></a>
+  <a href="#socialSection"><i class="fa-solid fa-share-nodes"></i><span class="nav-social">شبکه‌ها</span></a>
+ </div>
+</nav>
+
 <!-- PROFILE -->
 <section class="profile">
 
@@ -1050,6 +1026,17 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 </section>
 
+<div class="hero-socials">
+ <a class="hero-social" href="https://eitaa.com/Ali_Grapph" target="_blank" rel="noopener noreferrer" aria-label="ایتا"><i class="fa-solid fa-comment-dots"></i></a>
+ <a class="hero-social" href="https://t.me/Ali_Grapph" target="_blank" rel="noopener noreferrer" aria-label="تلگرام"><i class="fa-brands fa-telegram"></i></a>
+ <a class="hero-social" href="https://www.instagram.com/ali_grapph?igsh=cWpyNzRpNzlyY3Fy" target="_blank" rel="noopener noreferrer" aria-label="اینستاگرام"><i class="fa-brands fa-instagram"></i></a>
+ <a class="hero-social" href="https://rubika.ir/page/Ali_Grapph" target="_blank" rel="noopener noreferrer" aria-label="روبیکا"><i class="fa-solid fa-cube"></i></a>
+</div>
+
+<div class="stats">
+ <div class="stat"><div class="stat-number">+۵۰</div><div class="stat-label stat-projects">نمونه‌کار</div></div>
+ <div class="stat"><div class="stat-number">+۱</div><div class="stat-label stat-experience">سال تجربه</div></div>
+</div>
 
 <!-- PORTFOLIO -->
 <section class="section">
@@ -1096,7 +1083,7 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 
 <!-- ORDER -->
-<section class="section">
+<section class="section section-anchor" id="orderSection">
 
     <div class="section-head">
         <div class="section-title">
@@ -1107,7 +1094,7 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
     <div class="order-grid">
 
-        <a class="order"
+        <a class="order order-primary"
            href="https://eitaa.com/admin_ali_grapph"
            target="_blank"
            rel="noopener noreferrer">
@@ -1122,7 +1109,7 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
         </a>
 
 
-        <a class="order"
+        <a class="order order-primary"
            href="https://t.me/AARSTGR"
            target="_blank"
            rel="noopener noreferrer">
@@ -1142,7 +1129,7 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 
 <!-- SOCIAL -->
-<section class="section">
+<section class="section section-anchor" id="socialSection">
 
     <div class="section-head">
         <div class="section-title">
@@ -1260,13 +1247,33 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 <!-- FOOTER -->
 <footer>
-    <div class="copy">
-        © 2026 علی گراف | تمامی حقوق محفوظ است.
-    </div>
-
-    <div class="signature">
-        Design by Ali_Grapph
-    </div>
+ <div class="footer-grid">
+  <div>
+   <div class="footer-title footer-about-title">درباره من</div>
+   <div class="footer-text footer-about-text">علی گراف؛ طراح گرافیک با تمرکز بر پوستر، بنر، کاور و طراحی‌های بصری.</div>
+  </div>
+  <div>
+   <div class="footer-title footer-links-title">لینک‌های سریع</div>
+   <div class="footer-links">
+    <a href="#portfolioSection">نمونه‌کارها</a>
+    <a href="#orderSection">سفارش طراحی</a>
+    <a href="#socialSection">شبکه‌های اجتماعی</a>
+   </div>
+  </div>
+  <div>
+   <div class="footer-title footer-social-title">شبکه‌های اجتماعی</div>
+   <div class="footer-socials">
+    <a href="https://eitaa.com/Ali_Grapph" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-comment-dots"></i></a>
+    <a href="https://t.me/Ali_Grapph" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram"></i></a>
+    <a href="https://www.instagram.com/ali_grapph?igsh=cWpyNzRpNzlyY3Fy" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://rubika.ir/page/Ali_Grapph" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-cube"></i></a>
+   </div>
+  </div>
+ </div>
+ <div class="footer-bottom">
+  <div class="copy">© 2026 علی گراف | تمامی حقوق محفوظ است.</div>
+  <div class="signature">Design by Ali_Grapph</div>
+ </div>
 </footer>
 
 </div>
@@ -1428,24 +1435,6 @@ html[dir="rtl"] .arrow{ margin-right:auto; }
 
 
 <script>
-
-
-/* BACK TO TOP */
-const backToTop = document.getElementById("backToTop");
-
-function updateBackToTop(){
-    backToTop.classList.toggle("show", window.scrollY > 420);
-}
-
-window.addEventListener("scroll", updateBackToTop, {passive:true});
-updateBackToTop();
-
-backToTop.addEventListener("click",()=>{
-    window.scrollTo({
-        top:0,
-        behavior:document.body.classList.contains("no-motion") ? "auto" : "smooth"
-    });
-});
 
 /* =========================
    GALLERY
@@ -2034,6 +2023,10 @@ const translations = {
         about:"درباره علی‌گراف",
         faq:"سؤالات متداول",
         lang:"English",
+        navPortfolio:"نمونه‌کارها", navOrder:"سفارش", navSocial:"شبکه‌ها",
+        projects:"نمونه‌کار", experience:"سال تجربه",
+        footerAbout:"درباره من", footerLinks:"لینک‌های سریع", footerSocial:"شبکه‌های اجتماعی",
+        footerAboutText:"علی گراف؛ طراح گرافیک با تمرکز بر پوستر، بنر، کاور و طراحی‌های بصری.",
         settings:"تنظیمات ظاهر",
         theme:"تم",
         dark:"شب",
@@ -2080,6 +2073,10 @@ const translations = {
         about:"About Ali Graph",
         faq:"FAQ",
         lang:"فارسی",
+        navPortfolio:"Portfolio", navOrder:"Order", navSocial:"Social",
+        projects:"Works", experience:"Year of experience",
+        footerAbout:"About me", footerLinks:"Quick links", footerSocial:"Social media",
+        footerAboutText:"Ali Graph; graphic designer focused on posters, banners, covers and visual design.",
         settings:"Appearance Settings",
         theme:"Theme",
         dark:"Dark",
@@ -2127,6 +2124,15 @@ function setLanguage(lang){
     setText(document.querySelector(".name"),t.name);
     setText(document.querySelector(".subtitle"),t.subtitle);
     setText(document.querySelector(".description"),t.description);
+    setText(document.querySelector(".nav-portfolio"),t.navPortfolio);
+    setText(document.querySelector(".nav-order"),t.navOrder);
+    setText(document.querySelector(".nav-social"),t.navSocial);
+    setText(document.querySelector(".stat-projects"),t.projects);
+    setText(document.querySelector(".stat-experience"),t.experience);
+    setText(document.querySelector(".footer-about-title"),t.footerAbout);
+    setText(document.querySelector(".footer-links-title"),t.footerLinks);
+    setText(document.querySelector(".footer-social-title"),t.footerSocial);
+    setText(document.querySelector(".footer-about-text"),t.footerAboutText);
 
     const heads=document.querySelectorAll(".section-title");
     setIconText(heads[0]?.querySelector("h2"),"fa-solid fa-images",t.portfolio);
