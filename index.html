@@ -597,6 +597,16 @@
         }
 
 
+
+        /* TIGHTER ABOUT → PORTFOLIO SPACING */
+        #about {
+            padding-bottom: 30px;
+        }
+
+        #portfolio {
+            padding-top: 30px;
+        }
+
         /* =====================================================
            PORTFOLIO
         ===================================================== */
@@ -1181,6 +1191,15 @@
             visibility: visible;
         }
 
+        /* Portfolio viewer must always sit above the More Works window. */
+        #portfolioModal {
+            z-index: 2200;
+        }
+
+        #moreModal {
+            z-index: 2000;
+        }
+
         .modal-box {
             width: min(900px, 100%);
 
@@ -1472,6 +1491,12 @@
         ===================================================== */
 
         @media (max-width: 760px) {
+
+            /* Less GPU work on phones while keeping the glass look. */
+            .glass {
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
 
             .container {
                 width: calc(100% - 20px);
@@ -1992,7 +2017,7 @@
                 <img
                     src="portfolio/work1.jpg"
                     alt="نمونه‌کار ۱"
-                    loading="lazy">
+                    loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
 
@@ -2018,7 +2043,7 @@
                 <img
                     src="portfolio/work2.jpg"
                     alt="نمونه‌کار ۲"
-                    loading="lazy">
+                    loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
 
@@ -2044,7 +2069,7 @@
                 <img
                     src="portfolio/work3.jpg"
                     alt="نمونه‌کار ۳"
-                    loading="lazy">
+                    loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
 
@@ -2070,7 +2095,7 @@
                 <img
                     src="portfolio/work4.jpg"
                     alt="نمونه‌کار ۴"
-                    loading="lazy">
+                    loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
 
@@ -2319,7 +2344,7 @@
 
             <a
                 class="social-card reveal"
-                href="#">
+                href="https://t.me/Ali_Grapph_bot">
 
                 <i class="fa-solid fa-robot"></i>
 
@@ -2705,7 +2730,9 @@
             id="modalImage"
             class="modal-image"
             src=""
-            alt="">
+            alt=""
+            decoding="async"
+            fetchpriority="high">
 
         <div class="modal-actions">
 
@@ -2788,7 +2815,7 @@
                 data-title-fa="نمونه‌کار ۵"
                 data-title-en="Work 5">
 
-                <img src="portfolio/more1.jpg" alt="نمونه‌کار ۵" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more1.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۵" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 05</span>
@@ -2804,7 +2831,7 @@
                 data-title-fa="نمونه‌کار ۶"
                 data-title-en="Work 6">
 
-                <img src="portfolio/more2.jpg" alt="نمونه‌کار ۶" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more2.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۶" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 06</span>
@@ -2820,7 +2847,7 @@
                 data-title-fa="نمونه‌کار ۷"
                 data-title-en="Work 7">
 
-                <img src="portfolio/more3.jpg" alt="نمونه‌کار ۷" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more3.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۷" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 07</span>
@@ -2836,7 +2863,7 @@
                 data-title-fa="نمونه‌کار ۸"
                 data-title-en="Work 8">
 
-                <img src="portfolio/more4.jpg" alt="نمونه‌کار ۸" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more4.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۸" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 08</span>
@@ -2852,7 +2879,7 @@
                 data-title-fa="نمونه‌کار ۹"
                 data-title-en="Work 9">
 
-                <img src="portfolio/more5.jpg" alt="نمونه‌کار ۹" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more5.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۹" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 09</span>
@@ -2868,7 +2895,7 @@
                 data-title-fa="نمونه‌کار ۱۰"
                 data-title-en="Work 10">
 
-                <img src="portfolio/more6.jpg" alt="نمونه‌کار ۱۰" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more6.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۱۰" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 10</span>
@@ -2884,7 +2911,7 @@
                 data-title-fa="نمونه‌کار ۱۱"
                 data-title-en="Work 11">
 
-                <img src="portfolio/more7.jpg" alt="نمونه‌کار ۱۱" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more7.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۱۱" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 11</span>
@@ -2900,7 +2927,7 @@
                 data-title-fa="نمونه‌کار ۱۲"
                 data-title-en="Work 12">
 
-                <img src="portfolio/more8.jpg" alt="نمونه‌کار ۱۲" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more8.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۱۲" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 12</span>
@@ -2916,7 +2943,7 @@
                 data-title-fa="نمونه‌کار ۱۳"
                 data-title-en="Work 13">
 
-                <img src="portfolio/more9.jpg" alt="نمونه‌کار ۱۳" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more9.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۱۳" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 13</span>
@@ -2932,7 +2959,7 @@
                 data-title-fa="نمونه‌کار ۱۴"
                 data-title-en="Work 14">
 
-                <img src="portfolio/more10.jpg" alt="نمونه‌کار ۱۴" loading="lazy">
+                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="portfolio/more10.jpg" class="deferred-more-image" fetchpriority="low" alt="نمونه‌کار ۱۴" loading="lazy" decoding="async" fetchpriority="low">
 
                 <div class="portfolio-caption">
                     <span>Work 14</span>
@@ -3528,10 +3555,29 @@
         document.getElementById("downloadButton");
 
 
+    const moreModal =
+        document.getElementById("moreModal");
+
+
     let currentPortfolioImage = "";
+
+    let portfolioOpenedFromMore = false;
 
 
     function openPortfolio(card) {
+
+        /*
+         * If the clicked card lives inside More Works, temporarily hide
+         * that modal. The portfolio viewer then becomes the only visible
+         * layer. When the viewer closes, More Works is restored.
+         */
+        portfolioOpenedFromMore =
+            moreModal.contains(card) &&
+            moreModal.classList.contains("active");
+
+        if (portfolioOpenedFromMore) {
+            moreModal.classList.remove("active");
+        }
 
         const image =
             card.dataset.image;
@@ -3606,9 +3652,19 @@
             "active"
         );
 
+        if (portfolioOpenedFromMore) {
+            moreModal.classList.add("active");
+            portfolioOpenedFromMore = false;
+        }
+
         document.body.classList.remove(
             "no-scroll"
         );
+
+        /* More Works still needs the scroll lock when it is restored. */
+        if (moreModal.classList.contains("active")) {
+            document.body.classList.add("no-scroll");
+        }
 
         setTimeout(
             () => {
@@ -3647,8 +3703,71 @@
        MORE WORKS
     ========================================================= */
 
-    const moreModal =
-        document.getElementById("moreModal");
+    let moreImagesObserver = null;
+
+
+    function setupMoreImages() {
+
+        const images =
+            moreModal.querySelectorAll(".deferred-more-image");
+
+        if (!images.length) return;
+
+        /*
+         * Load More Works thumbnails only when the user actually opens
+         * that section. This keeps the initial page load light.
+         */
+        if ("IntersectionObserver" in window) {
+
+            if (moreImagesObserver) {
+                moreImagesObserver.disconnect();
+            }
+
+            const scrollRoot =
+                moreModal.querySelector(".modal-box");
+
+            moreImagesObserver =
+                new IntersectionObserver(
+                    entries => {
+
+                        entries.forEach(entry => {
+
+                            if (!entry.isIntersecting) return;
+
+                            const image = entry.target;
+                            const source = image.dataset.src;
+
+                            if (source && image.src !== source) {
+                                image.src = source;
+                            }
+
+                            moreImagesObserver.unobserve(image);
+
+                        });
+
+                    },
+                    {
+                        root: scrollRoot,
+                        rootMargin: "250px 0px",
+                        threshold: 0.01
+                    }
+                );
+
+            images.forEach(image =>
+                moreImagesObserver.observe(image)
+            );
+
+        } else {
+
+            images.forEach(image => {
+                if (image.dataset.src) {
+                    image.src = image.dataset.src;
+                }
+            });
+
+        }
+
+    }
 
 
     document
@@ -3664,6 +3783,8 @@
                 document.body.classList.add(
                     "no-scroll"
                 );
+
+                setupMoreImages();
 
             }
         );
