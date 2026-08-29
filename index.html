@@ -2319,7 +2319,7 @@
 
             <a
                 class="social-card reveal"
-                href="#">
+                href="https://t.me/Ali_Grapph_bot">
 
                 <i class="fa-solid fa-robot"></i>
 
@@ -2781,6 +2781,13 @@
 
         <div class="more-grid">
 
+            <!-- =================================================== -->
+            <!--  برای افزودن نمونه‌کار جدید، یک کپی از article زیر   -->
+            <!--  بردار و شماره فایل و عنوان‌ها را تغییر بده.         -->
+            <!--  مثال: data-image="portfolio/more12.jpg"           -->
+            <!--  data-title-fa="نمونه‌کار ۱۲"                      -->
+            <!--  data-title-en="Work 12"                          -->
+            <!-- =================================================== -->
 
             <article
                 class="portfolio-card glass"
@@ -2957,28 +2964,24 @@
 
             </article>
 
-          
+
           <article
-    class="portfolio-card glass"
-    data-image="portfolio/more12.jpg"
-    data-title-fa="نمونه‌کار ۱۶"
-    data-title-en="Work 16">
+                class="portfolio-card glass"
+                data-image="portfolio/more12.jpg"
+                data-title-fa="نمونه‌کار ۱۶"
+                data-title-en="Work 16">
 
-    <img
-        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
-        data-src="portfolio/more12.jpg"
-        class="deferred-more-image"
-        fetchpriority="low"
-        alt="نمونه‌کار ۱۶"
-        loading="lazy"
-        decoding="async">
+                <img src="portfolio/more12.jpg" alt="نمونه‌کار ۱۶" loading="lazy" decoding="async">
 
-    <div class="portfolio-caption">
-        <span>Work 16</span>
-        <i class="fa-solid fa-expand"></i>
-    </div>
+                <div class="portfolio-caption">
+                    <span>Work 16</span>
+                    <i class="fa-solid fa-expand"></i>
+                </div>
 
           </article>
+            <!-- =================================================== -->
+            <!--  نمونه‌کارهای جدید را اینجا اضافه کن                -->
+            <!-- =================================================== -->
 
         </div>
 
@@ -3555,6 +3558,10 @@
         document.getElementById("portfolioModal");
 
 
+    const moreModal =
+        document.getElementById("moreModal");
+
+
     const modalImage =
         document.getElementById("modalImage");
 
@@ -3571,6 +3578,12 @@
 
 
     function openPortfolio(card) {
+
+        // اگر مودال «بیشتر» باز است، آن را ببند تا تداخل نداشته باشد
+        if (moreModal.classList.contains("active")) {
+            moreModal.classList.remove("active");
+            document.body.classList.remove("no-scroll");
+        }
 
         const image =
             card.dataset.image;
@@ -3685,10 +3698,6 @@
     /* =========================================================
        MORE WORKS
     ========================================================= */
-
-    const moreModal =
-        document.getElementById("moreModal");
-
 
     document
         .getElementById("moreWorks")
