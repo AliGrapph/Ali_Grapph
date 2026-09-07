@@ -328,35 +328,43 @@ img { max-width: 100%; }
     width: 190px; height: 190px;
     margin: auto;
     border-radius: 48px;
-    padding: 3px;
+    padding: 12px;
     position: relative;
     display: grid;
     place-items: center;
-    background: conic-gradient(from 0deg, var(--red-dark), var(--gold), var(--red-light), var(--red-dark));
+    background: var(--black-2);
+    border: 1px solid rgba(255, 48, 56, 0.4);
+    box-shadow: var(--glow-red), inset 0 0 25px rgba(255, 48, 56, 0.05);
 }
 
-.profile-frame.visible {
+.profile-frame::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 52px;
+    padding: 2px;
+    background: conic-gradient(from 0deg, var(--red-dark), var(--gold), var(--red-light), var(--red-dark));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.9;
+}
+
+.profile-frame.visible::before {
     animation: ringSettle 1.7s cubic-bezier(.22, .8, .32, 1) 1 both;
 }
 
 @keyframes ringSettle {
-    from { transform: rotate(-130deg) scale(0.9); opacity: 0.3; }
-    to { transform: rotate(0deg) scale(1); opacity: 1; }
-}
-
-.profile-frame-inner {
-    width: 100%; height: 100%;
-    border-radius: 45px;
-    background: var(--black-2);
-    display: grid;
-    place-items: center;
-    padding: 18px;
+    from { transform: rotate(-130deg); opacity: 0; }
+    to { transform: rotate(0deg); opacity: 0.9; }
 }
 
 .profile-frame img {
     width: 100%; height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 22px rgba(255, 48, 56, 0.25));
+    position: relative;
+    z-index: 1;
 }
 
 .hero h1 {
@@ -1149,7 +1157,7 @@ footer::before {
     .container { width: calc(100% - 22px); }
     .section { padding: 76px 0; }
 
-    .profile-frame { width: 140px; height: 140px; border-radius: 38px; }
+    .profile-frame { width: 140px; height: 140px; border-radius: 38px; padding: 9px; }
     .hero h1 { font-size: 44px; letter-spacing: -1px; }
     .hero-description { font-size: 12px; }
 
@@ -1297,9 +1305,7 @@ footer::before {
     <div class="hero-content container">
 
         <div class="profile-frame reveal">
-            <div class="profile-frame-inner">
-                <img src="logo.png" alt="لوگوی علی گراف">
-            </div>
+            <img src="logo.png" alt="لوگوی علی گراف">
         </div>
 
         <h1 class="reveal">
