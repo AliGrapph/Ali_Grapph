@@ -292,7 +292,7 @@ body.no-scroll { overflow: hidden; }
 .quick-contact.open .quick-contact-option:nth-child(1) { transition-delay: 0.05s; }
 .quick-contact.open .quick-contact-option:nth-child(2) { transition-delay: 0.1s; }
 
-.quick-contact-option.eitaa { background: linear-gradient(135deg, #FF7632, #FF7634); }
+.quick-contact-option.eitaa { background: linear-gradient(135deg, #FF7631, #FF7634); }
 .quick-contact-option.telegram { background: linear-gradient(135deg, #1c8adb, #2ea6ff); }
 
 .quick-contact-option:hover { transform: translateY(-3px) scale(1.06); }
@@ -713,6 +713,29 @@ img { max-width: 100%; }
     background: linear-gradient(135deg, #8a6425, var(--gold));
     border-color: transparent;
     color: #17130a;
+}
+
+/* =====================================================
+   EITAA ICON (official logo asset, not a font glyph)
+   Uses a mask so it inherits `color` exactly like the
+   Font Awesome icons it replaces — including hover
+   transitions, since currentColor updates live.
+===================================================== */
+
+i.icon-eitaa {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask-image: url('eitaa-icon.png');
+    mask-image: url('eitaa-icon.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    vertical-align: -0.15em;
 }
 
 /* =====================================================
@@ -1778,7 +1801,7 @@ footer::before {
         <div class="hero-social reveal">
 
             <a class="social-icon" href="https://eitaa.com/Ali_Grapph" target="_blank" rel="noopener" aria-label="Eitaa">
-                <i class="fa-solid fa-comment-dots"></i>
+                <i class="icon-eitaa"></i>
             </a>
 
             <a class="social-icon" href="https://t.me/Ali_Grapph" target="_blank" rel="noopener" aria-label="Telegram">
@@ -2035,7 +2058,7 @@ footer::before {
             <div class="orders-grid">
 
                 <a class="glass order-card reveal" href="https://eitaa.com/admin_Ali_Grapph" target="_blank" rel="noopener">
-                    <div class="order-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                    <div class="order-icon"><i class="icon-eitaa"></i></div>
                     <div>
                         <h3>ایتا</h3>
                         <p data-fa="ارتباط برای سفارش و هماهنگی" data-en="Contact for orders and coordination">
@@ -2071,7 +2094,7 @@ footer::before {
             <div class="social-grid">
 
                 <a class="social-card reveal" href="https://eitaa.com/Ali_Grapph" target="_blank">
-                    <i class="fa-solid fa-comment-dots"></i>
+                    <i class="icon-eitaa"></i>
                     <span data-fa="ایتا" data-en="Eitaa">ایتا</span>
                 </a>
 
@@ -2181,7 +2204,7 @@ footer::before {
             <div>
                 <div class="footer-title" data-fa="شبکه‌های اجتماعی" data-en="Social Media">شبکه‌های اجتماعی</div>
                 <div class="footer-social">
-                    <a href="https://eitaa.com/Ali_Grapph" target="_blank"><i class="fa-solid fa-comment-dots"></i></a>
+                    <a href="https://eitaa.com/Ali_Grapph" target="_blank"><i class="icon-eitaa"></i></a>
                     <a href="https://t.me/Ali_Grapph" target="_blank"><i class="fa-brands fa-telegram"></i></a>
                     <a href="https://www.instagram.com/ali_grapph" target="_blank"><i class="fa-brands fa-instagram"></i></a>
                     <a href="https://rubika.ir/page/Ali_Grapph" target="_blank"><i class="fa-solid fa-cube"></i></a>
@@ -2251,7 +2274,7 @@ footer::before {
     <div class="quick-contact-options">
 
         <a class="quick-contact-option eitaa" href="https://eitaa.com/admin_Ali_Grapph" target="_blank" rel="noopener" aria-label="Eitaa" tabindex="-1">
-            <i class="fa-solid fa-comment-dots"></i>
+            <i class="icon-eitaa"></i>
         </a>
 
         <a class="quick-contact-option telegram" href="https://t.me/AARSTGR" target="_blank" rel="noopener" aria-label="Telegram" tabindex="-1">
