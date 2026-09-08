@@ -26,6 +26,32 @@
 <meta name="twitter:description" content="طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.">
 <meta name="twitter:image" content="logo.png">
 
+<!-- Structured Data (SEO) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "علی گراف | Ali Graph",
+  "alternateName": "Ali Graph",
+  "description": "طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.",
+  "image": "https://aligrapph.github.io/Ali_Grapph/logo.png",
+  "url": "https://aligrapph.github.io/Ali_Grapph/",
+  "areaServed": "IR",
+  "sameAs": [
+    "https://t.me/Ali_Grapph",
+    "https://eitaa.com/Ali_Grapph",
+    "https://www.instagram.com/ali_grapph",
+    "https://rubika.ir/page/Ali_Grapph"
+  ],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "طراحی لوگو" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "طراحی پوستر" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "طراحی بنر" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "طراحی کاور" } }
+  ]
+}
+</script>
+
 <!-- Font Awesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -130,6 +156,44 @@ body.no-scroll { overflow: hidden; }
     background: linear-gradient(90deg, var(--red-dark), var(--red-light), var(--gold));
     box-shadow: 0 0 12px rgba(255, 48, 56, 0.6);
     transition: width 0.1s linear;
+}
+
+/* =====================================================
+   CUSTOM CURSOR (DESKTOP ONLY)
+===================================================== */
+
+.custom-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    background: rgba(229, 28, 39, 0.88);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    pointer-events: none;
+    z-index: 3000;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 10px 30px rgba(229, 28, 39, 0.4);
+}
+
+.custom-cursor i { font-size: 14px; }
+.custom-cursor.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+@media (hover: none), (pointer: coarse) {
+    .custom-cursor { display: none; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    body.custom-cursor-active .portfolio-card { cursor: none; }
 }
 
 /* =====================================================
@@ -805,6 +869,17 @@ img { max-width: 100%; }
     position: relative;
     cursor: pointer;
     border-radius: var(--radius);
+    background: linear-gradient(110deg, #141418 8%, #1c1c21 18%, #141418 33%);
+    background-size: 250% 100%;
+}
+
+.portfolio-card.img-loading {
+    animation: shimmer 1.6s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }
 
 .portfolio-card img {
@@ -812,7 +887,14 @@ img { max-width: 100%; }
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    transition: transform 0.6s var(--ease);
+    transition: transform 0.6s var(--ease), opacity 0.5s ease, filter 0.5s ease;
+    opacity: 0;
+    filter: blur(14px);
+}
+
+.portfolio-card img.img-loaded {
+    opacity: 1;
+    filter: blur(0);
 }
 
 .portfolio-card::after {
@@ -828,6 +910,10 @@ img { max-width: 100%; }
 .portfolio-card:hover img { transform: scale(1.08); }
 .portfolio-card:hover::after { opacity: 1; }
 .portfolio-card:active { transform: scale(0.98); }
+
+@media (prefers-reduced-motion: reduce) {
+    .portfolio-card.img-loading { animation: none; }
+}
 
 .portfolio-caption {
     position: absolute;
@@ -858,6 +944,83 @@ img { max-width: 100%; }
 .portfolio-more {
     text-align: center;
     margin-top: 34px;
+}
+
+/* =====================================================
+   PRICING
+===================================================== */
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.pricing-card {
+    padding: 28px 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: var(--transition), transform 0.15s ease;
+}
+
+.pricing-card:hover { transform: translateY(-6px); border-color: var(--border-red-hover); }
+
+.pricing-icon {
+    width: 54px; height: 54px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    color: var(--red-light);
+    background: rgba(255, 48, 56, 0.08);
+    border: 1px solid var(--border-red);
+    font-size: 19px;
+    margin-bottom: 16px;
+}
+
+.pricing-card h3 { font-size: 15px; margin-bottom: 10px; }
+
+.pricing-list {
+    list-style: none;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 2.1;
+    margin-bottom: 18px;
+}
+
+.pricing-list li::before {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--gold-light);
+    margin-inline-end: 7px;
+    font-size: 9px;
+}
+
+.pricing-note {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    width: 100%;
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pricing-disclaimer {
+    text-align: center;
+    color: var(--muted-2);
+    font-size: 11px;
+    margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+    .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+    .pricing-grid { grid-template-columns: 1fr; }
 }
 
 /* =====================================================
@@ -1155,6 +1318,7 @@ footer::before {
 .menu-links > *:nth-child(6) { transition-delay: 0.3s; }
 .menu-links > *:nth-child(7) { transition-delay: 0.35s; }
 .menu-links > *:nth-child(8) { transition-delay: 0.4s; }
+.menu-links > *:nth-child(9) { transition-delay: 0.45s; }
 
 .menu-links i { width: 26px; color: var(--red-light); }
 
@@ -1217,11 +1381,20 @@ footer::before {
     display: block;
     border-radius: 18px;
     background: #050505;
+    opacity: 0;
+    filter: blur(16px);
+    transition: opacity 0.4s ease, filter 0.4s ease;
+    transform-origin: center center;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
+
+.modal-image.img-loaded { opacity: 1; filter: blur(0); }
 
 .modal-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
 
-.modal-image-wrap { position: relative; }
+.modal-image-wrap { position: relative; overflow: hidden; border-radius: 18px; }
 
 .modal-nav {
     position: absolute;
@@ -1449,6 +1622,11 @@ footer::before {
 <div class="noise-overlay" aria-hidden="true"></div>
 <div class="scroll-progress" id="scrollProgress"></div>
 
+<div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <i class="fa-solid fa-expand"></i>
+    <span data-fa="مشاهده" data-en="View">مشاهده</span>
+</div>
+
 
 <!-- =========================================================
      TOP NAV
@@ -1500,6 +1678,11 @@ footer::before {
             <a href="#portfolio" class="menu-link">
                 <i class="fa-solid fa-images"></i>
                 <span data-fa="نمونه‌کارها" data-en="Portfolio">نمونه‌کارها</span>
+            </a>
+
+            <a href="#pricing" class="menu-link">
+                <i class="fa-solid fa-tags"></i>
+                <span data-fa="تعرفه‌ها" data-en="Pricing">تعرفه‌ها</span>
             </a>
 
             <a href="#order" class="menu-link">
@@ -1751,6 +1934,86 @@ footer::before {
 
 
 <!-- =========================================================
+     PRICING
+     ⚠️ توجه: فعلاً به‌جای عدد قیمت، متن «برای اعلام قیمت پیام بده»
+     گذاشته شده. هروقت تعرفه‌ها مشخص شد، کافیه داخل هر
+     <div class="pricing-note"> عدد واقعی رو جایگزین کنی، مثلاً:
+     <div class="pricing-note">شروع از ۲۰۰,۰۰۰ تومان</div>
+========================================================= -->
+
+<section class="section" id="pricing">
+
+    <div class="container">
+
+        <div class="section-heading reveal">
+            <div class="section-label">PRICING</div>
+            <h2 data-fa="تعرفه‌ها" data-en="Pricing">تعرفه‌ها</h2>
+            <p data-fa="بسته به نوع پروژه و جزئیات کار، تعرفه دقیق پس از بررسی اعلام می‌شود."
+               data-en="The exact rate depends on the project details and is shared after a quick review.">
+                بسته به نوع پروژه و جزئیات کار، تعرفه دقیق پس از بررسی اعلام می‌شود.
+            </p>
+        </div>
+
+        <div class="pricing-grid stagger-grid">
+
+            <div class="glass pricing-card reveal" style="--i:0">
+                <div class="pricing-icon"><i class="fa-solid fa-shapes"></i></div>
+                <h3 data-fa="طراحی لوگو" data-en="Logo Design">طراحی لوگو</h3>
+                <ul class="pricing-list">
+                    <li data-fa="طراحی اختصاصی و منحصربه‌فرد" data-en="Custom, one-of-a-kind design">طراحی اختصاصی و منحصربه‌فرد</li>
+                    <li data-fa="ارسال فایل نهایی با کیفیت بالا" data-en="Final delivery in high resolution">ارسال فایل نهایی با کیفیت بالا</li>
+                    <li data-fa="امکان اصلاح پس از تحویل" data-en="Revisions available after delivery">امکان اصلاح پس از تحویل</li>
+                </ul>
+                <div class="pricing-note" data-fa="برای اعلام قیمت پیام بده" data-en="Message for a quote">برای اعلام قیمت پیام بده</div>
+            </div>
+
+            <div class="glass pricing-card reveal" style="--i:1">
+                <div class="pricing-icon"><i class="fa-solid fa-image"></i></div>
+                <h3 data-fa="پوستر" data-en="Poster">پوستر</h3>
+                <ul class="pricing-list">
+                    <li data-fa="طراحی خلاقانه متناسب با پیام شما" data-en="Creative design tailored to your message">طراحی خلاقانه متناسب با پیام شما</li>
+                    <li data-fa="آماده برای چاپ یا انتشار آنلاین" data-en="Print-ready or optimized for online use">آماده برای چاپ یا انتشار آنلاین</li>
+                    <li data-fa="امکان اصلاح پس از تحویل" data-en="Revisions available after delivery">امکان اصلاح پس از تحویل</li>
+                </ul>
+                <div class="pricing-note" data-fa="برای اعلام قیمت پیام بده" data-en="Message for a quote">برای اعلام قیمت پیام بده</div>
+            </div>
+
+            <div class="glass pricing-card reveal" style="--i:2">
+                <div class="pricing-icon"><i class="fa-solid fa-rectangle-ad"></i></div>
+                <h3 data-fa="بنر" data-en="Banner">بنر</h3>
+                <ul class="pricing-list">
+                    <li data-fa="مناسب فروشگاه، کانال یا شبکه اجتماعی" data-en="Suited for shops, channels or social pages">مناسب فروشگاه، کانال یا شبکه اجتماعی</li>
+                    <li data-fa="ابعاد استاندارد هر پلتفرم" data-en="Standard dimensions for each platform">ابعاد استاندارد هر پلتفرم</li>
+                    <li data-fa="امکان اصلاح پس از تحویل" data-en="Revisions available after delivery">امکان اصلاح پس از تحویل</li>
+                </ul>
+                <div class="pricing-note" data-fa="برای اعلام قیمت پیام بده" data-en="Message for a quote">برای اعلام قیمت پیام بده</div>
+            </div>
+
+            <div class="glass pricing-card reveal" style="--i:3">
+                <div class="pricing-icon"><i class="fa-solid fa-music"></i></div>
+                <h3 data-fa="کاور" data-en="Cover">کاور</h3>
+                <ul class="pricing-list">
+                    <li data-fa="طراحی کاور آهنگ، پلی‌لیست یا کانال" data-en="Track, playlist, or channel cover design">طراحی کاور آهنگ، پلی‌لیست یا کانال</li>
+                    <li data-fa="فرمت مناسب هر پلتفرم پخش" data-en="Formatted for the target platform">فرمت مناسب هر پلتفرم پخش</li>
+                    <li data-fa="امکان اصلاح پس از تحویل" data-en="Revisions available after delivery">امکان اصلاح پس از تحویل</li>
+                </ul>
+                <div class="pricing-note" data-fa="برای اعلام قیمت پیام بده" data-en="Message for a quote">برای اعلام قیمت پیام بده</div>
+            </div>
+
+        </div>
+
+        <p class="pricing-disclaimer reveal"
+           data-fa="تعرفه‌ها به‌زودی به‌صورت شفاف اینجا اعلام می‌شوند. تا آن زمان، برای گرفتن قیمت دقیق پروژه‌ات پیام بده."
+           data-en="Exact rates will be published here soon. Until then, message me for an accurate quote on your project.">
+            تعرفه‌ها به‌زودی به‌صورت شفاف اینجا اعلام می‌شوند. تا آن زمان، برای گرفتن قیمت دقیق پروژه‌ات پیام بده.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
      CONTACT — ORDER + SOCIAL
 ========================================================= -->
 
@@ -1909,6 +2172,7 @@ footer::before {
                 <div class="footer-links">
                     <a href="#about" data-fa="درباره من" data-en="About Me">درباره من</a>
                     <a href="#portfolio" data-fa="نمونه‌کارها" data-en="Portfolio">نمونه‌کارها</a>
+                    <a href="#pricing" data-fa="تعرفه‌ها" data-en="Pricing">تعرفه‌ها</a>
                     <a href="#order" data-fa="سفارش طراحی" data-en="Order Design">سفارش طراحی</a>
                     <a href="#social" data-fa="شبکه‌های اجتماعی" data-en="Social Media">شبکه‌های اجتماعی</a>
                 </div>
@@ -2020,10 +2284,10 @@ footer::before {
 
         <div class="modal-actions">
 
-            <a id="downloadButton" class="btn btn-primary" download>
+            <button id="downloadButton" class="btn btn-primary" type="button">
                 <i class="fa-solid fa-download"></i>
                 <span data-fa="دانلود" data-en="Download">دانلود</span>
-            </a>
+            </button>
 
             <button class="btn" id="shareButton">
                 <i class="fa-solid fa-share-nodes"></i>
@@ -2457,6 +2721,7 @@ footer::before {
 
     const portfolioModal = document.getElementById("portfolioModal");
     const moreModal = document.getElementById("moreModal");
+    const modalImageWrap = document.querySelector(".modal-image-wrap");
     const modalImage = document.getElementById("modalImage");
     const modalTitle = document.getElementById("modalTitle");
     const downloadButton = document.getElementById("downloadButton");
@@ -2465,6 +2730,26 @@ footer::before {
 
     const galleryCards = Array.from(document.querySelectorAll(".portfolio-card"));
     let currentGalleryIndex = -1;
+    let currentImagePath = "";
+
+    /* Blur-up loading for grid thumbnails */
+    galleryCards.forEach(card => {
+        const img = card.querySelector("img");
+        if (!img) return;
+
+        function markLoaded() {
+            img.classList.add("img-loaded");
+            card.classList.remove("img-loading");
+        }
+
+        if (img.complete && img.naturalWidth > 0) {
+            markLoaded();
+        } else {
+            card.classList.add("img-loading");
+            img.addEventListener("load", markLoaded, { once: true });
+            img.addEventListener("error", () => card.classList.remove("img-loading"), { once: true });
+        }
+    });
 
     function renderPortfolio(index) {
         const card = galleryCards[index];
@@ -2475,12 +2760,17 @@ footer::before {
         const image = card.dataset.image;
         const title = currentLanguage === "en" ? card.dataset.titleEn : card.dataset.titleFa;
 
+        currentImagePath = image;
+
+        modalImage.classList.remove("img-loaded");
+        resetZoom();
+
+        modalImage.onload = () => modalImage.classList.add("img-loaded");
         modalImage.src = image;
         modalImage.alt = title;
         modalTitle.textContent = title;
 
-        downloadButton.href = image;
-        downloadButton.setAttribute("download", image.split("/").pop());
+        downloadButton.setAttribute("data-filename", image.split("/").pop());
     }
 
     function openPortfolio(card) {
@@ -2520,7 +2810,7 @@ footer::before {
         if (!portfolioModal.classList.contains("active")) return;
         portfolioModal.classList.remove("active");
         document.body.classList.remove("no-scroll");
-        setTimeout(() => { modalImage.src = ""; }, 300);
+        setTimeout(() => { modalImage.src = ""; resetZoom(); }, 300);
         releaseFocus(portfolioModal.querySelector(".modal-box"));
     }
 
@@ -2535,6 +2825,79 @@ footer::before {
         if (event.key === "ArrowRight") currentLanguage === "en" ? showNext() : showPrev();
         if (event.key === "ArrowLeft") currentLanguage === "en" ? showPrev() : showNext();
     });
+
+
+    /* =========================================================
+       PINCH-ZOOM / PAN (TOUCH)
+    ========================================================= */
+
+    let zoomScale = 1;
+    let zoomX = 0;
+    let zoomY = 0;
+    let pinchStartDistance = 0;
+    let pinchStartScale = 1;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panOriginX = 0;
+    let panOriginY = 0;
+    let lastTapTime = 0;
+
+    function applyZoom(animated) {
+        modalImage.style.transition = animated ? "transform 0.25s ease" : "none";
+        modalImage.style.transform = `translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`;
+    }
+
+    function resetZoom() {
+        zoomScale = 1;
+        zoomX = 0;
+        zoomY = 0;
+        applyZoom(false);
+    }
+
+    function distanceBetween(touches) {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.hypot(dx, dy);
+    }
+
+    modalImageWrap.addEventListener("touchstart", event => {
+        if (event.touches.length === 2) {
+            pinchStartDistance = distanceBetween(event.touches);
+            pinchStartScale = zoomScale;
+        } else if (event.touches.length === 1) {
+            const now = Date.now();
+            if (now - lastTapTime < 300) {
+                zoomScale = zoomScale > 1 ? 1 : 2.2;
+                zoomX = 0;
+                zoomY = 0;
+                applyZoom(true);
+            }
+            lastTapTime = now;
+
+            if (zoomScale > 1) {
+                panStartX = event.touches[0].clientX;
+                panStartY = event.touches[0].clientY;
+                panOriginX = zoomX;
+                panOriginY = zoomY;
+            }
+        }
+    }, { passive: true });
+
+    modalImageWrap.addEventListener("touchmove", event => {
+        if (event.touches.length === 2) {
+            const distance = distanceBetween(event.touches);
+            zoomScale = Math.min(Math.max(pinchStartScale * (distance / pinchStartDistance), 1), 3.5);
+            applyZoom(false);
+        } else if (event.touches.length === 1 && zoomScale > 1) {
+            zoomX = panOriginX + (event.touches[0].clientX - panStartX);
+            zoomY = panOriginY + (event.touches[0].clientY - panStartY);
+            applyZoom(false);
+        }
+    }, { passive: true });
+
+    modalImageWrap.addEventListener("touchend", event => {
+        if (event.touches.length === 0 && zoomScale <= 1) resetZoom();
+    }, { passive: true });
 
 
     /* =========================================================
@@ -2559,6 +2922,89 @@ footer::before {
     moreModal.addEventListener("click", event => {
         if (event.target === moreModal) closeMoreModal();
     });
+
+
+    /* =========================================================
+       WATERMARKED DOWNLOAD
+    ========================================================= */
+
+    function loadImageElement(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
+
+    async function downloadWithWatermark() {
+        if (!currentImagePath) return;
+
+        const icon = downloadButton.querySelector("i");
+        const originalIconClass = icon.className;
+        downloadButton.disabled = true;
+        icon.className = "fa-solid fa-spinner fa-spin";
+
+        try {
+            const [sourceImage, logoImage] = await Promise.all([
+                loadImageElement(currentImagePath),
+                loadImageElement("logo.png")
+            ]);
+
+            const canvas = document.createElement("canvas");
+            canvas.width = sourceImage.naturalWidth;
+            canvas.height = sourceImage.naturalHeight;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(sourceImage, 0, 0);
+
+            /* Small, low-opacity watermark tucked in the corner — visible on
+               close inspection, never covering the artwork itself */
+            const margin = canvas.width * 0.03;
+            const logoWidth = canvas.width * 0.11;
+            const logoHeight = logoWidth * (logoImage.naturalHeight / logoImage.naturalWidth);
+
+            ctx.save();
+            ctx.globalAlpha = 0.55;
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = canvas.width * 0.01;
+            ctx.drawImage(
+                logoImage,
+                canvas.width - logoWidth - margin,
+                canvas.height - logoHeight - margin,
+                logoWidth,
+                logoHeight
+            );
+            ctx.restore();
+
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = downloadButton.getAttribute("data-filename") || "ali-graph-work.jpg";
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 4000);
+            }, "image/jpeg", 0.94);
+
+        } catch (error) {
+            /* Fall back to a plain download if canvas processing fails
+               (e.g. the browser blocks canvas export) */
+            const link = document.createElement("a");
+            link.href = currentImagePath;
+            link.download = downloadButton.getAttribute("data-filename") || "ali-graph-work.jpg";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } finally {
+            downloadButton.disabled = false;
+            icon.className = originalIconClass;
+        }
+    }
+
+    downloadButton.addEventListener("click", downloadWithWatermark);
 
 
     /* =========================================================
@@ -2599,6 +3045,32 @@ footer::before {
     }, { threshold: 0.1 });
 
     document.querySelectorAll(".reveal").forEach(element => revealObserver.observe(element));
+
+
+    /* =========================================================
+       CUSTOM CURSOR (DESKTOP)
+    ========================================================= */
+
+    const customCursor = document.getElementById("customCursor");
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    if (isFinePointer) {
+        document.addEventListener("mousemove", event => {
+            customCursor.style.left = event.clientX + "px";
+            customCursor.style.top = event.clientY + "px";
+        });
+
+        document.querySelectorAll(".portfolio-card").forEach(card => {
+            card.addEventListener("mouseenter", () => {
+                customCursor.classList.add("show");
+                document.body.classList.add("custom-cursor-active");
+            });
+            card.addEventListener("mouseleave", () => {
+                customCursor.classList.remove("show");
+                document.body.classList.remove("custom-cursor-active");
+            });
+        });
+    }
 
 
     /* =========================================================

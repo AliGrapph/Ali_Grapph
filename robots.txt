@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aligrapph.github.io/Ali_Grapph/sitemap.xml
