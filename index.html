@@ -8,6 +8,24 @@
 <title>علی گراف | خلاقیت در قالب تصویر</title>
 <link rel="icon" type="image/png" href="logo.png">
 
+<!-- Font preload to avoid flash of unstyled text -->
+<link rel="preload" href="fonts/Ali_Grapph_medium.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Ali_Grapph_bold.ttf" as="font" type="font/ttf" crossorigin>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="علی گراف | خلاقیت در قالب تصویر">
+<meta property="og:description" content="طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.">
+<meta property="og:image" content="logo.png">
+<meta property="og:url" content="https://aligrapph.github.io/Ali_Grapph/">
+<meta property="og:locale" content="fa_IR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="علی گراف | خلاقیت در قالب تصویر">
+<meta name="twitter:description" content="طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.">
+<meta name="twitter:image" content="logo.png">
+
 <!-- Font Awesome 6 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
@@ -92,6 +110,161 @@ body {
 }
 
 body.no-scroll { overflow: hidden; }
+
+.noise-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0; right: 0;
+    height: 3px;
+    width: 0%;
+    z-index: 2100;
+    background: linear-gradient(90deg, var(--red-dark), var(--red-light), var(--gold));
+    box-shadow: 0 0 12px rgba(255, 48, 56, 0.6);
+    transition: width 0.1s linear;
+}
+
+/* =====================================================
+   SPLASH / PRELOADER
+===================================================== */
+
+.splash {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    display: grid;
+    place-items: center;
+    background: var(--black);
+    transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
+}
+
+.splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.splash-mark {
+    width: 96px; height: 96px;
+    display: grid;
+    place-items: center;
+    animation: splashPulse 1.4s ease-in-out infinite;
+}
+
+.splash-mark img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 24px rgba(255, 48, 56, 0.4));
+}
+
+@keyframes splashPulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.08); opacity: 1; }
+}
+
+.splash-ring {
+    position: absolute;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--red-light);
+    border-left-color: var(--gold);
+    animation: splashSpin 1s linear infinite;
+}
+
+@keyframes splashSpin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .splash-mark, .splash-ring { animation: none; }
+}
+
+/* =====================================================
+   QUICK CONTACT FAB
+===================================================== */
+
+.quick-contact {
+    position: fixed;
+    left: 18px;
+    bottom: calc(90px + env(safe-area-inset-bottom));
+    z-index: 750;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px;
+}
+
+.quick-contact-options {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    align-items: center;
+}
+
+.quick-contact-option {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    color: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    opacity: 0;
+    transform: translateY(10px) scale(0.7);
+    pointer-events: none;
+    transition: var(--transition), transform 0.3s var(--ease);
+}
+
+.quick-contact.open .quick-contact-option {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.quick-contact.open .quick-contact-option:nth-child(1) { transition-delay: 0.05s; }
+.quick-contact.open .quick-contact-option:nth-child(2) { transition-delay: 0.1s; }
+
+.quick-contact-option.eitaa { background: linear-gradient(135deg, #1c9b53, #17c964); }
+.quick-contact-option.telegram { background: linear-gradient(135deg, #1c8adb, #2ea6ff); }
+
+.quick-contact-option:hover { transform: translateY(-3px) scale(1.06); }
+.quick-contact-option:active { transform: scale(0.92); }
+
+.quick-contact-toggle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 20px;
+    background: linear-gradient(135deg, var(--red-dark), var(--red-light));
+    box-shadow: 0 12px 30px rgba(229, 28, 39, 0.35);
+    transition: var(--transition), transform 0.25s var(--ease);
+    animation: fabBreathe 2.6s ease-in-out infinite;
+}
+
+.quick-contact-toggle:active { transform: scale(0.92); }
+.quick-contact.open .quick-contact-toggle i { transform: rotate(135deg); }
+.quick-contact-toggle i { transition: transform 0.3s var(--ease); }
+
+@keyframes fabBreathe {
+    0%, 100% { box-shadow: 0 12px 30px rgba(229, 28, 39, 0.35); }
+    50% { box-shadow: 0 12px 34px rgba(229, 28, 39, 0.55); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quick-contact-toggle { animation: none; }
+}
+
+@media (max-width: 640px) {
+    .quick-contact { left: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; }
@@ -884,6 +1057,16 @@ footer::before {
 .floating-nav a:hover i { transform: translateY(-3px); }
 .floating-nav a:active { transform: scale(0.94); }
 
+.floating-nav a.active {
+    color: var(--text);
+    background: rgba(255, 48, 56, 0.12);
+}
+
+.floating-nav a.active i {
+    transform: translateY(-2px);
+    text-shadow: 0 0 12px rgba(255, 48, 56, 0.7);
+}
+
 /* =====================================================
    MENU DRAWER
 ===================================================== */
@@ -1037,6 +1220,34 @@ footer::before {
 }
 
 .modal-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+
+.modal-image-wrap { position: relative; }
+
+.modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border-red);
+    background: rgba(9, 9, 11, 0.75);
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: var(--transition), transform 0.15s ease;
+}
+
+.modal-nav:hover { border-color: var(--border-red-hover); color: var(--red-light); }
+.modal-nav:active { transform: translateY(-50%) scale(0.9); }
+.modal-nav.prev { right: 10px; }
+.modal-nav.next { left: 10px; }
+
+@media (max-width: 640px) {
+    .modal-nav { width: 38px; height: 38px; }
+}
 
 /* =====================================================
    MORE WORKS
@@ -1223,6 +1434,20 @@ footer::before {
 
 
 <body>
+
+<!-- =========================================================
+     SPLASH SCREEN
+========================================================= -->
+
+<div class="splash" id="splash" aria-hidden="true">
+    <div class="splash-ring"></div>
+    <div class="splash-mark">
+        <img src="logo.png" alt="">
+    </div>
+</div>
+
+<div class="noise-overlay" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
 
 
 <!-- =========================================================
@@ -1437,12 +1662,12 @@ footer::before {
                 <div class="stats-grid">
 
                     <div class="glass stat reveal">
-                        <div class="stat-number">+۱</div>
+                        <div class="stat-number" data-count="1">+۰</div>
                         <div class="stat-label" data-fa="سال تجربه" data-en="Year of Experience">سال تجربه</div>
                     </div>
 
                     <div class="glass stat reveal">
-                        <div class="stat-number">+۵۰</div>
+                        <div class="stat-number" data-count="50">+۰</div>
                         <div class="stat-label" data-fa="نمونه‌کار" data-en="Portfolio Works">نمونه‌کار</div>
                     </div>
 
@@ -1715,19 +1940,19 @@ footer::before {
      FLOATING NAV
 ========================================================= -->
 
-<nav class="floating-nav">
+<nav class="floating-nav" id="floatingNav">
 
-    <a href="#about">
+    <a href="#about" data-section="about">
         <i class="fa-solid fa-user"></i>
         <span data-fa="درباره من" data-en="About">درباره من</span>
     </a>
 
-    <a href="#portfolio">
+    <a href="#portfolio" data-section="portfolio">
         <i class="fa-solid fa-images"></i>
         <span data-fa="نمونه‌کارها" data-en="Works">نمونه‌کارها</span>
     </a>
 
-    <a href="#order">
+    <a href="#order" data-section="order">
         <i class="fa-solid fa-briefcase"></i>
         <span data-fa="سفارش" data-en="Order">سفارش</span>
     </a>
@@ -1750,6 +1975,31 @@ footer::before {
 
 
 <!-- =========================================================
+     QUICK CONTACT
+========================================================= -->
+
+<div class="quick-contact" id="quickContact">
+
+    <button class="quick-contact-toggle" id="quickContactToggle" aria-label="راه‌های تماس سریع" aria-expanded="false">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div class="quick-contact-options">
+
+        <a class="quick-contact-option eitaa" href="https://eitaa.com/admin_Ali_Grapph" target="_blank" rel="noopener" aria-label="Eitaa" tabindex="-1">
+            <i class="fa-solid fa-comment-dots"></i>
+        </a>
+
+        <a class="quick-contact-option telegram" href="https://t.me/AARSTGR" target="_blank" rel="noopener" aria-label="Telegram" tabindex="-1">
+            <i class="fa-brands fa-telegram"></i>
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
      PORTFOLIO VIEWER
 ========================================================= -->
 
@@ -1762,7 +2012,11 @@ footer::before {
             <button class="modal-close" id="closePortfolio" aria-label="بستن"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <img id="modalImage" class="modal-image" src="" alt="">
+        <div class="modal-image-wrap">
+            <button class="modal-nav prev" id="modalPrev" aria-label="نمونه‌کار قبلی"><i class="fa-solid fa-chevron-right"></i></button>
+            <img id="modalImage" class="modal-image" src="" alt="">
+            <button class="modal-nav next" id="modalNext" aria-label="نمونه‌کار بعدی"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
 
         <div class="modal-actions">
 
@@ -2019,6 +2273,50 @@ footer::before {
 
 
     /* =========================================================
+       SPLASH SCREEN
+    ========================================================= */
+
+    const splash = document.getElementById("splash");
+    const splashMinTime = 900;
+    const splashStart = Date.now();
+
+    function hideSplash() {
+        const elapsed = Date.now() - splashStart;
+        const wait = Math.max(splashMinTime - elapsed, 0);
+        setTimeout(() => {
+            splash.classList.add("hidden");
+            document.body.classList.remove("no-scroll");
+        }, wait);
+    }
+
+    document.body.classList.add("no-scroll");
+
+    if (document.readyState === "complete") {
+        hideSplash();
+    } else {
+        window.addEventListener("load", hideSplash);
+        setTimeout(hideSplash, 4000);
+    }
+
+
+    /* =========================================================
+       SCROLL PROGRESS BAR
+    ========================================================= */
+
+    const scrollProgress = document.getElementById("scrollProgress");
+
+    function updateScrollProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollProgress.style.width = percent + "%";
+    }
+
+    window.addEventListener("scroll", updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+
+    /* =========================================================
        TOP NAV SCROLL STATE
     ========================================================= */
 
@@ -2027,6 +2325,52 @@ footer::before {
     window.addEventListener("scroll", () => {
         topNav.classList.toggle("scrolled", window.scrollY > 40);
     }, { passive: true });
+
+
+    /* =========================================================
+       FOCUS TRAP HELPER
+    ========================================================= */
+
+    let lastFocusedElement = null;
+
+    function trapFocus(container) {
+        lastFocusedElement = document.activeElement;
+
+        const focusable = container.querySelectorAll(
+            'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (focusable.length) focusable[0].focus();
+
+        function handleKeydown(event) {
+            if (event.key !== "Tab") return;
+
+            const items = Array.from(focusable).filter(el => el.offsetParent !== null);
+            if (!items.length) return;
+
+            const first = items[0];
+            const last = items[items.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+
+        container.addEventListener("keydown", handleKeydown);
+        container._focusTrapHandler = handleKeydown;
+    }
+
+    function releaseFocus(container) {
+        if (container._focusTrapHandler) {
+            container.removeEventListener("keydown", container._focusTrapHandler);
+            container._focusTrapHandler = null;
+        }
+        if (lastFocusedElement) lastFocusedElement.focus();
+    }
 
 
     /* =========================================================
@@ -2040,11 +2384,14 @@ footer::before {
     function openMenu() {
         menuOverlay.classList.add("active");
         document.body.classList.add("no-scroll");
+        trapFocus(menuOverlay.querySelector(".menu-panel"));
     }
 
     function closeMenu() {
+        if (!menuOverlay.classList.contains("active")) return;
         menuOverlay.classList.remove("active");
         document.body.classList.remove("no-scroll");
+        releaseFocus(menuOverlay.querySelector(".menu-panel"));
     }
 
     openMenuButton.addEventListener("click", openMenu);
@@ -2070,11 +2417,14 @@ footer::before {
         page.classList.add("active");
         document.body.classList.add("no-scroll");
         page.scrollTop = 0;
+        trapFocus(page.querySelector(".internal-content"));
     }
 
     function closeInternalPage(page) {
+        if (!page.classList.contains("active")) return;
         page.classList.remove("active");
         document.body.classList.remove("no-scroll");
+        releaseFocus(page.querySelector(".internal-content"));
     }
 
     document.getElementById("aboutOpen").addEventListener("click", () => openInternalPage(aboutPage));
@@ -2110,8 +2460,28 @@ footer::before {
     const modalImage = document.getElementById("modalImage");
     const modalTitle = document.getElementById("modalTitle");
     const downloadButton = document.getElementById("downloadButton");
+    const modalPrev = document.getElementById("modalPrev");
+    const modalNext = document.getElementById("modalNext");
 
-    let currentPortfolioImage = "";
+    const galleryCards = Array.from(document.querySelectorAll(".portfolio-card"));
+    let currentGalleryIndex = -1;
+
+    function renderPortfolio(index) {
+        const card = galleryCards[index];
+        if (!card) return;
+
+        currentGalleryIndex = index;
+
+        const image = card.dataset.image;
+        const title = currentLanguage === "en" ? card.dataset.titleEn : card.dataset.titleFa;
+
+        modalImage.src = image;
+        modalImage.alt = title;
+        modalTitle.textContent = title;
+
+        downloadButton.href = image;
+        downloadButton.setAttribute("download", image.split("/").pop());
+    }
 
     function openPortfolio(card) {
         if (moreModal.classList.contains("active")) {
@@ -2119,20 +2489,26 @@ footer::before {
             document.body.classList.remove("no-scroll");
         }
 
-        const image = card.dataset.image;
-        const title = currentLanguage === "en" ? card.dataset.titleEn : card.dataset.titleFa;
-
-        currentPortfolioImage = image;
-        modalImage.src = image;
-        modalImage.alt = title;
-        modalTitle.textContent = title;
-
-        downloadButton.href = image;
-        downloadButton.setAttribute("download", image.split("/").pop());
+        const index = galleryCards.indexOf(card);
+        renderPortfolio(index === -1 ? 0 : index);
 
         portfolioModal.classList.add("active");
         document.body.classList.add("no-scroll");
+        trapFocus(portfolioModal.querySelector(".modal-box"));
     }
+
+    function showNext() {
+        if (currentGalleryIndex === -1) return;
+        renderPortfolio((currentGalleryIndex + 1) % galleryCards.length);
+    }
+
+    function showPrev() {
+        if (currentGalleryIndex === -1) return;
+        renderPortfolio((currentGalleryIndex - 1 + galleryCards.length) % galleryCards.length);
+    }
+
+    modalNext.addEventListener("click", showNext);
+    modalPrev.addEventListener("click", showPrev);
 
     document.addEventListener("click", event => {
         const card = event.target.closest(".portfolio-card");
@@ -2141,15 +2517,23 @@ footer::before {
     });
 
     function closePortfolio() {
+        if (!portfolioModal.classList.contains("active")) return;
         portfolioModal.classList.remove("active");
         document.body.classList.remove("no-scroll");
         setTimeout(() => { modalImage.src = ""; }, 300);
+        releaseFocus(portfolioModal.querySelector(".modal-box"));
     }
 
     document.getElementById("closePortfolio").addEventListener("click", closePortfolio);
 
     portfolioModal.addEventListener("click", event => {
         if (event.target === portfolioModal) closePortfolio();
+    });
+
+    document.addEventListener("keydown", event => {
+        if (!portfolioModal.classList.contains("active")) return;
+        if (event.key === "ArrowRight") currentLanguage === "en" ? showNext() : showPrev();
+        if (event.key === "ArrowLeft") currentLanguage === "en" ? showPrev() : showNext();
     });
 
 
@@ -2160,18 +2544,20 @@ footer::before {
     document.getElementById("moreWorks").addEventListener("click", () => {
         moreModal.classList.add("active");
         document.body.classList.add("no-scroll");
+        trapFocus(moreModal.querySelector(".modal-box"));
     });
 
-    document.getElementById("closeMore").addEventListener("click", () => {
+    function closeMoreModal() {
+        if (!moreModal.classList.contains("active")) return;
         moreModal.classList.remove("active");
         document.body.classList.remove("no-scroll");
-    });
+        releaseFocus(moreModal.querySelector(".modal-box"));
+    }
+
+    document.getElementById("closeMore").addEventListener("click", closeMoreModal);
 
     moreModal.addEventListener("click", event => {
-        if (event.target === moreModal) {
-            moreModal.classList.remove("active");
-            document.body.classList.remove("no-scroll");
-        }
+        if (event.target === moreModal) closeMoreModal();
     });
 
 
@@ -2216,6 +2602,95 @@ footer::before {
 
 
     /* =========================================================
+       COUNT-UP STATS
+    ========================================================= */
+
+    const persianDigits = ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"];
+
+    function toPersianDigits(number) {
+        return String(number).replace(/[0-9]/g, digit => persianDigits[digit]);
+    }
+
+    function animateCount(element) {
+        const target = parseInt(element.dataset.count, 10);
+        if (!target) return;
+
+        const duration = 1400;
+        const start = performance.now();
+
+        function frame(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.round(eased * target);
+            element.textContent = "+" + toPersianDigits(value);
+
+            if (progress < 1) requestAnimationFrame(frame);
+        }
+
+        requestAnimationFrame(frame);
+    }
+
+    const countObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCount(entry.target);
+                countObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll(".stat-number[data-count]").forEach(element => countObserver.observe(element));
+
+
+    /* =========================================================
+       ACTIVE SECTION IN FLOATING NAV
+    ========================================================= */
+
+    const navLinks = document.querySelectorAll('.floating-nav a[data-section]');
+    const trackedSections = Array.from(navLinks)
+        .map(link => document.getElementById(link.dataset.section))
+        .filter(Boolean);
+
+    const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            navLinks.forEach(link => {
+                link.classList.toggle("active", link.dataset.section === entry.target.id);
+            });
+        });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+
+    trackedSections.forEach(section => sectionObserver.observe(section));
+
+
+    /* =========================================================
+       QUICK CONTACT FAB
+    ========================================================= */
+
+    const quickContact = document.getElementById("quickContact");
+    const quickContactToggle = document.getElementById("quickContactToggle");
+
+    quickContactToggle.addEventListener("click", () => {
+        const isOpen = quickContact.classList.toggle("open");
+        quickContactToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+
+        quickContact.querySelectorAll(".quick-contact-option").forEach(option => {
+            option.setAttribute("tabindex", isOpen ? "0" : "-1");
+        });
+    });
+
+    document.addEventListener("click", event => {
+        if (!quickContact.contains(event.target) && quickContact.classList.contains("open")) {
+            quickContact.classList.remove("open");
+            quickContactToggle.setAttribute("aria-expanded", "false");
+            quickContact.querySelectorAll(".quick-contact-option").forEach(option => {
+                option.setAttribute("tabindex", "-1");
+            });
+        }
+    });
+
+
+    /* =========================================================
        BACK TO TOP
     ========================================================= */
 
@@ -2239,7 +2714,7 @@ footer::before {
 
         closeMenu();
         closePortfolio();
-        moreModal.classList.remove("active");
+        closeMoreModal();
         closeInternalPage(aboutPage);
         closeInternalPage(faqPage);
     });
