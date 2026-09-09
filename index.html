@@ -197,8 +197,7 @@ body.no-scroll { overflow: hidden; }
 }
 
 /* =====================================================
-   SPLASH / PRELOADER — ALI GRAPH
-   Fast "design line" intro: max ~2.2s, no logo distortion
+   SPLASH / PRELOADER
 ===================================================== */
 
 .splash {
@@ -207,110 +206,44 @@ body.no-scroll { overflow: hidden; }
     z-index: 5000;
     display: grid;
     place-items: center;
-    background:
-        radial-gradient(circle at 50% 48%, rgba(229, 28, 39, 0.08), transparent 34%),
-        var(--black);
-    transition: opacity 0.45s var(--ease), visibility 0.45s var(--ease);
+    background: var(--black);
+    transition: opacity 0.6s var(--ease), visibility 0.6s var(--ease);
 }
 
-.splash.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+.splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.splash-mark {
+    width: 96px; height: 96px;
+    display: grid;
+    place-items: center;
+    animation: splashPulse 1.4s ease-in-out infinite;
 }
 
-.splash-content {
-    width: min(280px, 72vw);
-    text-align: center;
+.splash-mark img {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 24px rgba(255, 48, 56, 0.4));
 }
 
-.splash-wordmark {
-    position: relative;
-    display: inline-block;
-    color: var(--text);
-    font-size: clamp(28px, 8vw, 42px);
-    font-weight: 700;
-    letter-spacing: 4px;
-    line-height: 1;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: splashTextIn 0.55s var(--ease) 0.15s forwards;
+@keyframes splashPulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.08); opacity: 1; }
 }
 
-.splash-wordmark::after {
-    content: "";
+.splash-ring {
     position: absolute;
-    right: 0;
-    bottom: -13px;
-    width: 100%;
-    height: 2px;
-    transform: scaleX(0);
-    transform-origin: right center;
-    background: linear-gradient(90deg, var(--red-dark), var(--red-light), var(--gold));
-    box-shadow: 0 0 14px rgba(255, 48, 56, 0.5);
-    animation: splashLineDraw 0.65s var(--ease) 0.45s forwards;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: var(--red-light);
+    border-left-color: var(--gold);
+    animation: splashSpin 1s linear infinite;
 }
 
-.splash-line {
-    width: 100%;
-    height: 2px;
-    margin-top: 31px;
-    overflow: hidden;
-    border-radius: 99px;
-    background: rgba(255,255,255,0.07);
-}
-
-.splash-line span {
-    display: block;
-    width: 0;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--red-dark), var(--red-light), var(--gold));
-    box-shadow: 0 0 15px rgba(255, 48, 56, 0.5);
-    animation: splashProgress 1.45s cubic-bezier(.22,.8,.32,1) 0.2s forwards;
-}
-
-.splash-status {
-    margin-top: 12px;
-    color: var(--muted-2);
-    font-size: 9px;
-    letter-spacing: 2px;
-    opacity: 0;
-    animation: splashStatusIn 0.4s ease 0.55s forwards;
-}
-
-@keyframes splashTextIn {
-    from { opacity: 0; transform: translateY(8px); filter: blur(5px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-
-@keyframes splashLineDraw {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
-}
-
-@keyframes splashProgress {
-    0% { width: 0; }
-    70% { width: 82%; }
-    100% { width: 100%; }
-}
-
-@keyframes splashStatusIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+@keyframes splashSpin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {
-    .splash-wordmark,
-    .splash-wordmark::after,
-    .splash-line span,
-    .splash-status {
-        animation: none;
-    }
-    .splash-wordmark { opacity: 1; transform: none; }
-    .splash-wordmark::after { transform: scaleX(1); }
-    .splash-line span { width: 100%; }
-    .splash-status { opacity: 1; }
+    .splash-mark, .splash-ring { animation: none; }
 }
 
 /* =====================================================
@@ -1724,10 +1657,9 @@ footer::before {
 ========================================================= -->
 
 <div class="splash" id="splash" aria-hidden="true">
-    <div class="splash-content">
-        <div class="splash-wordmark">ALI GRAPH</div>
-        <div class="splash-line" aria-hidden="true"><span></span></div>
-        <div class="splash-status">CREATIVE STUDIO</div>
+    <div class="splash-ring"></div>
+    <div class="splash-mark">
+        <img src="logo.png" alt="">
     </div>
 </div>
 
