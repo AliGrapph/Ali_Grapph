@@ -212,38 +212,60 @@ body.no-scroll { overflow: hidden; }
 
 .splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-.splash-mark {
-    width: 96px; height: 96px;
-    display: grid;
-    place-items: center;
-    animation: splashPulse 1.4s ease-in-out infinite;
+.splash-text {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    font-size: clamp(34px, 6.5vw, 58px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--text);
 }
 
-.splash-mark img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 24px rgba(255, 48, 56, 0.4));
+.splash-word {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: splashWordIn 0.65s var(--ease) forwards;
 }
 
-@keyframes splashPulse {
-    0%, 100% { transform: scale(1); opacity: 0.85; }
-    50% { transform: scale(1.08); opacity: 1; }
+.splash-word:nth-child(1) { animation-delay: 0.1s; }
+.splash-word:nth-child(2) { animation-delay: 0.32s; color: var(--red-light); }
+
+@keyframes splashWordIn {
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.splash-ring {
-    position: absolute;
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    border-top-color: var(--red-light);
-    border-left-color: var(--gold);
-    animation: splashSpin 1s linear infinite;
+.splash-underline {
+    width: 0;
+    height: 2px;
+    margin: 16px auto 0;
+    background: linear-gradient(90deg, var(--red-dark), var(--red-light), var(--gold));
+    animation: splashLineGrow 0.6s var(--ease) forwards;
+    animation-delay: 0.75s;
 }
 
-@keyframes splashSpin { to { transform: rotate(360deg); } }
+@keyframes splashLineGrow {
+    to { width: 130px; }
+}
+
+.splash-tagline {
+    margin-top: 18px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-align: center;
+    opacity: 0;
+    animation: splashTaglineIn 0.6s var(--ease) forwards;
+    animation-delay: 1s;
+}
+
+@keyframes splashTaglineIn {
+    to { opacity: 1; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-    .splash-mark, .splash-ring { animation: none; }
+    .splash-word, .splash-underline, .splash-tagline { animation: none; opacity: 1; transform: none; width: 130px; }
 }
 
 /* =====================================================
@@ -1636,9 +1658,13 @@ footer::before {
 ========================================================= -->
 
 <div class="splash" id="splash" aria-hidden="true">
-    <div class="splash-ring"></div>
-    <div class="splash-mark">
-        <img src="logo.png" alt="">
+    <div>
+        <div class="splash-text">
+            <span class="splash-word">علی</span>
+            <span class="splash-word">گراف</span>
+        </div>
+        <div class="splash-underline"></div>
+        <div class="splash-tagline">GRAPHIC DESIGN STUDIO</div>
     </div>
 </div>
 
