@@ -18,6 +18,9 @@
 <meta content="logo.png" property="og:image"/>
 <meta content="https://aligrapph.github.io/Ali_Grapph/" property="og:url"/>
 <meta content="fa_IR" property="og:locale"/>
+  <noscript>
+    <style>.splash{display:none !important}</style>
+  </noscript>
 <!-- Twitter Card -->
 <meta content="summary" name="twitter:card"/>
 <meta content="علی گراف | خلاقیت در قالب تصویر" name="twitter:title"/>
@@ -2036,7 +2039,6 @@ html{scroll-padding-top:105px}
 .glass{backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
 .noise-overlay{opacity:.025;z-index:4}
 .scroll-progress{height:2px;background:var(--red);box-shadow:none}
-.splash{display:none}
 .reveal{opacity:1;transform:none;will-change:auto}
 .custom-cursor{background:var(--text);color:var(--bg);box-shadow:none;width:68px;height:68px}
 .top-nav{inset:0 0 auto;height:88px;padding:0 max(50px,calc((100% - 1200px)/2));border-bottom:1px solid var(--line);background:rgba(17,17,16,.94);backdrop-filter:blur(16px);pointer-events:auto}
@@ -3045,8 +3047,12 @@ I'm still at the beginning of my journey, and every project is another chance to
        SPLASH SCREEN
     ========================================================= */
 
-    // Content is visible immediately: no blocking preloader.
-    document.getElementById("splash").classList.add("hidden");
+    // Hide splash after all animations finish (roughly 1.6s) plus a short grace period
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("splash").classList.add("hidden");
+    }, 1600);
+});
 
     /* =========================================================
        SCROLL PROGRESS BAR
