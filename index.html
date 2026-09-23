@@ -2263,12 +2263,13 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
 /* ===========================================================
    PROMO BANNER (icon pack)
 =========================================================== */
-.promo-banner{ display:block; position:relative; width:100%; max-width:1280px; margin:36px auto; aspect-ratio:1280/440; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); border:1px solid rgba(217,163,90,0.25); transition:transform .35s ease, box-shadow .35s ease; }
-.promo-banner img{ display:block; width:100%; height:100%; object-fit:cover; }
-.promo-banner:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
-.promo-banner:hover img{ transform:scale(1.02); }
-.promo-banner img{ transition:transform .5s ease; }
-.promo-banner:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
+.promo-slider{ position:relative; width:100%; max-width:1280px; margin:36px auto; aspect-ratio:1280/440; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); border:1px solid rgba(217,163,90,0.25); }
+.promo-slide{ position:absolute; inset:0; display:block; opacity:0; pointer-events:none; transition:opacity .9s ease, transform .35s ease; }
+.promo-slide.active{ opacity:1; pointer-events:auto; position:relative; }
+.promo-slide img{ display:block; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.promo-slide:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.promo-slide:hover img{ transform:scale(1.02); }
+.promo-slide:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
 </style></head>
 <body>
 <!-- =========================================================
@@ -2437,10 +2438,39 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
      PROMO BANNER (icon pack)
 ========================================================= -->
 <div class="container">
-<a aria-label="پک آیکون پرمیوم علی گراف" class="promo-banner" href="https://www.picofile.com/f/2xgdutjxga/%D9%BE%DA%A9-%D8%A2%DB%8C%DA%A9%D9%86-%D9%BE%D8%B1%D9%88%D9%85%DB%8C%D9%88%D9%85-%D8%B9%D9%84%DB%8C-%DA%AF%D8%B1%D8%A7%D9%81.zip" rel="noopener" target="_blank">
-<img alt="پک آیکون پرمیوم علی گراف" decoding="async" loading="lazy" src="bbb1.webp"/>
-</a>
+<div class="promo-slider" id="promoSlider"></div>
 </div>
+<script>
+/* =========================================================
+   PROMO BANNERS — لیست بنرها
+   برای اضافه کردن بنر جدید فقط یه خط جدید به این آرایه اضافه کن:
+   { img: "bbb3.webp", link: "https://لینک-جدید", alt: "توضیح بنر" }
+   بنرها به‌ترتیب و هر ۱۰ ثانیه یکبار عوض می‌شن.
+========================================================= */
+const promoBanners = [
+  { img: "bbb1.webp", link: "https://www.picofile.com/f/2xgdutjxga/%D9%BE%DA%A9-%D8%A2%DB%8C%DA%A9%D9%86-%D9%BE%D8%B1%D9%88%D9%85%DB%8C%D9%88%D9%85-%D8%B9%D9%84%DB%8C-%DA%AF%D8%B1%D8%A7%D9%81.zip", alt: "پک آیکون پرمیوم علی گراف" },
+  { img: "bbb2.webp", link: "https://www.picofile.com/f/UUK84lnqNw/ایموجی-سه-بعدی-علی-گراف.zip", alt: "پک ایموجی سه بعدی" }
+];
+const PROMO_INTERVAL_MS = 10000;
+
+(function initPromoSlider(){
+  const wrap = document.getElementById("promoSlider");
+  if (!wrap || !promoBanners.length) return;
+  wrap.innerHTML = promoBanners.map((b, i) => `
+    <a class="promo-slide${i === 0 ? " active" : ""}" href="${b.link}" target="_blank" rel="noopener" aria-label="${b.alt || ""}">
+      <img src="${b.img}" alt="${b.alt || ""}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"/>
+    </a>
+  `).join("");
+  if (promoBanners.length < 2) return;
+  const slides = wrap.querySelectorAll(".promo-slide");
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+  }, PROMO_INTERVAL_MS);
+})();
+</script>
 <!-- =========================================================
      ABOUT
 ========================================================= -->
