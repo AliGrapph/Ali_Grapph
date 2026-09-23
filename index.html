@@ -2260,6 +2260,15 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
 }
 @media(max-width:360px){.hero h1{font-size:41px}.header-side>span{display:none}.hero-art{height:315px}.art-card-back{height:215px}.art-card-front{height:230px}.hero-bottom .hero-index{letter-spacing:0}.stat-number{font-size:32px}.stat-label{font-size:10px}.btn{padding-inline:13px}.pricing-grid{grid-template-columns:1fr}.pricing-card{border-inline-end:0;border-bottom:1px solid var(--line)}.pricing-card:last-child{border-bottom:0}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+/* ===========================================================
+   PROMO BANNER (icon pack)
+=========================================================== */
+.promo-banner{ display:block; position:relative; width:100%; max-width:1280px; margin:36px auto; aspect-ratio:1280/440; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); border:1px solid rgba(217,163,90,0.25); transition:transform .35s ease, box-shadow .35s ease; }
+.promo-banner img{ display:block; width:100%; height:100%; object-fit:cover; }
+.promo-banner:hover{ transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+.promo-banner:hover img{ transform:scale(1.02); }
+.promo-banner img{ transition:transform .5s ease; }
+.promo-banner:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
 </style></head>
 <body>
 <!-- =========================================================
@@ -2423,6 +2432,14 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
 <span>Cover</span><span>•</span>
 <span>Branding</span><span>•</span>
 </div>
+</div>
+<!-- =========================================================
+     PROMO BANNER (icon pack)
+========================================================= -->
+<div class="container">
+<a aria-label="پک آیکون پرمیوم علی گراف" class="promo-banner" href="https://www.picofile.com/f/2xgdutjxga/%D9%BE%DA%A9-%D8%A2%DB%8C%DA%A9%D9%86-%D9%BE%D8%B1%D9%88%D9%85%DB%8C%D9%88%D9%85-%D8%B9%D9%84%DB%8C-%DA%AF%D8%B1%D8%A7%D9%81.zip" rel="noopener" target="_blank">
+<img alt="پک آیکون پرمیوم علی گراف" decoding="async" loading="lazy" src="bbb1.jpg"/>
+</a>
 </div>
 <!-- =========================================================
      ABOUT
