@@ -2378,7 +2378,7 @@ body.splash-done .hero-word {
 
 /* گرادیانت تنها روی حروف؛ لایهٔ هر کلمه از همان پس‌زمینه پیروی می‌کند. */
 .hero h1 .hero-accent {
-    background-image: linear-gradient(90deg, #ee4035, #ff594b, #e0dacd, #ff594b, #ee4035);
+    background-image: linear-gradient(90deg, #ee4035, #ff594b, #ee4031, #ff594b, #ee4035);
     background-size: 260%;
     background-repeat: repeat;
     -webkit-background-clip: text;
@@ -4235,89 +4235,176 @@ window.addEventListener("load", () => {
     window.addEventListener("pageshow", () => {
         topNav.classList.toggle("scrolled", window.scrollY > 40);
     });
+/* =========================================================
+   PUBLIC LIKES (SUPABASE)
+========================================================= */
 
-    /* ذخیرهٔ محلی تعداد و وضعیت لایک؛ بدون وابستگی به سرویس خارجی. */
-    const likesStorageKey = "aliGraphLikes";
-    const likeButtons = Array.from(document.querySelectorAll(".like-btn"));
+/* این دو مقدار رو از داشبورد Supabase کپی کن:
+   Settings → API → Project URL و anon public */
+const SUPABASE_URL = "https://ejvdglsslufyhyzucyiu.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVqdmRnbHNzbHVmeWh5enVjeWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MzMwODksImV4cCI6MjEwNjUwOTA4OX0.fVxF9ZUGelUj7ILH9ECdOQ6X9qeo_CDmo_HeDGC5fzo";
 
-    function readStoredLikes() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(likesStorageKey) || "{}");
-            return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
-        } catch (_) {
-            return {};
+const likesStorageKey = "aliGraphLikes";
+const likeButtons = Array.from(document.querySelectorAll(".like-btn"));
+
+/* وضعیت «لایک من» فقط در همین مرورگر ذخیره می‌شود
+   تا یک نفر نتواند بی‌نهایت بار لایک بزند. */
+function readMyLikes() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(likesStorageKey) || "{}");
+        return saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {};
+    } catch (_) {
+        return {};
+    }
+}
+
+function writeMyLikes(data) {
+    try { localStorage.setItem(likesStorageKey, JSON.stringify(data)); } catch (_) {}
+}
+
+let myLikes = readMyLikes();
+const publicCounts = new Map();
+
+/* خواندن تعداد عمومی از Supabase */
+async function fetchPublicCount(workId) {
+    try {
+        const url = SUPABASE_URL + "/rest/v1/likes?work_id=eq." +
+            encodeURIComponent(workId) + "&select=count";
+        const res = await fetch(url, {
+            headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: "Bearer " + SUPABASE_ANON_KEY,
+                Accept: "application/json"
+            }
+        });
+        if (!res.ok) return 0;
+        const data = await res.json();
+        return Array.isArray(data) && data[0] ? Number(data[0].count) || 0 : 0;
+    } catch (_) {
+        return 0;
+    }
+}
+
+/* ارسال تغییر لایک به سرور (اتمی و امن) */
+async function pushLikeDelta(workId, delta) {
+    try {
+        const res = await fetch(SUPABASE_URL + "/rest/v1/rpc/increment_like", {
+            method: "POST",
+            headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: "Bearer " + SUPABASE_ANON_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ work_id_param: workId, delta: delta })
+        });
+        if (!res.ok) return null;
+        const value = await res.json();
+        return typeof value === "number" ? value : Number(value) || null;
+    } catch (_) {
+        return null;
+    }
+}
+
+function renderLikeButton(button) {
+    const workId = button.dataset.likeKey;
+    if (!workId) return;
+    const liked = Boolean(myLikes[workId]);
+    const count = publicCounts.get(workId) || 0;
+    const english = currentLanguage === "en";
+    const card = button.closest(".portfolio-card");
+    const title = english ? card.dataset.titleEn : card.dataset.titleFa;
+    const label = (english ? (liked ? "Unlike " : "Like ") : (liked ? "لغو پسندیدن " : "پسندیدن ")) + title;
+    button.classList.toggle("liked", liked);
+    button.setAttribute("aria-pressed", String(liked));
+    button.setAttribute("aria-label", label);
+    button.title = label;
+    button.querySelector(".like-count").textContent = english
+        ? String(count)
+        : toPersianDigits(count);
+}
+
+async function initLike(button, index) {
+    const card = button.closest(".portfolio-card");
+    const workId = card.dataset.image || String(index);
+    button.dataset.likeKey = workId;
+
+    renderLikeButton(button);
+
+    /* خواندن اولیه تعداد عمومی از سرور */
+    const count = await fetchPublicCount(workId);
+    publicCounts.set(workId, count);
+    renderLikeButton(button);
+
+    button.addEventListener("click", async event => {
+        event.stopPropagation();
+        const currentlyLiked = Boolean(myLikes[workId]);
+        const delta = currentlyLiked ? -1 : 1;
+
+        /* به‌روزرسانی فوری برای بازخورد سریع */
+        if (currentlyLiked) {
+            delete myLikes[workId];
+        } else {
+            myLikes[workId] = true;
         }
-    }
+        writeMyLikes(myLikes);
 
-    let portfolioLikes = readStoredLikes();
-
-    function getLikeState(button) {
-        const saved = portfolioLikes[button.dataset.likeKey];
-        const initialBase = Math.max(0, Number(button.dataset.likeBase) || 0);
-        const valid = saved && typeof saved === "object";
-        const liked = Boolean(valid && saved.liked === true);
-        const base = valid && Number.isSafeInteger(saved.base) && saved.base >= 0
-            && saved.base < Number.MAX_SAFE_INTEGER ? saved.base : initialBase;
-        return { base, liked, count: base + (liked ? 1 : 0) };
-    }
-
-    /* تعداد و برچسب دسترس‌پذیر مطابق زبان جاری نمایش داده می‌شوند. */
-    function renderLikeButton(button) {
-        const state = getLikeState(button);
-        const english = currentLanguage === "en";
-        const card = button.closest(".portfolio-card");
-        const title = english ? card.dataset.titleEn : card.dataset.titleFa;
-        const label = english ? "Like " + title : "پسندیدن " + title;
-        button.classList.toggle("liked", state.liked);
-        button.setAttribute("aria-pressed", String(state.liked));
-        button.setAttribute("aria-label", label);
-        button.title = english
-            ? (state.liked ? "Unlike " : "Like ") + title
-            : (state.liked ? "لغو پسندیدن " : "پسندیدن ") + title;
-        button.querySelector(".like-count").textContent = english
-            ? String(state.count) : toPersianDigits(state.count);
-    }
-
-    likeButtons.forEach((button, index) => {
-        const card = button.closest(".portfolio-card");
-        button.dataset.likeKey = card.dataset.image || String(index);
+        const optimistic = Math.max(0, (publicCounts.get(workId) || 0) + delta);
+        publicCounts.set(workId, optimistic);
         renderLikeButton(button);
 
-        /* کلیک، لمس و کلیدهای فعال‌سازی به کارت والد منتقل نمی‌شوند. */
-        button.addEventListener("click", event => {
-            event.stopPropagation();
-            const state = getLikeState(button);
-            state.liked = !state.liked;
-            state.count = state.base + (state.liked ? 1 : 0);
-            portfolioLikes[button.dataset.likeKey] = state;
-
-            try {
-                const merged = { ...readStoredLikes(), ...portfolioLikes };
-                localStorage.setItem(likesStorageKey, JSON.stringify(merged));
-                portfolioLikes = merged;
-            } catch (_) {
-                // در صورت محدودیت ذخیره‌سازی، وضعیت همین نشست حفظ می‌شود.
-            }
-
-            renderLikeButton(button);
+        if (!currentlyLiked && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             button.classList.remove("like-pop");
-            if (state.liked && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-                void button.offsetWidth;
-                button.classList.add("like-pop");
-            }
-        });
+            void button.offsetWidth;
+            button.classList.add("like-pop");
+        }
 
-        button.addEventListener("keydown", event => {
-            if (event.key === "Enter" || event.key === " ") event.stopPropagation();
-        });
-        button.addEventListener("keyup", event => {
-            if (event.key === "Enter" || event.key === " ") event.stopPropagation();
-        });
-        button.addEventListener("animationend", event => {
-            if (event.animationName === "likeRipple") button.classList.remove("like-pop");
-        });
+        /* ارسال به سرور و همگام‌سازی نهایی */
+        const serverCount = await pushLikeDelta(workId, delta);
+        if (serverCount !== null) {
+            publicCounts.set(workId, serverCount);
+            renderLikeButton(button);
+        }
     });
 
+    button.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") event.stopPropagation();
+    });
+    button.addEventListener("keyup", event => {
+        if (event.key === "Enter" || event.key === " ") event.stopPropagation();
+    });
+    button.addEventListener("animationend", event => {
+        if (event.animationName === "likeRipple") button.classList.remove("like-pop");
+    });
+}
+
+likeButtons.forEach(initLike);
+
+/* به‌روزرسانی متن‌ها هنگام تغییر زبان */
+new MutationObserver(() => {
+    likeButtons.forEach(renderLikeButton);
+}).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+
+/* همگام‌سازی بین تب‌های باز همان مرورگر */
+window.addEventListener("storage", event => {
+    if (event.key !== likesStorageKey) return;
+    myLikes = readMyLikes();
+    likeButtons.forEach(renderLikeButton);
+});
+
+/* وقتی کاربر به تب برمی‌گردد، تعدادها را دوباره می‌خوانیم
+   تا لایک‌های جدید دیگران را ببیند. */
+document.addEventListener("visibilitychange", async () => {
+    if (document.hidden) return;
+    for (const button of likeButtons) {
+        const workId = button.dataset.likeKey;
+        if (!workId) continue;
+        const count = await fetchPublicCount(workId);
+        if (count !== publicCounts.get(workId)) {
+            publicCounts.set(workId, count);
+            renderLikeButton(button);
+        }
+    }
+});
     /* تغییر زبان و همگام‌سازی لایک‌ها بین تب‌های همان سایت. */
     new MutationObserver(() => {
         likeButtons.forEach(renderLikeButton);
