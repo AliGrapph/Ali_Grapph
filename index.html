@@ -2275,6 +2275,11 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
 .promo-slide:hover img{ transform:scale(1.02); }
 .promo-slide:focus-visible{ outline:2px solid var(--gold-light); outline-offset:3px; }
 
+#promo { padding-top: 20px; padding-bottom: 70px; }
+#promo .section-heading { margin-bottom: 32px; }
+.promo-slider { margin: 0 auto; }
+.menu-links > *:nth-child(10) { transition-delay: 0.5s; }
+
 
 /* =====================================================
    LIQUID GLASS + ANIMATION PACK
@@ -2606,6 +2611,10 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 <i aria-hidden="true" class="fa-solid fa-share-nodes"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="5" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8 10 7-4M8 14l7 4"></path></svg></i>
 <span data-en="Social Media" data-fa="شبکه‌های اجتماعی">شبکه‌های اجتماعی</span>
 </a>
+<a class="menu-link" href="#promo">
+<i aria-hidden="true" class="fa-solid fa-download"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 2v14m-6-6 6 6 6-6M3 16v5h18v-5"></path></svg></i>
+<span data-en="Free Tools" data-fa="ابزارهای رایگان">ابزارهای رایگان</span>
+</a>
 <button id="menuAbout">
 <i aria-hidden="true" class="fa-solid fa-circle-info"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 11v7M12 7v.2"></path></svg></i>
 <span data-en="About Me" data-fa="درباره من">درباره من</span>
@@ -2704,43 +2713,6 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 <span>Branding</span><span>•</span>
 </div>
 </div>
-<!-- =========================================================
-     PROMO BANNER (icon pack)
-========================================================= -->
-<div class="container">
-<div class="promo-slider" id="promoSlider"></div>
-</div>
-<script>
-/* =========================================================
-   PROMO BANNERS — لیست بنرها
-   برای اضافه کردن بنر جدید فقط یه خط جدید به این آرایه اضافه کن:
-   { img: "bbb3.webp", link: "https://لینک-جدید", alt: "توضیح بنر" }
-   بنرها به‌ترتیب و هر ۱۰ ثانیه یکبار عوض می‌شن.
-========================================================= */
-const promoBanners = [
-  { img: "bbb1.webp", link: "https://www.picofile.com/f/2xgdutjxga/%D9%BE%DA%A9-%D8%A2%DB%8C%DA%A9%D9%86-%D9%BE%D8%B1%D9%88%D9%85%DB%8C%D9%88%D9%85-%D8%B9%D9%84%DB%8C-%DA%AF%D8%B1%D8%A7%D9%81.zip", alt: "پک آیکون پرمیوم علی گراف" },
-  { img: "bbb2.webp", link: "https://www.picofile.com/f/UUK84lnqNw/ایموجی-سه-بعدی-علی-گراف.zip", alt: "پک ایموجی سه بعدی" }
-];
-const PROMO_INTERVAL_MS = 10000;
-
-(function initPromoSlider(){
-  const wrap = document.getElementById("promoSlider");
-  if (!wrap || !promoBanners.length) return;
-  wrap.innerHTML = promoBanners.map((b, i) => `
-    <a class="promo-slide${i === 0 ? " active" : ""}" href="${b.link}" target="_blank" rel="noopener" aria-label="${b.alt || ""}">
-      <img src="${b.img}" alt="${b.alt || ""}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"/>
-    </a>
-  `).join("");
-  if (promoBanners.length < 2) return;
-  const slides = wrap.querySelectorAll(".promo-slide");
-  let current = 0;
-  setInterval(() => {
-    slides[current].classList.remove("active");
-    current = (current + 1) % slides.length;
-    slides[current].classList.add("active");
-  }, PROMO_INTERVAL_MS);
-})();
-</script>
 <!-- =========================================================
      ABOUT
 ========================================================= -->
@@ -3029,6 +3001,52 @@ To learn more, click on View Full Biography." data-fa="من امیرعلیم ؛ 
 </div>
 </div>
 </div>
+</section>
+<!-- =========================================================
+     FREE PACKS (PROMO BANNER)
+========================================================= -->
+<section class="section-tight" id="promo">
+<div class="container">
+<div class="section-heading reveal">
+<div class="section-label">FREE PACKS</div>
+<h2 data-en="Free Design Tools" data-fa="ابزارهای رایگان">ابزارهای رایگان</h2>
+<p data-en="Download free icon and emoji packs to use in your own designs." data-fa="از اینجا میتونی برای طراحیت ابزار دانلود کنی!">
+                از اینجا میتونی برای طراحیت ابزار دانلود کنی!
+            </p>
+<span aria-hidden="true" class="section-number">06 /</span></div>
+<div class="promo-slider" id="promoSlider"></div>
+</div>
+<script>
+/* =========================================================
+   PROMO BANNERS — لیست بنرها
+   برای اضافه کردن بنر جدید فقط یه خط جدید به این آرایه اضافه کن:
+   { img: "bbb3.webp", link: "https://لینک-جدید", alt: "توضیح بنر" }
+   بنرها به‌ترتیب و هر ۱۰ ثانیه یکبار عوض می‌شن.
+========================================================= */
+const promoBanners = [
+  { img: "bbb1.webp", link: "https://www.picofile.com/f/2xgdutjxga/%D9%BE%DA%A9-%D8%A2%DB%8C%DA%A9%D9%86-%D9%BE%D8%B1%D9%88%D9%85%DB%8C%D9%88%D9%85-%D8%B9%D9%84%DB%8C-%DA%AF%D8%B1%D8%A7%D9%81.zip", alt: "پک آیکون پرمیوم علی گراف" },
+  { img: "bbb2.webp", link: "https://www.picofile.com/f/UUK84lnqNw/ایموجی-سه-بعدی-علی-گراف.zip", alt: "پک ایموجی سه بعدی" }
+];
+const PROMO_INTERVAL_MS = 10000;
+
+(function initPromoSlider(){
+  const wrap = document.getElementById("promoSlider");
+  if (!wrap || !promoBanners.length) return;
+  wrap.innerHTML = promoBanners.map((b, i) => `
+    <a class="promo-slide${i === 0 ? " active" : ""}" href="${b.link}" target="_blank" rel="noopener" aria-label="${b.alt || ""}">
+      <img src="${b.img}" alt="${b.alt || ""}" decoding="async" loading="${i === 0 ? "eager" : "lazy"}"/>
+    </a>
+  `).join("");
+  if (promoBanners.length < 2) return;
+  const slides = wrap.querySelectorAll(".promo-slide");
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+  }, PROMO_INTERVAL_MS);
+})();
+</script>
 </section>
 <!-- =========================================================
      SMALL ACTIONS
