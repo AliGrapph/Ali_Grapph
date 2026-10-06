@@ -8,6 +8,19 @@
 <meta content="علی گراف | خلاقیت در قالب تصویر" name="description"/>
 <title>علی گراف | خلاقیت در قالب تصویر</title>
 <link href="logo.webp" rel="icon" type="image/png"/>
+<link href="logo.webp" rel="apple-touch-icon"/>
+<!-- PWA: فایل manifest.webmanifest در کنار index.html قرار دارد
+     (آیکون‌ها در زمان اجرا با canvas از logo.webp ساخته و به manifest تزریق می‌شوند). -->
+<link href="manifest.webmanifest" rel="manifest"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="#111110" name="apple-mobile-web-app-status-bar-style"/>
+<!-- =========================================================
+     Analytics (اختیاری) — Plausible
+     بعد از ساخت حساب، دامنه‌ات را جایگزین کن و این کامنت را باز کن.
+     بدون این اسکریپت هم هیچ‌چیز نمی‌شکند: تابع trackEvent() همه‌چیز را
+     در localStorage هم ذخیره می‌کند.
+<script defer data-domain="aligrapph.github.io" src="https://plausible.io/js/script.js"></script>
+========================================================= -->
 <!-- Font preload to avoid flash of unstyled text -->
 <link as="font" crossorigin="" href="fonts/Ali_Grapph_medium.woff2" rel="preload" type="font/woff2"/>
 <link as="font" crossorigin="" href="fonts/Ali_Grapph_bold.woff2" rel="preload" type="font/woff2"/>
@@ -2216,10 +2229,25 @@ i>svg{width:1em;height:1em;display:block;fill:none;stroke:currentColor;stroke-wi
 .fa-spin{animation:iconSpin 1s linear infinite}
 @keyframes iconSpin{to{transform:rotate(360deg)}}
 :focus-visible{outline:2px solid var(--red-light);outline-offset:5px;border-radius:4px}
-.image-error::before{content:'تصویر در دسترس نیست';display:grid;place-items:center;position:absolute;inset:0 0 56px;color:var(--muted);font-size:12px;background:#21211e;pointer-events:none}
-html[lang=en] .image-error::before{content:'Image unavailable'}
-.modal-image-wrap.image-error::before{inset:0;z-index:1}
 @media(min-width:1500px){.hero{padding-top:175px}.hero-art{height:520px}.art-card-back{height:365px}.art-card-front{height:385px}.hero-copy{padding-bottom:55px}}
+@media (max-width: 1300px) {
+    .floating-nav { min-width: 340px; gap: 16px; }
+    .floating-nav a { font-size: 11px; padding: 0 2px; }
+}
+
+@media (max-width: 1180px) {
+    .header-side > span { display: none; }
+    .header-side { gap: 10px; }
+    .brand-word small { display: none; }
+    .top-brand { font-size: 20px; }
+}
+
+@media (max-width: 1000px) {
+    .floating-nav { min-width: 300px; gap: 12px; }
+    .floating-nav a { font-size: 10.5px; }
+    .command-trigger { width: 40px; padding: 0; justify-content: center; }
+    .command-trigger .command-key { display: none; }
+}
 @media(max-width:1100px){
  .container{width:calc(100% - 64px)}.top-nav{padding-inline:32px}.header-side>span{display:none}.floating-nav{min-width:350px;gap:18px}
  .hero-content{gap:30px}.hero h1{font-size:61px}.hero-art{height:425px}.art-card-back{height:290px}.art-card-front{height:310px;top:70px}.design-sticker{width:83px;height:83px;font-size:14px}.art-label{letter-spacing:1px;font-size:8px}.profile-frame{bottom:0}
@@ -2228,7 +2256,7 @@ html[lang=en] .image-error::before{content:'Image unavailable'}
  .footer-grid{gap:35px}
 }
 @media(max-width:800px){
- .container{width:calc(100% - 40px)}.top-nav{height:74px;padding-inline:20px}.top-brand{font-size:21px}.brand-symbol{width:35px;height:35px}.brand-word small{font-size:7px}.header-side>span{display:inline;font-size:9px}
+ .container{width:calc(100% - 40px)}.top-nav{height:74px;padding-inline:20px}.top-brand{font-size:21px}.brand-symbol{width:35px;height:35px}.brand-word small{display:none}.header-side>span{display:none}
  .floating-nav{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));min-width:0;width:min(440px,calc(100% - 28px));display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px;background:#1b1b19f5;border:1px solid var(--line-2);border-radius:15px;backdrop-filter:blur(15px);box-shadow:0 10px 35px #0006}
  .floating-nav a{flex-direction:column;font-size:9px;min-height:49px;gap:5px;padding:6px 2px;border:0;border-radius:9px;line-height:1.4}
  .floating-nav a i{display:inline-flex;font-size:16px;color:inherit}.floating-nav a.active{background:#ee403519;color:var(--red-light)}.floating-nav a.active i{transform:none;text-shadow:none}.floating-nav a:hover{border:0;background:#ffffff09}
@@ -2374,7 +2402,7 @@ body.splash-done .hero-word {
 
 /* گرادیانت تنها روی حروف؛ لایهٔ هر کلمه از همان پس‌زمینه پیروی می‌کند. */
 .hero h1 .hero-accent {
-    background-image: linear-gradient(90deg, #ee4035, #ff594b, #a10505, #ff594b, #ee4035);
+    background-image: linear-gradient(90deg, #ee4035, #ff594b, #e70404, #ff594b, #ee4035);
     background-size: 260%;
     background-repeat: repeat;
     -webkit-background-clip: text;
@@ -2539,8 +2567,1100 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 .toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
 @media(max-width:800px){.toast{bottom:calc(92px + env(safe-area-inset-bottom))}}
 @media(prefers-reduced-motion:reduce){.toast,.toast.show{transition:none!important;transform:translateX(-50%)}}
+
+/* =========================================================
+   ALI GRAPH — MOTION & VISUAL ENHANCEMENT LAYER
+   Additive overrides only: existing layout and interactions stay intact.
+========================================================= */
+
+:root { --enhancement-ease: cubic-bezier(.22, .8, .32, 1); }
+
+/* Keep the ambient layers behind the original page content. */
+body { position: relative; isolation: isolate; }
+main, footer { position: relative; z-index: 1; }
+
+.aurora-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    isolation: isolate;
+}
+
+.aurora-blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    filter: blur(120px);
+    transform: translate3d(0, 0, 0);
+}
+
+.aurora-blob--red {
+    width: min(54vw, 720px);
+    height: min(54vw, 720px);
+    top: -22%;
+    right: -10%;
+    background: rgba(238, 64, 53, .15);
+    animation: auroraRedDrift 25s ease-in-out infinite alternate;
+}
+
+.aurora-blob--stone {
+    width: min(38vw, 540px);
+    height: min(38vw, 540px);
+    left: -13%;
+    top: 30%;
+    background: rgba(198, 192, 180, .10);
+    animation: auroraStoneDrift 28s ease-in-out infinite alternate;
+}
+
+.aurora-blob--violet {
+    width: min(46vw, 640px);
+    height: min(46vw, 640px);
+    right: 24%;
+    bottom: -34%;
+    background: rgba(107, 79, 245, .08);
+    animation: auroraVioletDrift 23s ease-in-out infinite alternate;
+}
+
+@keyframes auroraRedDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(.96); }
+    50%  { transform: translate3d(-3vw, 3vh, 0) scale(1.06); }
+    100% { transform: translate3d(2vw, 6vh, 0) scale(1); }
+}
+
+@keyframes auroraStoneDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    50%  { transform: translate3d(4vw, -3vh, 0) scale(1.08); }
+    100% { transform: translate3d(7vw, 2vh, 0) scale(.97); }
+}
+
+@keyframes auroraVioletDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(.98); }
+    50%  { transform: translate3d(-4vw, -3vh, 0) scale(1.08); }
+    100% { transform: translate3d(2vw, -6vh, 0) scale(1); }
+}
+
+/* Fine-grain motion is intentionally almost imperceptible. */
+.noise-overlay {
+    background-size: 200px 200px;
+    animation: noiseDrift .8s linear infinite;
+}
+
+@keyframes noiseDrift {
+    0%   { background-position: 0 0; }
+    25%  { background-position: -32px 18px; }
+    50%  { background-position: 21px -28px; }
+    75%  { background-position: -14px -19px; }
+    100% { background-position: 0 0; }
+}
+
+/* Cursor glow is a decorative, GPU-translated desktop-only layer. */
+.cursor-glow {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: clamp(280px, 36vw, 460px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle, rgba(238, 64, 53, .13) 0%, rgba(238, 64, 53, .055) 34%, transparent 72%);
+    filter: blur(14px);
+    mix-blend-mode: screen;
+    transition: opacity .3s ease;
+}
+
+.cursor-glow.is-visible { opacity: .46; }
+
+/* Scroll reveal only becomes active after JS confirms motion is allowed. */
+.visual-motion-enabled .section-heading:not(.is-heading-visible) h2 {
+    clip-path: inset(0 0 100% 0);
+}
+
+.visual-motion-enabled .section-heading.is-heading-visible h2 {
+    animation: sectionHeadingReveal .8s var(--enhancement-ease) both;
+}
+
+@keyframes sectionHeadingReveal {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0); }
+}
+
+.visual-motion-enabled .portfolio-card.scroll-image-pending img {
+    clip-path: inset(0 0 100% 0);
+}
+
+.visual-motion-enabled .portfolio-card.is-scroll-image-revealed img {
+    animation: portfolioImageReveal .8s var(--enhancement-ease) both;
+}
+
+@keyframes portfolioImageReveal {
+    from { clip-path: inset(0 0 100% 0); }
+    to   { clip-path: inset(0); }
+}
+
+/* Stronger glass on the existing drawer and image viewer. */
+.menu-panel {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, .04), transparent 58%),
+        radial-gradient(circle at 100% 0%, rgba(238, 64, 53, .12), transparent 50%),
+        rgba(23, 23, 21, .88);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 24px 60px rgba(0, 0, 0, .32);
+}
+
+.modal-box {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, .04), transparent 58%),
+        rgba(23, 23, 21, .88);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 30px 80px rgba(0, 0, 0, .48);
+}
+
+/* Parallax values are updated in rAF; preserve the original card rotations. */
+.art-card-back {
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(-10deg);
+}
+
+.art-card-front {
+    transform: translate3d(0, var(--parallax-y, 0px), 0) rotate(9deg);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cursor-glow { display: block; }
+
+    /* The spotlight sits above artwork, below the card caption. */
+    .portfolio-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        border-radius: inherit;
+        pointer-events: none;
+        opacity: 0;
+        background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .06), transparent 78%);
+        transition: opacity .28s ease;
+    }
+
+    .portfolio-card:hover::before { opacity: 1; }
+
+    /* Preserve the original hover lift and active press while tilting. */
+    .portfolio-card.tilt-enabled {
+        transform: perspective(900px)
+            rotateX(var(--tilt-x, 0deg))
+            rotateY(var(--tilt-y, 0deg))
+            translateY(var(--tilt-lift, 0px));
+        transform-style: preserve-3d;
+        transition: transform .45s var(--enhancement-ease);
+    }
+
+    .portfolio-card.tilt-enabled:hover { --tilt-lift: -5px; }
+    .portfolio-card.tilt-enabled.is-tilting { transition-duration: .12s; }
+    .portfolio-card.tilt-enabled.tilt-return { transition-duration: .55s; }
+
+    .portfolio-card.tilt-enabled:active {
+        transform: perspective(900px)
+            rotateX(var(--tilt-x, 0deg))
+            rotateY(var(--tilt-y, 0deg))
+            translateY(var(--tilt-lift, 0px)) scale(.98);
+    }
+
+    /* Magnetic movement composes with each control's original hover/press state. */
+    .magnetic-enabled { transition-duration: .16s; }
+
+    .btn.magnetic-enabled {
+        transform: translate3d(var(--magnetic-x, 0px), var(--magnetic-y, 0px), 0);
+    }
+
+    .btn.magnetic-enabled:hover {
+        transform: translate3d(var(--magnetic-x, 0px), calc(var(--magnetic-y, 0px) - 2px), 0);
+    }
+
+    .btn.magnetic-enabled:active {
+        transform: translate3d(var(--magnetic-x, 0px), calc(var(--magnetic-y, 0px) - 1px), 0) scale(.96);
+    }
+
+    .menu-button.magnetic-enabled,
+    .quick-contact-toggle.magnetic-enabled {
+        transform: translate3d(var(--magnetic-x, 0px), var(--magnetic-y, 0px), 0);
+    }
+
+    .menu-button.magnetic-enabled:active { transform: translate3d(var(--magnetic-x, 0px), var(--magnetic-y, 0px), 0) scale(.9); }
+    .quick-contact-toggle.magnetic-enabled:active { transform: translate3d(var(--magnetic-x, 0px), var(--magnetic-y, 0px), 0) scale(.92); }
+}
+
+@media (max-width: 640px) {
+    .aurora-blob--red { width: 78vw; height: 78vw; }
+    .aurora-blob--stone { width: 62vw; height: 62vw; }
+    .aurora-blob--violet { width: 68vw; height: 68vw; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .aurora-blob { animation: none !important; transform: none !important; }
+    .noise-overlay { animation: none !important; background-position: 0 0 !important; }
+    .cursor-glow { display: none !important; }
+    .portfolio-card::before { display: none !important; }
+    .visual-motion-enabled .section-heading h2,
+    .visual-motion-enabled .portfolio-card img {
+        clip-path: none !important;
+        animation: none !important;
+    }
+}
+
+
+/* =========================================================
+   PART 3 — UI / UX / ACCESSIBILITY LAYER
+   Additive only: nothing from the original design is changed.
+========================================================= */
+
+/* ---------------------------------------------------------
+   Screen-reader-only utility
+--------------------------------------------------------- */
+.sr-only {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------------------------------------------------------
+   Skip to content
+--------------------------------------------------------- */
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, -180%);
+    z-index: 6000;
+    padding: 12px 24px;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 16px 44px rgba(0, 0, 0, .6);
+    opacity: 0;
+    transition: transform .25s var(--ease), opacity .25s ease;
+}
+
+.skip-link:focus-visible {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+    border-radius: 999px;
+}
+
+/* ---------------------------------------------------------
+   Focus ring — clearly visible everywhere
+--------------------------------------------------------- */
+:where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid var(--red-light) !important;
+    outline-offset: 4px !important;
+    border-radius: 8px;
+}
+
+.command-item[aria-selected="true"] { outline-offset: 2px !important; }
+
+/* ---------------------------------------------------------
+   prefers-contrast: more  —  push muted text to >= 4.5:1
+--------------------------------------------------------- */
+@media (prefers-contrast: more) {
+    :root {
+        --text:        #ffffff;
+        --text-soft:   #f2f2f7;
+        --muted:       #d2d2dd;
+        --muted-2:     #b9b9c6;
+        --line:        rgba(255, 255, 255, 0.24);
+        --line-2:      rgba(255, 255, 255, 0.38);
+        --glass:       rgba(8, 8, 12, 0.95);
+        --glass-2:     rgba(4, 4, 7, 0.98);
+        --red-light:   #ff5d64;
+        --gold-light:  #ffd9a3;
+    }
+
+    .portfolio-caption,
+    .modal-box,
+    .menu-panel,
+    .internal-content,
+    .command-panel,
+    .shortcuts-box {
+        background: #050507 !important;
+        border-color: rgba(255, 255, 255, 0.32) !important;
+    }
+
+    .section-heading p,
+    .pricing-list,
+    .footer-text,
+    .copyright,
+    .command-item-hint,
+    .command-footer,
+    .media-error-text {
+        color: var(--muted) !important;
+    }
+
+    .toast {
+        background: #050507 !important;
+        border-width: 2px !important;
+        color: #fff !important;
+    }
+}
+
+/* ---------------------------------------------------------
+   Command trigger (header)
+--------------------------------------------------------- */
+.command-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(244, 241, 233, .04);
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.command-trigger:hover {
+    border-color: var(--line-red-2);
+    color: var(--text);
+    background: rgba(238, 64, 53, .12);
+}
+
+.command-trigger i { display: inline-flex; font-size: 14px; color: var(--red-light); }
+
+.command-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    padding: 3px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--line-2);
+    background: rgba(244, 241, 233, .05);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: .3px;
+}
+
+@media (max-width: 800px) {
+    .command-trigger { width: 40px; padding: 0; justify-content: center; }
+    .command-trigger .command-key { display: none; }
+}
+
+/* ---------------------------------------------------------
+   Command palette
+--------------------------------------------------------- */
+.command-palette {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    display: grid;
+    place-items: start center;
+    padding: 9vh 16px 16px;
+    background: rgba(4, 4, 7, .74);
+    backdrop-filter: blur(22px) saturate(1.25);
+    -webkit-backdrop-filter: blur(22px) saturate(1.25);
+    opacity: 0;
+    visibility: hidden;
+    /* visibility در باز شدن بی‌درنگ اعمال می‌شود تا input همان لحظه focusable باشد،
+       و در بسته شدن تا پایان محو شدن صبر می‌کند. */
+    transition: opacity .22s ease, visibility 0s linear .22s;
+}
+
+.command-palette.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .22s ease, visibility 0s linear 0s;
+}
+
+.command-panel {
+    width: min(640px, 100%);
+    max-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line-red);
+    background: linear-gradient(180deg, #1e1e1b, #141413);
+    box-shadow: 0 40px 90px rgba(0, 0, 0, .55), 0 1px 0 rgba(255, 255, 255, .05) inset;
+    transform: translateY(-14px) scale(.985);
+    opacity: 0;
+    transition: transform .25s var(--ease), opacity .25s ease;
+}
+
+.command-palette.active .command-panel { transform: none; opacity: 1; }
+
+.command-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.command-head > i { display: inline-flex; font-size: 15px; color: var(--red-light); }
+
+.command-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13.5px;
+}
+
+.command-input::placeholder { color: var(--muted-2); }
+
+.command-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+}
+
+.command-empty {
+    padding: 34px 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 2;
+}
+
+.command-group {
+    padding: 12px 12px 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--muted-2);
+}
+
+.command-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: var(--r-sm);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 12.5px;
+    text-align: start;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.command-item[aria-selected="true"] {
+    background: rgba(238, 64, 53, .14);
+    border-color: var(--line-red);
+    color: var(--text);
+}
+
+.command-item > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 30px;
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    border: 1px solid var(--line);
+    background: rgba(244, 241, 233, .05);
+    color: var(--red-light);
+    font-size: 13px;
+}
+
+.command-thumb {
+    flex: 0 0 30px;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--line);
+}
+
+.command-item-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.command-item-hint {
+    flex: 0 0 auto;
+    font-size: 9.5px;
+    letter-spacing: .3px;
+    color: var(--muted-2);
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.command-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--line);
+    color: var(--muted-2);
+    font-size: 9.5px;
+}
+
+.command-footer > span { display: inline-flex; align-items: center; gap: 5px; }
+
+@media (max-width: 640px) {
+    .command-palette { padding: 5vh 12px 12px; }
+    .command-panel { max-height: 86vh; }
+}
+
+/* ---------------------------------------------------------
+   Section indicator
+--------------------------------------------------------- */
+.section-indicator {
+    position: fixed;
+    right: 24px;
+    bottom: 88px;
+    z-index: 960;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(23, 23, 21, .86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .38);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .35s ease, transform .35s ease;
+}
+
+.section-indicator.visible { opacity: 1; transform: none; }
+
+.section-indicator .si-name {
+    color: var(--text-soft);
+    transition: opacity .18s ease;
+}
+
+.section-indicator .si-name.is-fading { opacity: 0; }
+
+.section-indicator .si-count {
+    color: var(--red-light);
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+}
+
+.section-indicator .si-bar {
+    width: 34px; height: 2px;
+    border-radius: 2px;
+    background: var(--line-2);
+    overflow: hidden;
+}
+
+.section-indicator .si-bar > span {
+    display: block;
+    height: 100%;
+    width: 14%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--red-dark), var(--red-light));
+    transition: width .35s var(--ease);
+}
+
+body.no-scroll .section-indicator { opacity: 0; transform: translateY(10px); }
+@media (max-width: 1100px) { .section-indicator { bottom: 96px; } }
+@media (max-width: 800px)  { .section-indicator { display: none; } }
+
+/* ---------------------------------------------------------
+   Modal breadcrumb
+--------------------------------------------------------- */
+.modal-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 2px 4px 12px;
+    font-size: 10.5px;
+    color: var(--muted);
+}
+
+.modal-crumb {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.modal-crumb:hover { color: var(--red-light); text-decoration: underline; }
+
+.modal-crumb-sep { color: var(--muted-2); }
+
+.modal-crumb-current {
+    color: var(--text-soft);
+    font-weight: 700;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .modal-breadcrumb { padding-bottom: 10px; }
+    .modal-crumb,
+    .modal-crumb-sep { display: none; }
+    .modal-crumb-current { max-width: 100%; }
+}
+
+/* ---------------------------------------------------------
+   Shortcuts help
+--------------------------------------------------------- */
+.shortcuts-help {
+    position: fixed;
+    inset: 0;
+    z-index: 2600;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(4, 4, 7, .8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s var(--ease), visibility 0s linear .35s;
+}
+
+.shortcuts-help.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .35s var(--ease), visibility 0s linear 0s;
+}
+
+.shortcuts-box {
+    width: min(430px, 100%);
+    max-height: 84vh;
+    overflow-y: auto;
+    padding: 18px;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line-2);
+    background: rgba(23, 23, 21, .97);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .48), 0 1px 0 rgba(255, 255, 255, .08) inset;
+    transform: scale(.96) translateY(12px);
+    transition: transform .3s var(--ease);
+}
+
+.shortcuts-help.active .shortcuts-box { transform: none; }
+
+.shortcuts-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.shortcuts-head h3 { font-size: 15px; }
+
+.shortcuts-list { list-style: none; display: grid; gap: 8px; }
+
+.shortcuts-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 8px 10px;
+    border-radius: var(--r-xs);
+    border: 1px solid var(--line);
+    background: rgba(244, 241, 233, .03);
+    font-size: 11.5px;
+    color: var(--text-soft);
+}
+
+.shortcuts-list .shortcut-keys { display: inline-flex; gap: 4px; flex: 0 0 auto; }
+
+/* ---------------------------------------------------------
+   Better image error state
+--------------------------------------------------------- */
+.media-error {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 10px;
+    padding: 18px;
+    text-align: center;
+    border-radius: var(--r-md);
+    border: 1px dashed var(--line-2);
+    background:
+        radial-gradient(circle at 50% 38%, rgba(238, 64, 53, .09), transparent 62%),
+        #1c1c1a;
+}
+
+.media-error-icon {
+    display: grid;
+    place-items: center;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--line-2);
+    background: rgba(244, 241, 233, .04);
+    color: var(--red-light);
+}
+
+.media-error-icon svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+.media-error-text {
+    margin: 0;
+    max-width: 26ch;
+    font-size: 11px;
+    line-height: 2;
+    color: var(--muted);
+}
+
+.media-error-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--line-red);
+    background: rgba(238, 64, 53, .12);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.media-error-retry:hover {
+    background: rgba(238, 64, 53, .22);
+    border-color: var(--line-red-2);
+    color: #fff;
+}
+
+.media-error-retry svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.portfolio-card.image-error img,
+.modal-image-wrap.image-error .modal-image { opacity: 0 !important; }
+
+.portfolio-card.image-error { animation: none; }
+
+.modal-image-wrap.image-error { min-height: 240px; }
+
+.modal-image-wrap .media-error { border-radius: var(--r-md); }
+
+/* ---------------------------------------------------------
+   Toast queue (icons + semantic colours)
+--------------------------------------------------------- */
+.toast {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-align: start;
+    line-height: 1.7;
+}
+
+.toast-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 20px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.toast-text { font-size: 12px; }
+
+.toast.success { border-color: rgba(64, 208, 132, .55); }
+.toast.success .toast-icon { background: rgba(64, 208, 132, .18); color: #5ce69b; }
+
+.toast.error { border-color: rgba(255, 86, 86, .60); }
+.toast.error .toast-icon { background: rgba(255, 86, 86, .16); color: #ff8080; }
+
+.toast.info { border-color: rgba(120, 175, 255, .45); }
+.toast.info .toast-icon { background: rgba(120, 175, 255, .14); color: #93c0ff; }
+
+
+/* =========================================================
+   PART 4 — NEW FEATURES LAYER
+   Installable PWA UI · viewed badges · read time ·
+   contact form
+========================================================= */
+
+/* ---------------------------------------------------------
+   PWA install banner
+--------------------------------------------------------- */
+.pwa-install {
+    position: fixed;
+    top: 104px;
+    left: 50%;
+    transform: translate(-50%, -16px);
+    z-index: 1400;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    max-width: calc(100% - 32px);
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line-red);
+    background: rgba(23, 23, 21, .95);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, .55);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s var(--ease), transform .3s var(--ease), visibility .3s;
+}
+
+.pwa-install.show { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
+.pwa-install > i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line-red);
+    background: rgba(238, 64, 53, .12);
+    color: var(--red-light);
+    font-size: 15px;
+}
+
+.pwa-install-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pwa-install-text b { font-size: 12px; color: var(--text); }
+.pwa-install-text small { font-size: 9.5px; color: var(--muted); }
+
+.pwa-install-action { padding: 9px 17px; min-height: 38px; font-size: 11px; border-radius: 999px; white-space: nowrap; }
+
+.pwa-install-close {
+    display: grid;
+    place-items: center;
+    width: 30px; height: 30px;
+    flex: 0 0 30px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pwa-install-close:hover { border-color: var(--line-red-2); color: var(--red-light); }
+
+@media (max-width: 800px) {
+    .pwa-install { top: 86px; gap: 9px; padding: 8px 10px; border-radius: 22px; }
+    .pwa-install-text small { display: none; }
+}
+
+/* ---------------------------------------------------------
+   "Viewed" badge on portfolio cards
+--------------------------------------------------------- */
+.viewed-badge {
+    position: absolute;
+    top: 10px;
+    inset-inline-start: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 10, 9, .8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    pointer-events: none;
+}
+
+.viewed-badge i { display: inline-flex; font-size: 11px; }
+
+@media (max-width: 640px) {
+    .viewed-badge { padding: 5px; border-radius: 50%; }
+    .viewed-badge .viewed-badge-text { display: none; }
+}
+
+/* ---------------------------------------------------------
+   Reading time (biography)
+--------------------------------------------------------- */
+.read-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(244, 241, 233, .04);
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.read-time i { display: inline-flex; color: var(--red-light); font-size: 13px; }
+.read-time-value { color: var(--text-soft); font-weight: 700; direction: ltr; unicode-bidi: isolate; }
+
+/* ---------------------------------------------------------
+   Contact form
+--------------------------------------------------------- */
+.contact-form {
+    display: grid;
+    gap: 18px;
+    width: min(760px, 100%);
+    margin-inline: auto;
+    padding: 28px;
+    border-radius: var(--r-lg);
+    transition: opacity .25s ease;
+}
+
+.contact-form.is-busy { opacity: .72; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+.field { display: grid; gap: 7px; min-width: 0; }
+
+.field label { font-size: 11px; font-weight: 700; color: var(--text-soft); }
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--line-2);
+    background: rgba(244, 241, 233, .03);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12.5px;
+    line-height: 1.9;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.field select { cursor: pointer; min-height: 46px; }
+.field select option { background: #171715; color: var(--text); }
+.field textarea { resize: vertical; min-height: 132px; }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--muted-2); }
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    outline: none;
+    border-color: var(--red);
+    background: rgba(244, 241, 233, .06);
+}
+
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+    border-color: #ff6f6f;
+    background: rgba(255, 86, 86, .07);
+}
+
+.field-error {
+    margin: 0;
+    min-height: 0;
+    font-size: 10.5px;
+    line-height: 1.9;
+    color: #ff9090;
+}
+
+.field-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.char-count { font-size: 9.5px; color: var(--muted-2); direction: ltr; unicode-bidi: isolate; }
+
+.contact-submit { justify-self: start; min-width: 190px; justify-content: center; }
+
+.form-note { margin: 0; font-size: 10px; line-height: 2; color: var(--muted); }
+
+@media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form { padding: 20px; }
+    .contact-submit { width: 100%; }
+}
+
+/* ---------------------------------------------------------
+   Footer notifications button
+--------------------------------------------------------- */
+.footer-notify { margin-top: 22px; }
+
+.enable-notifications {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(244, 241, 233, .04);
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.enable-notifications:hover {
+    border-color: var(--line-red-2);
+    color: var(--text);
+    background: rgba(238, 64, 53, .1);
+}
+
+.enable-notifications i { display: inline-flex; color: var(--red-light); font-size: 13px; }
+.enable-notifications[hidden] { display: none; }
+
 </style></head>
 <body>
+<!-- Skip link — اولین عنصر قابل فوکوس صفحه. -->
+<a class="skip-link" data-en="Skip to content" data-fa="پرش به محتوا" href="#home">پرش به محتوا</a>
+
+<!-- Decorative ambience, deliberately placed below page content. -->
+<div aria-hidden="true" class="aurora-layer">
+    <span class="aurora-blob aurora-blob--red"></span>
+    <span class="aurora-blob aurora-blob--stone"></span>
+    <span class="aurora-blob aurora-blob--violet"></span>
+</div>
+<div aria-hidden="true" class="cursor-glow" id="cursorGlow"></div>
 <!-- =========================================================
      SPLASH SCREEN
 ========================================================= -->
@@ -2556,6 +3676,15 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 </div>
 <div aria-hidden="true" class="noise-overlay"></div>
 <div class="scroll-progress" id="scrollProgress"></div>
+<!-- =========================================================
+     SECTION INDICATOR
+========================================================= -->
+<div aria-hidden="true" class="section-indicator" id="sectionIndicator">
+<span class="si-name" id="sectionIndicatorName">خانه</span>
+<span aria-hidden="true" style="color:var(--muted-2)">—</span>
+<span class="si-count" id="sectionIndicatorCount">۰۱ / ۰۹</span>
+<span class="si-bar"><span id="sectionIndicatorBar"></span></span>
+</div>
 <div aria-hidden="true" class="custom-cursor" id="customCursor">
 <i aria-hidden="true" class="fa-solid fa-expand"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"></path></svg></i>
 <span data-en="View" data-fa="مشاهده">مشاهده</span>
@@ -2565,7 +3694,10 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 ========================================================= -->
 <header class="top-nav" id="topNav">
 <a class="top-brand" href="#home"><span aria-hidden="true" class="brand-symbol"><img alt="لوگوی علی گراف" src="logo.webp"/></span><span class="brand-word"><span data-en="Ali Graph" data-fa="علی گراف">علی گراف</span><small>GRAPHIC DESIGN STUDIO</small></span></a>
-<div class="header-side"><span data-en="Ideas into visuals" data-fa="از ایده تا تصویر">از ایده تا تصویر</span><button aria-controls="menuOverlay" aria-expanded="false" aria-label="باز کردن منو" class="menu-button" id="openMenu">
+<div class="header-side"><span data-en="Ideas into visuals" data-fa="از ایده تا تصویر">از ایده تا تصویر</span><button class="command-trigger" data-uilabel-en="Search and commands (Ctrl+K)" data-uilabel-fa="جستجو و فرمان‌ها (Ctrl+K)" data-uititle-en="Search and commands" data-uititle-fa="جستجو و فرمان‌ها" id="commandTrigger" type="button">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg></i>
+<kbd aria-hidden="true" class="command-key" id="commandTriggerKey">Ctrl K</kbd>
+</button><button aria-controls="menuOverlay" aria-expanded="false" aria-label="باز کردن منو" class="menu-button" id="openMenu">
 <i aria-hidden="true" class="fa-solid fa-bars"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></i>
 </button></div>
 </header>
@@ -2628,7 +3760,7 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 <!-- =========================================================
      MAIN
 ========================================================= -->
-<main id="home">
+<main id="home" tabindex="-1">
 <!-- =========================================================
      HERO
 ========================================================= -->
@@ -2819,7 +3951,8 @@ body:has(.like-btn:hover) .custom-cursor { opacity: 0; }
 </button>
 </div>
 </div>
-</section><section class="section" id="about">
+ </section>
+<section class="section" id="about">
 <div class="container">
 <div class="section-heading reveal">
 <div class="section-label">ABOUT</div>
@@ -2998,6 +4131,59 @@ To learn more, click on View Full Biography." data-fa="من امیرعلیم ؛ 
 </div>
 </section>
 <!-- =========================================================
+     CONTACT FORM
+========================================================= -->
+<section class="section" id="contact">
+<div class="container">
+<div class="section-heading reveal">
+<div class="section-label">CONTACT</div>
+<h2 data-en="Send a Message" data-fa="ارسال پیام">ارسال پیام</h2>
+<p data-en="Tell me what you need and I will reply as soon as possible." data-fa="فرم رو پرکنید تا خودم پیامتون بدم">
+               فرم رو پرکنید تا خودم پیامتون بدم
+            </p>
+<span aria-hidden="true" class="section-number">06 /</span></div>
+<form class="contact-form glass reveal" id="contactForm" novalidate="">
+<div class="form-row">
+<div class="field">
+<label data-en="Full name" data-fa="نام شما" for="contactName">نام شما</label>
+<input aria-describedby="contactNameError" autocomplete="name" data-uiplaceholder-en="e.g. Amirali" data-uiplaceholder-fa="مثلاً علی" id="contactName" name="name" placeholder="مثلاً علی" required="" type="text"/>
+<p class="field-error" hidden="" id="contactNameError"></p>
+</div>
+<div class="field">
+<label data-en="Email or messenger ID" data-fa="ایمیل یا آیدی پیام‌رسان(اسم پیامرسان قید بشه)" for="contactContact">ایمیل یا آیدی پیام‌رسان(اسم پیامرسان قید بشه)</label>
+<input aria-describedby="contactContactError" autocomplete="email" data-uiplaceholder-en="name@example.com or @username" data-uiplaceholder-fa="name@example.com یا @username" dir="auto" id="contactContact" name="contact" placeholder="name@example.com یا @username" required="" type="text"/>
+<p class="field-error" hidden="" id="contactContactError"></p>
+</div>
+</div>
+<div class="field">
+<label data-en="Project type" data-fa="نوع پروژه" for="contactType">نوع پروژه</label>
+<select id="contactType" name="projectType">
+<option data-en="Logo design" data-fa="طراحی لوگو" value="logo">طراحی لوگو</option>
+<option data-en="Poster" data-fa="پوستر" value="poster">پوستر</option>
+<option data-en="Banner" data-fa="بنر" value="banner">بنر</option>
+<option data-en="Cover" data-fa="کاور" value="cover">کاور</option>
+<option data-en="Something else" data-fa="متفرقه" value="other">متفرقه</option>
+</select>
+</div>
+<div class="field">
+<label data-en="Project details" data-fa="توضیحات پروژه" for="contactMessage">توضیحات پروژه</label>
+<textarea data-uiplaceholder-en="Tell me about your project, deadline and style preferences…" data-uiplaceholder-fa="درباره‌ی پروژه، زمان‌بندی و سبک مورد نظرت بنویس…" id="contactMessage" maxlength="1000" name="message" placeholder="درباره‌ی پروژه، زمان‌بندی و سبک مورد نظرت بنویس…" required=""></textarea>
+<div class="field-meta">
+<p class="field-error" hidden="" id="contactMessageError"></p>
+<span class="char-count" id="contactCharCount">۰ / ۱۰۰۰</span>
+</div>
+</div>
+<button class="btn btn-primary contact-submit" id="contactSubmit" type="submit">
+<i aria-hidden="true" class="fa-solid fa-paper-plane"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M21 3 3 10.5l6 2.5 2.5 6L21 3Z"></path><path d="m9 13 12-10"></path></svg></i>
+<span data-en="Send message" data-fa="ارسال پیام">ارسال پیام</span>
+</button>
+<p class="form-note" data-en="You can also message me directly on Telegram or Eitaa for a faster reply." data-fa="برای پاسخ سریع‌تر می‌تونی مستقیماً در تلگرام یا ایتا پیام بدی.">
+                برای پاسخ سریع‌تر می‌تونی مستقیماً در تلگرام یا ایتا پیام بدی.
+            </p>
+</form>
+</div>
+</section>
+<!-- =========================================================
      FREE PACKS (PROMO BANNER)
 ========================================================= -->
 <section class="section-tight" id="promo">
@@ -3008,7 +4194,7 @@ To learn more, click on View Full Biography." data-fa="من امیرعلیم ؛ 
 <p data-en="Download free icon and emoji packs to use in your own designs." data-fa="از اینجا میتونی برای طراحیت ابزار دانلود کنی!">
                 از اینجا میتونی برای طراحیت ابزار دانلود کنی!
             </p>
-<span aria-hidden="true" class="section-number">06 /</span></div>
+<span aria-hidden="true" class="section-number">07 /</span></div>
 <div class="promo-slider" id="promoSlider"></div>
 </div>
 <script>
@@ -3106,6 +4292,12 @@ const PROMO_INTERVAL_MS = 10000;
 </div>
 </div>
 </div>
+<div class="footer-notify">
+<button class="enable-notifications" data-uilabel-en="Enable notifications" data-uilabel-fa="فعال‌سازی اعلان‌ها" hidden="" id="enableNotifications" type="button">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"></path><path d="M10.5 20a2 2 0 0 0 3 0"></path></svg></i>
+<span data-en="Enable notifications" data-fa="فعال‌سازی اعلان‌ها">فعال‌سازی اعلان‌ها</span>
+</button>
+</div>
 <div class="copyright">
             © 2026 Ali Graph —
             <span data-en="All rights reserved." data-fa="تمامی حقوق محفوظ است.">تمامی حقوق محفوظ است.</span>
@@ -3161,6 +4353,11 @@ const PROMO_INTERVAL_MS = 10000;
 ========================================================= -->
 <div aria-labelledby="modalTitle" aria-modal="true" class="modal" id="portfolioModal" role="dialog">
 <div class="modal-box">
+<nav aria-label="breadcrumb" class="modal-breadcrumb">
+<button class="modal-crumb" id="modalCrumbPortfolio" type="button"><span data-en="Portfolio" data-fa="نمونه‌کارها">نمونه‌کارها</span></button>
+<span aria-hidden="true" class="modal-crumb-sep">/</span>
+<span aria-current="page" class="modal-crumb-current" id="modalCrumbCurrent">—</span>
+</nav>
 <div class="modal-header">
 <h3 id="modalTitle">نمونه‌کار</h3>
 <button aria-label="بستن" class="modal-close" id="closePortfolio"><i aria-hidden="true" class="fa-solid fa-xmark"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></svg></i></button>
@@ -3178,6 +4375,10 @@ const PROMO_INTERVAL_MS = 10000;
 <button class="btn" id="shareButton">
 <i aria-hidden="true" class="fa-solid fa-share-nodes"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="5" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8 10 7-4M8 14l7 4"></path></svg></i>
 <span data-en="Share" data-fa="اشتراک‌گذاری">اشتراک‌گذاری</span>
+</button>
+<button class="btn copy-link-btn" id="copyLinkButton" type="button">
+<i aria-hidden="true" class="fa-solid fa-link"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5M8 12l-2 2a3.5 3.5 0 0 0 5 5l2-2M16 12l2-2a3.5 3.5 0 0 0-5-5l-2 2"></path></svg></i>
+<span data-en="Copy link" data-fa="کپی لینک">کپی لینک</span>
 </button>
 </div>
 </div>
@@ -3391,6 +4592,11 @@ const PROMO_INTERVAL_MS = 10000;
 <button aria-label="بازگشت" class="back-button" id="aboutBack"><i aria-hidden="true" class="fa-solid fa-arrow-right"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></i></button>
 <h2 data-en="About Me" data-fa="درباره من" id="aboutPageTitle">درباره من</h2>
 </div>
+<div class="read-time">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg></i>
+<span data-en="Reading time" data-fa="زمان مطالعه">زمان مطالعه</span>
+<span class="read-time-value" id="aboutReadTime">~۱ دقیقه</span>
+</div>
 <p class="about-long" data-en="Who am I?
 
 I'm Amirali, the graphic designer behind Ali Grapph.
@@ -3482,6 +4688,60 @@ I'm still at the beginning of my journey, and every project is another chance to
 </details>
 </div>
 </div>
+</div>
+
+<!-- =========================================================
+     COMMAND PALETTE (Ctrl / Cmd + K)
+========================================================= -->
+<div aria-labelledby="commandPaletteTitle" aria-modal="true" class="command-palette" id="commandPalette" role="dialog">
+<div class="command-panel">
+<h2 class="sr-only" data-en="Command palette" data-fa="جستجو و فرمان‌ها" id="commandPaletteTitle">جستجو و فرمان‌ها</h2>
+<div class="command-head">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.6-3.6"></path></svg></i>
+<input aria-autocomplete="list" aria-controls="commandList" aria-expanded="true" autocomplete="off" class="command-input" data-uiplaceholder-en="Search sections, works and commands…" data-uiplaceholder-fa="جستجو در بخش‌ها، نمونه‌کارها و فرمان‌ها…" id="commandInput" placeholder="جستجو در بخش‌ها، نمونه‌کارها و فرمان‌ها…" role="combobox" type="text"/>
+<kbd aria-hidden="true" class="command-key">Esc</kbd>
+</div>
+<ul class="command-list" data-uilabel-en="Results" data-uilabel-fa="نتایج" id="commandList" role="listbox"></ul>
+<div class="command-footer">
+<span><kbd class="command-key">↑</kbd><kbd class="command-key">↓</kbd><span data-en="Navigate" data-fa="جابه‌جایی">جابه‌جایی</span></span>
+<span><kbd class="command-key">Enter</kbd><span data-en="Select" data-fa="انتخاب">انتخاب</span></span>
+<span><kbd class="command-key">Esc</kbd><span data-en="Close" data-fa="بستن">بستن</span></span>
+</div>
+</div>
+</div>
+<!-- =========================================================
+     KEYBOARD SHORTCUTS HELP  ( ? )
+========================================================= -->
+<div aria-labelledby="shortcutsHelpTitle" aria-modal="true" class="shortcuts-help" id="shortcutsHelp" role="dialog">
+<div class="shortcuts-box">
+<div class="shortcuts-head">
+<h3 data-en="Keyboard shortcuts" data-fa="کلیدهای میانبر" id="shortcutsHelpTitle">کلیدهای میانبر</h3>
+<button aria-label="بستن" class="modal-close" data-uilabel-en="Close" data-uilabel-fa="بستن" id="closeShortcuts" type="button"><i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></svg></i></button>
+</div>
+<ul class="shortcuts-list">
+<li><span data-en="Like / unlike this work" data-fa="لایک / آنلایک این کار">لایک / آنلایک این کار</span><span class="shortcut-keys"><kbd class="command-key">L</kbd></span></li>
+<li><span data-en="Download" data-fa="دانلود">دانلود</span><span class="shortcut-keys"><kbd class="command-key">D</kbd></span></li>
+<li><span data-en="Share" data-fa="اشتراک‌گذاری">اشتراک‌گذاری</span><span class="shortcut-keys"><kbd class="command-key">S</kbd></span></li>
+<li><span data-en="Previous / next work" data-fa="کار قبلی / بعدی">کار قبلی / بعدی</span><span class="shortcut-keys"><kbd class="command-key">←</kbd><kbd class="command-key">→</kbd></span></li>
+<li><span data-en="Open the selected work" data-fa="باز کردن کار انتخاب‌شده">باز کردن کار انتخاب‌شده</span><span class="shortcut-keys"><kbd class="command-key">Enter</kbd></span></li>
+<li><span data-en="Command palette" data-fa="جستجو و فرمان‌ها">جستجو و فرمان‌ها</span><span class="shortcut-keys"><kbd class="command-key">Ctrl</kbd><kbd class="command-key">K</kbd></span></li>
+<li><span data-en="This panel" data-fa="این راهنما">این راهنما</span><span class="shortcut-keys"><kbd class="command-key">?</kbd></span></li>
+<li><span data-en="Close" data-fa="بستن">بستن</span><span class="shortcut-keys"><kbd class="command-key">Esc</kbd></span></li>
+</ul>
+</div>
+ </div>
+<!-- =========================================================
+     PWA — INSTALL BANNER
+========================================================= -->
+<div aria-live="polite" class="pwa-install" id="pwaInstall">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"></path></svg></i>
+<span class="pwa-install-text"><b data-en="Install the Ali Graph app" data-fa="نصب اپلیکیشن علی گراف">نصب اپلیکیشن علی گراف</b><small data-en="Faster access and offline use" data-fa="دسترسی سریع‌تر و استفاده‌ی آفلاین">دسترسی سریع‌تر و استفاده‌ی آفلاین</small></span>
+<button class="btn btn-primary pwa-install-action" id="pwaInstallAction" type="button">
+<span data-en="Install" data-fa="نصب">نصب</span>
+</button>
+<button aria-label="بستن" class="pwa-install-close" data-uilabel-en="Close" data-uilabel-fa="بستن" id="pwaInstallClose" type="button">
+<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></svg></i>
+</button>
 </div>
 <script>
 
@@ -3754,6 +5014,7 @@ window.addEventListener("load", () => {
         modalTitle.textContent = title;
 
         downloadButton.setAttribute("data-filename", image.split("/").pop());
+        updateModalBreadcrumb(title);
     }
 
     function openPortfolio(card) {
@@ -4017,9 +5278,9 @@ window.addEventListener("load", () => {
         } else {
             try {
                 await navigator.clipboard.writeText(shareData.url);
-                showToast(currentLanguage === "en" ? "Page link copied." : "لینک صفحه کپی شد.");
+                showToast(currentLanguage === "en" ? "Page link copied." : "لینک صفحه کپی شد.", "success");
             } catch (error) {
-                showToast(currentLanguage === "en" ? "Unable to copy the link." : "کپی لینک انجام نشد.");
+                showToast(currentLanguage === "en" ? "Unable to copy the link." : "کپی لینک انجام نشد.", "error");
             }
         }
     });
@@ -4033,10 +5294,20 @@ window.addEventListener("load", () => {
     const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     if (isFinePointer) {
+        // Throttle the existing cursor position update to one paint per frame.
+        let cursorPointerX = 0;
+        let cursorPointerY = 0;
+        let cursorPositionFrame = 0;
         document.addEventListener("mousemove", event => {
-            customCursor.style.left = event.clientX + "px";
-            customCursor.style.top = event.clientY + "px";
-        });
+            cursorPointerX = event.clientX;
+            cursorPointerY = event.clientY;
+            if (cursorPositionFrame) return;
+            cursorPositionFrame = requestAnimationFrame(() => {
+                customCursor.style.left = cursorPointerX + "px";
+                customCursor.style.top = cursorPointerY + "px";
+                cursorPositionFrame = 0;
+            });
+        }, { passive: true });
 
         document.querySelectorAll(".portfolio-card").forEach(card => {
             card.addEventListener("mouseenter", () => {
@@ -4407,6 +5678,1861 @@ document.addEventListener("visibilitychange", async () => {
         }
     }
 });
+
+/* =========================================================
+   PREMIUM VISUAL EFFECTS — vanilla JS, IO + requestAnimationFrame
+========================================================= */
+(function initPremiumVisualEffects() {
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktopPointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    let scrollEffectsRunning = false;
+    let headingObserver = null;
+    let portfolioImageObserver = null;
+    let desktopCleanup = null;
+
+    /* افکت «نوشته‌شدن تدریجی» عنوان بخش‌ها حذف شده است؛
+       عنوان فقط با reveal ساده ظاهر می‌شود و متن دست‌نخورده باقی می‌ماند. */
+    function finishHeadingReveal(section) {
+        section.classList.add("is-heading-visible");
+    }
+
+    function finishImageReveal(card) {
+        card.classList.add("is-scroll-image-revealed");
+        const image = card.querySelector("img");
+        if (!image) {
+            card.classList.remove("scroll-image-pending");
+            return;
+        }
+
+        const onAnimationEnd = event => {
+            if (event.animationName !== "portfolioImageReveal") return;
+            image.removeEventListener("animationend", onAnimationEnd);
+            card._imageRevealHandler = null;
+            card.classList.remove("scroll-image-pending");
+        };
+
+        if (card._imageRevealHandler) {
+            image.removeEventListener("animationend", card._imageRevealHandler);
+        }
+        card._imageRevealHandler = onAnimationEnd;
+        image.addEventListener("animationend", onAnimationEnd);
+    }
+
+    function startScrollEffects() {
+        if (scrollEffectsRunning || reducedMotionQuery.matches) return;
+        scrollEffectsRunning = true;
+        document.documentElement.classList.add("visual-motion-enabled");
+
+        const sections = Array.from(document.querySelectorAll(".section-heading"));
+        const cards = Array.from(document.querySelectorAll(".portfolio-card"));
+
+        cards.forEach(card => card.classList.add("scroll-image-pending"));
+
+        if (!("IntersectionObserver" in window)) {
+            sections.forEach(finishHeadingReveal);
+            cards.forEach(finishImageReveal);
+            return;
+        }
+
+        headingObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                finishHeadingReveal(entry.target);
+                headingObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.18, rootMargin: "0px 0px -6% 0px" });
+
+        portfolioImageObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                finishImageReveal(entry.target);
+                portfolioImageObserver.unobserve(entry.target);
+            });
+        }, { threshold: 0.12, rootMargin: "0px 0px 4% 0px" });
+
+        sections.forEach(section => headingObserver.observe(section));
+        cards.forEach(card => portfolioImageObserver.observe(card));
+    }
+
+    function stopScrollEffects() {
+        if (headingObserver) headingObserver.disconnect();
+        if (portfolioImageObserver) portfolioImageObserver.disconnect();
+        headingObserver = null;
+        portfolioImageObserver = null;
+        scrollEffectsRunning = false;
+        document.documentElement.classList.remove("visual-motion-enabled");
+
+        document.querySelectorAll(".section-heading").forEach(section => {
+            section.classList.remove("is-heading-visible");
+        });
+        document.querySelectorAll(".portfolio-card").forEach(card => {
+            const image = card.querySelector("img");
+            if (image && card._imageRevealHandler) {
+                image.removeEventListener("animationend", card._imageRevealHandler);
+                card._imageRevealHandler = null;
+            }
+            card.classList.remove("scroll-image-pending", "is-scroll-image-revealed");
+        });
+    }
+
+    function stopDesktopEffects() {
+        if (!desktopCleanup) return;
+        desktopCleanup();
+        desktopCleanup = null;
+    }
+
+    function startDesktopEffects() {
+        if (desktopCleanup || reducedMotionQuery.matches || !desktopPointerQuery.matches) return;
+
+        const glow = document.getElementById("cursorGlow");
+        const magneticElements = Array.from(document.querySelectorAll(".btn, .menu-button, .quick-contact-toggle"));
+        const cards = Array.from(document.querySelectorAll(".portfolio-card"));
+        const backCard = document.querySelector(".art-card-back");
+        const frontCard = document.querySelector(".art-card-front");
+
+        const magnets = magneticElements.map(element => ({ element, x: 0, y: 0 }));
+        const cardStates = cards.map(card => ({
+            card,
+            rotateX: 0,
+            rotateY: 0,
+            spotlightX: 0,
+            spotlightY: 0,
+            dirty: false
+        }));
+        const stateByCard = new Map(cardStates.map(state => [state.card, state]));
+        const cardBindings = [];
+        let pointerFrame = 0;
+        let parallaxFrame = 0;
+        let pointerX = 0;
+        let pointerY = 0;
+        let pointerKnown = false;
+        let glowX = 0;
+        let glowY = 0;
+        const pendingCardWrites = new Set();
+
+        magneticElements.forEach(element => element.classList.add("magnetic-enabled"));
+        cards.forEach(card => card.classList.add("tilt-enabled"));
+
+        function requestPointerFrame() {
+            if (!pointerFrame) pointerFrame = requestAnimationFrame(updatePointerEffects);
+        }
+
+        function updatePointerEffects() {
+            pointerFrame = 0;
+            let needsAnotherFrame = false;
+
+            if (glow && pointerKnown) {
+                if (!glow.classList.contains("is-visible")) glow.classList.add("is-visible");
+                const targetX = pointerX - glow.offsetWidth / 2;
+                const targetY = pointerY - glow.offsetHeight / 2;
+                const dx = targetX - glowX;
+                const dy = targetY - glowY;
+                glowX += dx * .18;
+                glowY += dy * .18;
+                if (Math.abs(dx) > .4 || Math.abs(dy) > .4) needsAnotherFrame = true;
+                else { glowX = targetX; glowY = targetY; }
+                glow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+            }
+
+            magnets.forEach(magnet => {
+                let targetX = 0;
+                let targetY = 0;
+                if (pointerKnown) {
+                    const rect = magnet.element.getBoundingClientRect();
+                    const dx = pointerX - (rect.left + rect.width / 2);
+                    const dy = pointerY - (rect.top + rect.height / 2);
+                    const distance = Math.hypot(dx, dy);
+                    if (distance < 80) {
+                        targetX = dx / 80 * 8;
+                        targetY = dy / 80 * 8;
+                    }
+                }
+
+                const nextX = magnet.x + (targetX - magnet.x) * .25;
+                const nextY = magnet.y + (targetY - magnet.y) * .25;
+                magnet.x = Math.abs(targetX - nextX) < .08 ? targetX : nextX;
+                magnet.y = Math.abs(targetY - nextY) < .08 ? targetY : nextY;
+                magnet.element.style.setProperty("--magnetic-x", `${magnet.x.toFixed(2)}px`);
+                magnet.element.style.setProperty("--magnetic-y", `${magnet.y.toFixed(2)}px`);
+                if (Math.abs(targetX - magnet.x) > .2 || Math.abs(targetY - magnet.y) > .2) needsAnotherFrame = true;
+            });
+
+            pendingCardWrites.forEach(state => {
+                state.card.style.setProperty("--tilt-x", `${state.rotateX.toFixed(2)}deg`);
+                state.card.style.setProperty("--tilt-y", `${state.rotateY.toFixed(2)}deg`);
+                state.card.style.setProperty("--mx", `${state.spotlightX.toFixed(1)}px`);
+                state.card.style.setProperty("--my", `${state.spotlightY.toFixed(1)}px`);
+                state.dirty = false;
+            });
+            pendingCardWrites.clear();
+
+            if (needsAnotherFrame) requestPointerFrame();
+        }
+
+        function handlePointerMove(event) {
+            pointerX = event.clientX;
+            pointerY = event.clientY;
+            pointerKnown = true;
+            requestPointerFrame();
+        }
+
+        function clearPointer() {
+            pointerKnown = false;
+            if (glow) glow.classList.remove("is-visible");
+            requestPointerFrame();
+        }
+
+        function updateParallax() {
+            parallaxFrame = 0;
+            const scrollY = window.scrollY || 0;
+            if (backCard) backCard.style.setProperty("--parallax-y", `${(scrollY * .06).toFixed(2)}px`);
+            if (frontCard) frontCard.style.setProperty("--parallax-y", `${(scrollY * .12).toFixed(2)}px`);
+        }
+
+        function requestParallax() {
+            if (!parallaxFrame) parallaxFrame = requestAnimationFrame(updateParallax);
+        }
+
+        function handleWindowScroll() {
+            requestParallax();
+            if (pointerKnown) requestPointerFrame();
+        }
+
+        window.addEventListener("mousemove", handlePointerMove, { passive: true });
+        document.addEventListener("mouseleave", clearPointer);
+        window.addEventListener("blur", clearPointer);
+        window.addEventListener("scroll", handleWindowScroll, { passive: true });
+        window.addEventListener("resize", handleWindowScroll, { passive: true });
+        requestParallax();
+
+        cards.forEach(card => {
+            const state = stateByCard.get(card);
+            const handleEnter = () => {
+                card.classList.remove("tilt-return");
+                card.classList.add("is-tilting");
+            };
+            const handleMove = event => {
+                const rect = card.getBoundingClientRect();
+                if (!rect.width || !rect.height) return;
+                const localX = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+                const localY = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+                state.rotateX = (0.5 - localY) * 10;
+                state.rotateY = (localX - 0.5) * 10;
+                state.spotlightX = event.clientX - rect.left;
+                state.spotlightY = event.clientY - rect.top;
+                state.dirty = true;
+                pendingCardWrites.add(state);
+                requestPointerFrame();
+            };
+            const handleLeave = () => {
+                card.classList.remove("is-tilting");
+                card.classList.add("tilt-return");
+                card.style.setProperty("--tilt-x", "0deg");
+                card.style.setProperty("--tilt-y", "0deg");
+                state.rotateX = 0;
+                state.rotateY = 0;
+                pendingCardWrites.delete(state);
+            };
+            const handleTransitionEnd = event => {
+                if (event.target === card && event.propertyName === "transform") card.classList.remove("tilt-return");
+            };
+
+            card.addEventListener("mouseenter", handleEnter);
+            card.addEventListener("mousemove", handleMove, { passive: true });
+            card.addEventListener("mouseleave", handleLeave);
+            card.addEventListener("transitionend", handleTransitionEnd);
+            cardBindings.push({ card, handleEnter, handleMove, handleLeave, handleTransitionEnd });
+        });
+
+        desktopCleanup = () => {
+            window.removeEventListener("mousemove", handlePointerMove);
+            document.removeEventListener("mouseleave", clearPointer);
+            window.removeEventListener("blur", clearPointer);
+            window.removeEventListener("scroll", handleWindowScroll);
+            window.removeEventListener("resize", handleWindowScroll);
+            if (pointerFrame) cancelAnimationFrame(pointerFrame);
+            if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
+
+            magneticElements.forEach(element => {
+                element.classList.remove("magnetic-enabled");
+                element.style.removeProperty("--magnetic-x");
+                element.style.removeProperty("--magnetic-y");
+            });
+            cardBindings.forEach(binding => {
+                binding.card.removeEventListener("mouseenter", binding.handleEnter);
+                binding.card.removeEventListener("mousemove", binding.handleMove);
+                binding.card.removeEventListener("mouseleave", binding.handleLeave);
+                binding.card.removeEventListener("transitionend", binding.handleTransitionEnd);
+                binding.card.classList.remove("tilt-enabled", "is-tilting", "tilt-return");
+                ["--tilt-x", "--tilt-y", "--mx", "--my"].forEach(property => binding.card.style.removeProperty(property));
+            });
+            if (backCard) backCard.style.removeProperty("--parallax-y");
+            if (frontCard) frontCard.style.removeProperty("--parallax-y");
+            if (glow) {
+                glow.classList.remove("is-visible");
+                glow.style.removeProperty("transform");
+            }
+        };
+    }
+
+    function startAllEffects() {
+        if (reducedMotionQuery.matches) return;
+        startScrollEffects();
+        startDesktopEffects();
+    }
+
+    function stopAllEffects() {
+        stopDesktopEffects();
+        stopScrollEffects();
+    }
+
+    startAllEffects();
+
+    const onReducedMotionChange = event => {
+        if (event.matches) stopAllEffects();
+        else startAllEffects();
+    };
+    const onPointerCapabilityChange = () => {
+        if (reducedMotionQuery.matches) return;
+        if (desktopPointerQuery.matches) startDesktopEffects();
+        else stopDesktopEffects();
+    };
+
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+        reducedMotionQuery.addEventListener("change", onReducedMotionChange);
+    } else if (typeof reducedMotionQuery.addListener === "function") {
+        reducedMotionQuery.addListener(onReducedMotionChange);
+    }
+    if (typeof desktopPointerQuery.addEventListener === "function") {
+        desktopPointerQuery.addEventListener("change", onPointerCapabilityChange);
+    } else if (typeof desktopPointerQuery.addListener === "function") {
+        desktopPointerQuery.addListener(onPointerCapabilityChange);
+    }
+})();
+
+
+    /* =========================================================
+       PART 3 — UI / UX / ACCESSIBILITY ADD-ONS
+       Command palette · section indicator · modal breadcrumb
+       swipe gestures · modal shortcuts · toast queue
+       richer error states · keyboard/AT helpers
+    ========================================================= */
+
+    /* نگهداریِ breadcrumb مودال در هماهنگی با کارِ جاری. */
+    function updateModalBreadcrumb(titleText) {
+        const crumbCurrent = document.getElementById("modalCrumbCurrent");
+        if (!crumbCurrent) return;
+
+        let title = typeof titleText === "string" ? titleText : "";
+        if (!title) {
+            const card = galleryCards[currentGalleryIndex];
+            if (card) title = currentLanguage === "en" ? card.dataset.titleEn : card.dataset.titleFa;
+        }
+        crumbCurrent.textContent = title || (currentLanguage === "en" ? "Work" : "نمونه‌کار");
+    }
+
+    (function initExperienceUpgrades() {
+
+        const FA_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+        const toFaDigits = value => String(value).replace(/[0-9]/g, digit => FA_DIGITS[Number(digit)]);
+        const pad2 = value => String(value).padStart(2, "0");
+        const isEnglish = () => currentLanguage === "en";
+        const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        /* ---------------------------------------------------------
+           ICONS (inline SVG — هیچ وابستگی خارجی)
+        --------------------------------------------------------- */
+        const ICON_PATHS = {
+            house: '<path d="m2 11 10-9 10 9M5 9v12h14V9M9 21v-8h6v8"/>',
+            user: '<circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
+            images: '<rect height="16" rx="2" width="16" x="5" y="3"/><path d="M2 7v13a2 2 0 0 0 2 2h13M6 16l5-5 4 4 2-2 4 4"/><circle cx="16" cy="8" r="1.5"/>',
+            tags: '<path d="m3 3 9 1 9 9-8 8-9-9L3 3Z"/><circle cx="8" cy="8" r="1.5"/>',
+            briefcase: '<rect height="14" rx="2" width="20" x="2" y="7"/><path d="M8 7V3h8v4M2 12c6 4 14 4 20 0M12 12v5"/>',
+            share: '<circle cx="18" cy="5" r="3"/><circle cx="5" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8 10 7-4M8 14l7 4"/>',
+            download: '<path d="M12 2v14m-6-6 6 6 6-6M3 16v5h18v-5"/>',
+            language: '<path d="M2 5h12M8 2v3m3 0c0 7-4 10-8 12M4 8c2 4 5 6 8 8m1 5 5-12 5 12m-8-4h6"/>',
+            info: '<circle cx="12" cy="12" r="10"/><path d="M12 11v7M12 7v.2"/>',
+            question: '<circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3M12 17v.2"/>',
+            grid: '<rect height="7" rx="1" width="7" x="3" y="3"/><rect height="7" rx="1" width="7" x="14" y="3"/><rect height="7" rx="1" width="7" x="3" y="14"/><rect height="7" rx="1" width="7" x="14" y="14"/>',
+            file: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/>',
+            arrowUp: '<path d="M12 20V4m-6 6 6-6 6 6"/>',
+            image: '<rect height="18" rx="2" width="18" x="3" y="3"/><circle cx="9" cy="9" r="2"/><path d="m3 17 5-5 4 4 3-3 6 6"/>',
+            heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>'
+        };
+
+        function iconMarkup(name) {
+            return '<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="1.6" ' +
+                'stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">' +
+                (ICON_PATHS[name] || ICON_PATHS.image) + "</svg></i>";
+        }
+
+        /* ---------------------------------------------------------
+           داده‌ی بخش‌ها (ترتیبِ منطقی سایت)
+        --------------------------------------------------------- */
+        const UX_SECTIONS = [
+            { id: "home",      selector: ".hero",   fa: "خانه",              en: "Home",         icon: "house" },
+            { id: "portfolio", selector: "#portfolio", fa: "نمونه‌کارها",    en: "Portfolio",    icon: "images" },
+            { id: "about",     selector: "#about",  fa: "درباره من",         en: "About Me",     icon: "user" },
+            { id: "pricing",   selector: "#pricing", fa: "تعرفه‌ها",         en: "Pricing",      icon: "tags" },
+            { id: "order",     selector: "#order",  fa: "سفارش طراحی",       en: "Order Design", icon: "briefcase" },
+            { id: "social",    selector: "#social", fa: "شبکه‌های اجتماعی",  en: "Social Media", icon: "share" },
+            { id: "contact",   selector: "#contact", fa: "ارسال پیام",       en: "Contact",      icon: "briefcase" },
+            { id: "promo",     selector: "#promo",  fa: "ابزارهای رایگان",   en: "Free Tools",   icon: "download" }
+        ];
+
+        /* =========================================================
+           ۳.۶ — TOAST QUEUE
+        ========================================================= */
+        const toastElement = document.getElementById("toast");
+        const toastQueue = [];
+        const TOAST_MAX_QUEUED = 3;
+        const TOAST_VISIBLE_MS = 2500;
+        const TOAST_FADE_MS = 350;
+        const TOAST_GAP_MS = 200;
+        const TOAST_ICONS = { success: "✓", error: "⚠", info: "ℹ" };
+
+        let toastActive = false;
+        let toastHideTimer = null;
+        let toastNextTimer = null;
+
+        function pumpToastQueue() {
+            if (toastActive || !toastQueue.length || !toastElement) return;
+
+            const entry = toastQueue.shift();
+            toastActive = true;
+
+            toastElement.className = "toast show " + entry.type;
+            toastElement.innerHTML =
+                '<span class="toast-icon" aria-hidden="true">' + (TOAST_ICONS[entry.type] || TOAST_ICONS.info) + "</span>" +
+                '<span class="toast-text"></span>';
+            toastElement.querySelector(".toast-text").textContent = entry.message;
+
+            clearTimeout(toastHideTimer);
+            clearTimeout(toastNextTimer);
+
+            toastHideTimer = setTimeout(function () {
+                toastElement.classList.remove("show");
+                toastNextTimer = setTimeout(function () {
+                    toastActive = false;
+                    pumpToastQueue();
+                }, TOAST_FADE_MS + TOAST_GAP_MS);
+            }, TOAST_VISIBLE_MS);
+        }
+
+        /* API عمومی: showToast(message, type = "info") */
+        window.showToast = function showToast(message, type) {
+            if (!message) return;
+            const kind = TOAST_ICONS[type] ? type : "info";
+            if (toastQueue.length >= TOAST_MAX_QUEUED) toastQueue.shift();
+            toastQueue.push({ message: String(message), type: kind });
+            pumpToastQueue();
+        };
+
+        /* =========================================================
+           ۳.۷ — BETTER IMAGE ERROR STATES
+        ========================================================= */
+        function bustCache(url) {
+            const clean = String(url || "").split("#")[0].split("?")[0];
+            return clean + "?t=" + Date.now();
+        }
+
+        function createMediaError() {
+            const box = document.createElement("div");
+            box.className = "media-error";
+            box.setAttribute("role", "alert");
+            box.innerHTML =
+                '<span class="media-error-icon" aria-hidden="true">' +
+                    '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+                        '<path d="M3 6a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>' +
+                        '<path d="m9.5 10.5 5 5m0-5-5 5"/>' +
+                    "</svg>" +
+                "</span>" +
+                '<p class="media-error-text">' +
+                    '<span data-en="This image could not be loaded." data-fa="این تصویر بارگذاری نشد.">این تصویر بارگذاری نشد.</span>' +
+                "</p>" +
+                '<button class="media-error-retry" type="button">' +
+                    '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+                        '<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/>' +
+                    "</svg>" +
+                    '<span data-en="Try again" data-fa="تلاش مجدد">تلاش مجدد</span>' +
+                "</button>";
+            return box;
+        }
+
+        function hideMediaError(host) {
+            if (!host) return;
+            host.classList.remove("image-error");
+            const existing = host.querySelector(":scope > .media-error");
+            if (existing) existing.remove();
+        }
+
+        function showMediaError(host, retryHandler) {
+            if (!host) return;
+            hideMediaError(host);
+
+            const box = createMediaError();
+            host.classList.add("image-error");
+            host.insertBefore(box, host.firstChild);
+
+            const retry = box.querySelector(".media-error-retry");
+            const run = function (event) {
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                hideMediaError(host);
+                retryHandler();
+            };
+            retry.addEventListener("click", run);
+            box.addEventListener("click", run);
+        }
+
+        /* کارت‌های گالری */
+        galleryCards.forEach(function (card) {
+            const image = card.querySelector("img");
+            if (!image) return;
+
+            const baseSrc = image.getAttribute("src") || card.dataset.image || "";
+            image.dataset.src = baseSrc;
+
+            const fail = function () {
+                if (!baseSrc) return;
+                card.classList.remove("img-loading");
+                showMediaError(card, function () {
+                    image.src = bustCache(baseSrc);
+                });
+            };
+
+            image.addEventListener("error", fail);
+            image.addEventListener("load", function () { hideMediaError(card); });
+            if (image.complete && !image.naturalWidth && baseSrc) fail();
+        });
+
+        /* تصویرِ مودال */
+        modalImage.addEventListener("error", function () {
+            if (!portfolioModal.classList.contains("active") || !currentImagePath) {
+                hideMediaError(modalImageWrap);
+                return;
+            }
+            showMediaError(modalImageWrap, function () {
+                modalImage.classList.remove("img-loaded");
+                modalImage.src = bustCache(currentImagePath);
+            });
+        });
+        modalImage.addEventListener("load", function () { hideMediaError(modalImageWrap); });
+
+        /* با هر تغییر src، وضعیت خطا پاک می‌شود. */
+        new MutationObserver(function () { hideMediaError(modalImageWrap); })
+            .observe(modalImage, { attributes: true, attributeFilter: ["src"] });
+
+        /* =========================================================
+           ۳.۱ — COMMAND PALETTE
+        ========================================================= */
+        const palette = document.getElementById("commandPalette");
+        const paletteInput = document.getElementById("commandInput");
+        const paletteList = document.getElementById("commandList");
+        const paletteTrigger = document.getElementById("commandTrigger");
+        const shortcutsHelp = document.getElementById("shortcutsHelp");
+
+        const GROUP_LABELS = {
+            sections: { fa: "بخش‌ها", en: "Sections" },
+            works:    { fa: "نمونه‌کارها", en: "Works" },
+            actions:  { fa: "فرمان‌ها", en: "Commands" }
+        };
+
+        let paletteOpen = false;
+        let paletteItems = [];
+        let paletteResults = [];
+        let paletteIndex = 0;
+
+        function scrollToTarget(id) {
+            const target = document.getElementById(id);
+            if (!target) return;
+
+            if (menuOverlay.classList.contains("active")) closeMenu();
+            if (aboutPage.classList.contains("active")) closeInternalPage(aboutPage);
+            if (faqPage.classList.contains("active")) closeInternalPage(faqPage);
+
+            const nav = document.getElementById("topNav");
+            const offset = (nav ? nav.offsetHeight : 0) + 14;
+            const top = window.scrollY + target.getBoundingClientRect().top - offset;
+
+            window.scrollTo({
+                top: Math.max(0, top),
+                behavior: reducedMotion() ? "auto" : "smooth"
+            });
+        }
+
+        function buildCommandItems() {
+            const items = [];
+
+            UX_SECTIONS.forEach(function (section) {
+                items.push({
+                    group: "sections",
+                    icon: section.icon,
+                    titleFa: section.fa,
+                    titleEn: section.en,
+                    hintFa: "بخش",
+                    hintEn: "Section",
+                    keywords: "section page بخش صفحه " + section.id + " " + section.en,
+                    action: function () { scrollToTarget(section.id); }
+                });
+            });
+
+            galleryCards.forEach(function (card, index) {
+                items.push({
+                    group: "works",
+                    icon: "image",
+                    thumb: card.dataset.image,
+                    titleFa: card.dataset.titleFa || "نمونه‌کار " + (index + 1),
+                    titleEn: card.dataset.titleEn || "Work " + (index + 1),
+                    hintFa: "نمونه‌کار",
+                    hintEn: "Work",
+                    keywords: "portfolio work نمونه کار " + (index + 1) + " " + (card.dataset.titleEn || "") + " " + (card.dataset.image || ""),
+                    action: function () {
+                        closeCommandPalette();
+                        openPortfolio(card);
+                    }
+                });
+            });
+
+            const resumeLink = document.querySelector('[data-resume], #resumeLink, a[href$=".pdf"]');
+
+            items.push({ group: "actions", icon: "briefcase", titleFa: "شروع سفارش", titleEn: "Start an Order", hintFa: "فرمان", hintEn: "Command", keywords: "order start project سفارش شروع پروژه", action: function () { scrollToTarget("order"); } });
+            items.push({ group: "actions", icon: "language", titleFa: "تغییر زبان", titleEn: "Switch Language", hintFa: "فرمان", hintEn: "Command", keywords: "language translate زبان english فارسی fa en", action: function () { toggleLanguage(); } });
+            items.push({ group: "actions", icon: "grid", titleFa: "نمونه‌کارهای بیشتر", titleEn: "More Works", hintFa: "فرمان", hintEn: "Command", keywords: "more works portfolio بیشتر نمونه کار", action: function () { const trigger = document.getElementById("moreWorks"); if (trigger) trigger.click(); } });
+            items.push({ group: "actions", icon: "user", titleFa: "درباره من (بیوگرافی)", titleEn: "About Me (Biography)", hintFa: "فرمان", hintEn: "Command", keywords: "about bio biography درباره بیوگرافی", action: function () { openInternalPage(aboutPage); } });
+            items.push({ group: "actions", icon: "question", titleFa: "سوالات متداول", titleEn: "FAQ", hintFa: "فرمان", hintEn: "Command", keywords: "faq questions سوالات متداول پرسش", action: function () { openInternalPage(faqPage); } });
+            items.push({ group: "actions", icon: "arrowUp", titleFa: "بازگشت به بالا", titleEn: "Back to Top", hintFa: "فرمان", hintEn: "Command", keywords: "top scroll up بالا ابتدای صفحه", action: function () { window.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" }); } });
+
+            if (resumeLink) {
+                items.push({ group: "actions", icon: "file", titleFa: "دانلود رزومه", titleEn: "Download Résumé", hintFa: "فرمان", hintEn: "Command", keywords: "resume cv download رزومه دانلود", action: function () { resumeLink.click(); } });
+            }
+
+            return items;
+        }
+
+        /* فیلتر fuzzy ساده: زیررشته امتیاز بالاتری از تطابق پراکنده می‌گیرد. */
+        function normalizeText(value) {
+            return String(value == null ? "" : value)
+                .toLowerCase()
+                .replace(/[\u064B-\u0652\u0670\u0640]/g, "")
+                .replace(/[\u0660-\u0669]/g, d => String(d.charCodeAt(0) - 0x0660))
+                .replace(/[\u06F0-\u06F9]/g, d => String(d.charCodeAt(0) - 0x06F0))
+                .replace(/[يی]/g, "ی")
+                .replace(/[كک]/g, "ک")
+                .replace(/ة/g, "ه")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function fuzzyScore(haystack, needle) {
+            const text = normalizeText(haystack);
+            const query = normalizeText(needle).replace(/\s+/g, "");
+            if (!query) return 1;
+            if (!text) return 0;
+
+            if (text.includes(normalizeText(needle))) return 1000 - text.indexOf(normalizeText(needle));
+
+            let score = 0;
+            let cursor = 0;
+            let matched = 0;
+
+            for (const char of query) {
+                const found = text.indexOf(char, cursor);
+                if (found === -1) return 0;
+                score += Math.max(1, 14 - (found - cursor));
+                cursor = found + 1;
+                matched++;
+            }
+            return matched ? score : 0;
+        }
+
+        function renderPaletteResults() {
+            if (!paletteList) return;
+
+            const query = paletteInput.value;
+            const scored = [];
+
+            paletteItems.forEach(function (item) {
+                const haystack = [item.titleFa, item.titleEn, item.keywords, item.group].join(" ");
+                const score = fuzzyScore(haystack, query);
+                if (score > 0) scored.push({ item: item, score: score });
+            });
+
+            scored.sort((a, b) => b.score - a.score);
+            paletteResults = scored.map(entry => entry.item);
+
+            if (paletteIndex >= paletteResults.length) paletteIndex = 0;
+            if (paletteIndex < 0) paletteIndex = 0;
+
+            paletteList.innerHTML = "";
+
+            if (!paletteResults.length) {
+                const empty = document.createElement("li");
+                empty.className = "command-empty";
+                empty.setAttribute("data-fa", "نتیجه‌ای پیدا نشد.");
+                empty.setAttribute("data-en", "No results found.");
+                empty.textContent = isEnglish() ? "No results found." : "نتیجه‌ای پیدا نشد.";
+                paletteList.appendChild(empty);
+                paletteInput.setAttribute("aria-activedescendant", "");
+                return;
+            }
+
+            let lastGroup = null;
+
+            paletteResults.forEach(function (item, index) {
+                if (item.group !== lastGroup) {
+                    lastGroup = item.group;
+                    const label = document.createElement("li");
+                    label.className = "command-group";
+                    label.setAttribute("role", "presentation");
+                    label.textContent = (GROUP_LABELS[item.group] || GROUP_LABELS.actions)[isEnglish() ? "en" : "fa"];
+                    paletteList.appendChild(label);
+                }
+
+                const row = document.createElement("li");
+                row.className = "command-item";
+                row.id = "command-option-" + index;
+                row.setAttribute("role", "option");
+                row.setAttribute("aria-selected", index === paletteIndex ? "true" : "false");
+
+                if (item.thumb) {
+                    const thumb = document.createElement("img");
+                    thumb.className = "command-thumb";
+                    thumb.src = item.thumb;
+                    thumb.alt = "";
+                    thumb.loading = "lazy";
+                    row.appendChild(thumb);
+                } else {
+                    row.innerHTML = iconMarkup(item.icon);
+                }
+
+                const text = document.createElement("span");
+                text.className = "command-item-text";
+                text.textContent = isEnglish() ? item.titleEn : item.titleFa;
+                row.appendChild(text);
+
+                const hint = document.createElement("span");
+                hint.className = "command-item-hint";
+                hint.textContent = isEnglish() ? item.hintEn : item.hintFa;
+                row.appendChild(hint);
+
+                row.addEventListener("mousedown", event => event.preventDefault());
+                row.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    paletteIndex = index;
+                    runPaletteItem();
+                });
+                row.addEventListener("mousemove", function () {
+                    if (paletteIndex === index) return;
+                    paletteIndex = index;
+                    updatePaletteSelection();
+                });
+
+                paletteList.appendChild(row);
+            });
+
+            updatePaletteSelection();
+        }
+
+        function updatePaletteSelection() {
+            if (!paletteList) return;
+
+            paletteList.querySelectorAll(".command-item").forEach(function (row, index) {
+                const selected = index === paletteIndex;
+                row.setAttribute("aria-selected", selected ? "true" : "false");
+                if (selected) {
+                    paletteInput.setAttribute("aria-activedescendant", row.id);
+                    if (typeof row.scrollIntoView === "function") row.scrollIntoView({ block: "nearest" });
+                }
+            });
+        }
+
+        function movePaletteSelection(delta) {
+            if (!paletteResults.length) return;
+            paletteIndex = (paletteIndex + delta + paletteResults.length) % paletteResults.length;
+            updatePaletteSelection();
+        }
+
+        function runPaletteItem() {
+            const item = paletteResults[paletteIndex];
+            if (!item) return;
+            const action = item.action;
+            if (!paletteList || paletteList.contains(document.activeElement)) paletteInput.focus();
+            closeCommandPalette();
+            if (typeof action === "function") action();
+        }
+
+        function openCommandPalette() {
+            if (paletteOpen) return;
+
+            paletteItems = buildCommandItems();
+            paletteOpen = true;
+            paletteIndex = 0;
+            palette.classList.add("active");
+            /* اعمال فوریِ visibility پیش از فوکوس (در غیر این صورت focus() نادیده گرفته می‌شود) */
+            void palette.offsetWidth;
+            paletteInput.value = "";
+            renderPaletteResults();
+            document.body.classList.add("no-scroll");
+            trapFocus(palette.querySelector(".command-panel"));
+            paletteInput.focus();
+            document.dispatchEvent(new CustomEvent("ag:command-palette-open"));
+            if (document.activeElement !== paletteInput) {
+                requestAnimationFrame(function () { if (paletteOpen) paletteInput.focus(); });
+            }
+        }
+
+        function closeCommandPalette() {
+            if (!paletteOpen) return;
+            paletteOpen = false;
+            palette.classList.remove("active");
+            paletteInput.removeAttribute("aria-activedescendant");
+
+            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .shortcuts-help.active");
+            if (!anotherOverlay) document.body.classList.remove("no-scroll");
+
+            releaseFocus(palette.querySelector(".command-panel"));
+        }
+
+        if (paletteTrigger) paletteTrigger.addEventListener("click", openCommandPalette);
+
+        if (palette) {
+            palette.addEventListener("click", function (event) {
+                if (event.target === palette) closeCommandPalette();
+            });
+
+            paletteInput.addEventListener("input", function () {
+                paletteIndex = 0;
+                renderPaletteResults();
+            });
+
+            paletteInput.addEventListener("keydown", function (event) {
+                if (event.key === "ArrowDown") { event.preventDefault(); movePaletteSelection(1); }
+                else if (event.key === "ArrowUp") { event.preventDefault(); movePaletteSelection(-1); }
+                else if (event.key === "Home") { event.preventDefault(); paletteIndex = 0; updatePaletteSelection(); }
+                else if (event.key === "End") { event.preventDefault(); paletteIndex = Math.max(0, paletteResults.length - 1); updatePaletteSelection(); }
+                else if (event.key === "Enter") { event.preventDefault(); runPaletteItem(); }
+            });
+
+            const triggerKey = document.getElementById("commandTriggerKey");
+            if (triggerKey && /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent)) {
+                triggerKey.textContent = "⌘ K";
+            }
+        }
+
+        /* =========================================================
+           ۳.۵ — SHORTCUTS HELP + MODAL SHORTCUTS
+        ========================================================= */
+        let shortcutsOpen = false;
+
+        function openShortcutsHelp() {
+            if (!shortcutsHelp || shortcutsOpen) return;
+            shortcutsOpen = true;
+            shortcutsHelp.classList.add("active");
+            void shortcutsHelp.offsetWidth;
+            document.body.classList.add("no-scroll");
+            trapFocus(shortcutsHelp.querySelector(".shortcuts-box"));
+        }
+
+        function closeShortcutsHelp() {
+            if (!shortcutsHelp || !shortcutsOpen) return;
+            shortcutsOpen = false;
+            shortcutsHelp.classList.remove("active");
+
+            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .command-palette.active");
+            if (!anotherOverlay) document.body.classList.remove("no-scroll");
+
+            releaseFocus(shortcutsHelp.querySelector(".shortcuts-box"));
+        }
+
+        if (shortcutsHelp) {
+            shortcutsHelp.addEventListener("click", function (event) {
+                if (event.target === shortcutsHelp) closeShortcutsHelp();
+            });
+            document.getElementById("closeShortcuts").addEventListener("click", closeShortcutsHelp);
+        }
+
+        function likeCurrentWork() {
+            const card = galleryCards[currentGalleryIndex];
+            if (!card) return;
+            const likeButton = card.querySelector(".like-btn");
+            if (likeButton) likeButton.click();
+        }
+
+        function isTypingTarget(target) {
+            if (!target) return false;
+            if (target.isContentEditable) return true;
+            const tag = target.tagName;
+            return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.defaultPrevented) return;
+            if (event.metaKey || event.ctrlKey || event.altKey) return;
+            if (isTypingTarget(event.target)) return;
+
+            if (event.key === "?") {
+                event.preventDefault();
+                openShortcutsHelp();
+                return;
+            }
+
+            if (!portfolioModal.classList.contains("active")) return;
+            if (shortcutsOpen) return;
+
+            const key = event.key.toLowerCase();
+
+            if (key === "l") { event.preventDefault(); likeCurrentWork(); }
+            else if (key === "d") { event.preventDefault(); document.getElementById("downloadButton").click(); }
+            else if (key === "s") { event.preventDefault(); document.getElementById("shareButton").click(); }
+        });
+
+        /* Ctrl/Cmd + K  و  Escape (مرحله‌ی capture تا لایه‌های زیرین بسته نشوند) */
+        document.addEventListener("keydown", function (event) {
+            const key = event.key;
+            const isK = key === "k" || key === "K";
+
+            if ((event.ctrlKey || event.metaKey) && isK && !event.altKey) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (paletteOpen) closeCommandPalette();
+                else openCommandPalette();
+                return;
+            }
+
+            if (key !== "Escape") return;
+
+            if (shortcutsOpen) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeShortcutsHelp();
+                return;
+            }
+
+            if (paletteOpen) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeCommandPalette();
+            }
+        }, true);
+
+        /* =========================================================
+           ۳.۴ — SWIPE GESTURES (موبایل، فقط بدون زوم)
+        ========================================================= */
+        const SWIPE_MIN_DISTANCE = 60;
+        const SWIPE_MIN_VELOCITY = 0.3;
+
+        let swipeTracking = false;
+        let swipeStartX = 0;
+        let swipeStartY = 0;
+        let swipeStartTime = 0;
+
+        modalImageWrap.addEventListener("touchstart", function (event) {
+            if (event.touches.length !== 1 || zoomScale !== 1) {
+                swipeTracking = false;
+                return;
+            }
+            swipeTracking = true;
+            swipeStartX = event.touches[0].clientX;
+            swipeStartY = event.touches[0].clientY;
+            swipeStartTime = Date.now();
+        }, { passive: true });
+
+        modalImageWrap.addEventListener("touchend", function (event) {
+            if (!swipeTracking) return;
+            swipeTracking = false;
+            if (event.touches.length) return;
+            if (zoomScale !== 1) return;
+
+            const touch = event.changedTouches && event.changedTouches[0];
+            if (!touch) return;
+
+            const deltaX = touch.clientX - swipeStartX;
+            const deltaY = touch.clientY - swipeStartY;
+            const elapsed = Math.max(1, Date.now() - swipeStartTime);
+            const velocity = Math.abs(deltaX) / elapsed;
+
+            if (Math.abs(deltaX) < SWIPE_MIN_DISTANCE) return;
+            if (Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+            if (velocity < SWIPE_MIN_VELOCITY) return;
+
+            if (deltaX < 0) showNext();
+            else showPrev();
+        }, { passive: true });
+
+        /* =========================================================
+           ۳.۲ — SECTION INDICATOR
+        ========================================================= */
+        const sectionIndicator = document.getElementById("sectionIndicator");
+        const indicatorName = document.getElementById("sectionIndicatorName");
+        const indicatorCount = document.getElementById("sectionIndicatorCount");
+        const indicatorBar = document.getElementById("sectionIndicatorBar");
+
+        let activeSectionId = UX_SECTIONS[0].id;
+        let indicatorFadeTimer = null;
+
+        function renderSectionIndicator() {
+            if (!sectionIndicator) return;
+
+            const index = UX_SECTIONS.findIndex(section => section.id === activeSectionId);
+            const entry = UX_SECTIONS[index === -1 ? 0 : index];
+            const total = UX_SECTIONS.length;
+            const english = isEnglish();
+
+            const label = english ? entry.en : entry.fa;
+            const position = index === -1 ? 1 : index + 1;
+
+            if (indicatorName.textContent !== label) {
+                indicatorName.classList.add("is-fading");
+                clearTimeout(indicatorFadeTimer);
+                indicatorFadeTimer = setTimeout(function () {
+                    indicatorName.textContent = label;
+                    indicatorName.classList.remove("is-fading");
+                }, 170);
+            }
+
+            if (indicatorCount) {
+                indicatorCount.textContent = english
+                    ? pad2(position) + " / " + pad2(total)
+                    : toFaDigits(pad2(position)) + " / " + toFaDigits(pad2(total));
+            }
+            if (indicatorBar) indicatorBar.style.width = Math.round((position / total) * 100) + "%";
+        }
+
+        function setActiveSection(id) {
+            if (!id || id === activeSectionId) return;
+            activeSectionId = id;
+            renderSectionIndicator();
+        }
+
+        if (sectionIndicator && "IntersectionObserver" in window) {
+            const indicatorObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) setActiveSection(entry.target.dataset.uxSection || entry.target.id);
+                });
+            }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+
+            UX_SECTIONS.forEach(function (section) {
+                const element = section.selector.charAt(0) === "#"
+                    ? document.getElementById(section.id)
+                    : document.querySelector(section.selector);
+                if (!element) return;
+                element.dataset.uxSection = section.id;
+                indicatorObserver.observe(element);
+            });
+
+            const updateIndicatorVisibility = function () {
+                sectionIndicator.classList.toggle("visible", window.scrollY > 140);
+            };
+            window.addEventListener("scroll", updateIndicatorVisibility, { passive: true });
+            updateIndicatorVisibility();
+        }
+
+        /* =========================================================
+           ۳.۳ / ۳.۸ — BREADCRUMB ACTION + LOCALISED ATTRIBUTES
+        ========================================================= */
+        const crumbPortfolio = document.getElementById("modalCrumbPortfolio");
+        if (crumbPortfolio) {
+            crumbPortfolio.addEventListener("click", function () {
+                closePortfolio();
+                setTimeout(function () { scrollToTarget("portfolio"); }, 60);
+            });
+        }
+
+        function localizeUiAttributes() {
+            const english = isEnglish();
+
+            document.querySelectorAll("[data-uilabel-fa]").forEach(function (element) {
+                element.setAttribute("aria-label", english ? element.dataset.uilabelEn || element.dataset.uilabelFa : element.dataset.uilabelFa);
+            });
+            document.querySelectorAll("[data-uiplaceholder-fa]").forEach(function (element) {
+                element.placeholder = english ? element.dataset.uiplaceholderEn || element.dataset.uiplaceholderFa : element.dataset.uiplaceholderFa;
+            });
+            document.querySelectorAll("[data-uititle-fa]").forEach(function (element) {
+                element.title = english ? element.dataset.uititleEn || element.dataset.uititleFa : element.dataset.uititleFa;
+            });
+        }
+
+        function syncExperienceUi() {
+            localizeUiAttributes();
+            renderSectionIndicator();
+            updateModalBreadcrumb();
+            if (paletteOpen) renderPaletteResults();
+        }
+
+        /* هر بار که updateLanguage() زبان را عوض کند، این observer اجرا می‌شود. */
+        new MutationObserver(syncExperienceUi).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["lang"]
+        });
+
+        syncExperienceUi();
+    })();
+
+
+    /* =========================================================
+       PART 4 — NEW FEATURES
+       ۴.الف.۱ PWA (manifest + service worker + نصب)
+       ۴.الف.۲ کپی لینک عمیق برای هر نمونه‌کار
+       ۴.الف.۳ زمان مطالعه‌ی بیوگرافی
+       ۴.الف.۴ نشان «دیده‌شده» روی نمونه‌کارها
+       ۴.ج.۱   فرم تماس
+       ۴.ج.۳   analytics سبک
+       ۴.ج.۴   اعلان‌های وب (سبک)
+    ========================================================= */
+
+    (function initPart4Features() {
+
+        const FA_DIGITS_4 = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+        const faDigits = value => String(value).replace(/[0-9]/g, digit => FA_DIGITS_4[Number(digit)]);
+        const isEnglish = () => currentLanguage === "en";
+        const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const storage = {
+            read(key, fallback) {
+                try {
+                    const raw = window.localStorage.getItem(key);
+                    return raw === null ? fallback : JSON.parse(raw);
+                } catch (_) { return fallback; }
+            },
+            write(key, value) {
+                try { window.localStorage.setItem(key, JSON.stringify(value)); } catch (_) {}
+            },
+            set(key, value) {
+                try { window.localStorage.setItem(key, String(value)); } catch (_) {}
+            },
+            get(key) {
+                try { return window.localStorage.getItem(key); } catch (_) { return null; }
+            }
+        };
+
+        /* =====================================================
+           ۴.ج.۳ — ANALYTICS سبک
+           plausible / umami / همیشه localStorage (۲۰۰ رویداد آخر)
+        ===================================================== */
+        const EVENTS_KEY = "aliGraphEvents";
+        const EVENTS_MAX = 200;
+
+        window.trackEvent = function trackEvent(name, props) {
+            try {
+                const data = props && typeof props === "object" ? props : {};
+
+                if (typeof window.plausible === "function") {
+                    window.plausible(name, { props: data });
+                }
+                if (window.umami && typeof window.umami.track === "function") {
+                    window.umami.track(name, data);
+                }
+
+                const list = storage.read(EVENTS_KEY, []);
+                if (!Array.isArray(list)) return;
+                list.push({ t: Date.now(), name: name, props: data });
+                storage.write(EVENTS_KEY, list.slice(-EVENTS_MAX));
+            } catch (_) { /* هیچ‌وقت نباید سایت را بشکند */ }
+        };
+
+        /* ---- اتصال ایونت‌ها به تعامل‌های موجود ---- */
+        trackEvent("page_view", { path: window.location.pathname, hash: window.location.hash });
+
+        document.getElementById("openMenu").addEventListener("click", () => trackEvent("menu_open"));
+
+        document.getElementById("shareButton").addEventListener("click", () => {
+            const card = galleryCards[currentGalleryIndex];
+            trackEvent("share", { workId: card ? card.dataset.workId : null });
+        });
+
+        document.getElementById("downloadButton").addEventListener("click", () => {
+            const card = galleryCards[currentGalleryIndex];
+            trackEvent("download", { workId: card ? card.dataset.workId : null });
+        });
+
+        /* لایک‌ها propagation را متوقف می‌کنند، پس در فاز capture گوش می‌دهیم. */
+        document.addEventListener("click", event => {
+            const button = event.target.closest ? event.target.closest(".like-btn") : null;
+            if (!button) return;
+            const card = button.closest(".portfolio-card");
+            trackEvent("like", {
+                workId: card ? card.dataset.workId : null,
+                value: button.getAttribute("aria-pressed") === "true" ? "unlike" : "like"
+            });
+        }, true);
+
+        /* Command palette باز شد (از طریق رویداد سفارشیِ بخش ۳) */
+        document.addEventListener("ag:command-palette-open", () => trackEvent("command_palette_open"));
+
+        /* تغییر زبان — اولین فراخوانیِ observer نادیده گرفته می‌شود. */
+        let languageObserverReady = false;
+        new MutationObserver(() => {
+            if (!languageObserverReady) { languageObserverReady = true; return; }
+            trackEvent("language_change", { language: currentLanguage });
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+
+        /* =====================================================
+           ۴.الف.۱ — PWA
+        ===================================================== */
+        const PWA_DISMISS_KEY = "aliGraphPwaDismissed";
+        const PWA_INSTALLED_KEY = "aliGraphPwaInstalled";
+
+        const installBanner = document.getElementById("pwaInstall");
+        const installAction = document.getElementById("pwaInstallAction");
+        const installClose = document.getElementById("pwaInstallClose");
+        let deferredInstallPrompt = null;
+
+        const isStandalone = () =>
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true;
+
+        /* ---- manifest با آیکون‌های ساخته‌شده توسط canvas ---- */
+        function loadLogoImage() {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = () => reject(new Error("logo failed"));
+                image.src = "logo.webp";
+            });
+        }
+
+        function drawIcon(size, source) {
+            const canvas = document.createElement("canvas");
+            canvas.width = size;
+            canvas.height = size;
+            const context = canvas.getContext("2d");
+            if (!context) return null;
+
+            context.fillStyle = "#111110";
+            context.fillRect(0, 0, size, size);
+
+            const padding = Math.round(size * 0.14);
+            const box = size - padding * 2;
+            const ratio = Math.min(box / source.naturalWidth, box / source.naturalHeight);
+            const width = source.naturalWidth * ratio;
+            const height = source.naturalHeight * ratio;
+
+            context.drawImage(source, (size - width) / 2, (size - height) / 2, width, height);
+            return canvas.toDataURL("image/png");
+        }
+
+        async function buildManifestIcons() {
+            const fallback = [{ src: "logo.webp", sizes: "512x512", type: "image/webp", purpose: "any" }];
+            try {
+                const logo = await loadLogoImage();
+                if (!logo.naturalWidth) return fallback;
+
+                const icons = [];
+                [192, 512].forEach(size => {
+                    const url = drawIcon(size, logo);
+                    if (url) icons.push({ src: url, sizes: size + "x" + size, type: "image/png", purpose: "any" });
+                });
+
+                const maskable = drawIcon(512, logo);
+                if (maskable) icons.push({ src: maskable, sizes: "512x512", type: "image/png", purpose: "maskable" });
+
+                return icons.length ? icons : fallback;
+            } catch (_) {
+                return fallback;
+            }
+        }
+
+        async function setupManifest() {
+            const icons = await buildManifestIcons();
+
+            const manifest = {
+                name: "علی گراف | Ali Graph",
+                short_name: "Ali Graph",
+                description: "طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.",
+                start_url: "./",
+                scope: "./",
+                display: "standalone",
+                orientation: "portrait",
+                background_color: "#111110",
+                theme_color: "#111110",
+                lang: "fa",
+                dir: "rtl",
+                icons: icons
+            };
+
+            let link = document.querySelector('link[rel="manifest"]');
+            if (!link) {
+                link = document.createElement("link");
+                link.rel = "manifest";
+                document.head.appendChild(link);
+            }
+
+            try {
+                const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+                link.href = URL.createObjectURL(blob);
+            } catch (_) {
+                link.href = "manifest.webmanifest";
+            }
+
+            /* آیکونِ iOS هم از همان تصویر ساخته‌شده استفاده می‌کند. */
+            let apple = document.querySelector('link[rel="apple-touch-icon"]');
+            if (!apple) {
+                apple = document.createElement("link");
+                apple.rel = "apple-touch-icon";
+                document.head.appendChild(apple);
+            }
+            if (icons[0] && icons[0].src) apple.href = icons[0].src;
+        }
+
+        /* ---- Service Worker (خطاها بی‌سروصدا نادیده گرفته می‌شوند) ---- */
+        function registerServiceWorker() {
+            if (!("serviceWorker" in navigator)) return;
+            if (!/^https?:$/.test(window.location.protocol)) return;
+
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("sw.js").catch(() => {});
+            });
+        }
+
+        /* ---- بنر نصب ---- */
+        function hideInstallBanner(remember) {
+            if (!installBanner) return;
+            installBanner.classList.remove("show");
+            if (remember) storage.set(PWA_DISMISS_KEY, "1");
+        }
+
+        function showInstallBanner() {
+            if (!installBanner) return;
+            if (isStandalone()) return;
+            if (storage.get(PWA_DISMISS_KEY) === "1") return;
+            installBanner.classList.add("show");
+        }
+
+        async function runInstallPrompt() {
+            if (deferredInstallPrompt) {
+                const prompt = deferredInstallPrompt;
+                deferredInstallPrompt = null;
+                try {
+                    prompt.prompt();
+                    const choice = await prompt.userChoice;
+                    trackEvent("pwa_install_prompt", { outcome: choice && choice.outcome ? choice.outcome : "unknown" });
+                    if (choice && choice.outcome === "accepted") {
+                        showToast(isEnglish() ? "Installing the app…" : "درحال نصب اپلیکیشن…", "info");
+                    }
+                } catch (_) {}
+                hideInstallBanner(false);
+                return;
+            }
+
+            /* iOS Safari قبل از نصب،prompt نمی‌دهد: فقط راهنما نشان می‌دهیم. */
+            showToast(
+                isEnglish()
+                    ? "Tap Share, then \"Add to Home Screen\"."
+                    : "از منوی اشتراک‌گذاری، «افزودن به صفحه‌ی اصلی» را انتخاب کن.",
+                "info"
+            );
+        }
+
+        window.addEventListener("beforeinstallprompt", event => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            showInstallBanner();
+        });
+
+        window.addEventListener("appinstalled", () => {
+            storage.set(PWA_INSTALLED_KEY, "1");
+            hideInstallBanner(true);
+            showToast(isEnglish() ? "The app was installed." : "اپلیکیشن نصب شد.", "success");
+            trackEvent("pwa_installed");
+        });
+
+        if (installAction) installAction.addEventListener("click", runInstallPrompt);
+        if (installClose) installClose.addEventListener("click", () => hideInstallBanner(true));
+
+        /* iOS: prompt رویدادی ندارد، بنابراین بنر را خودمان نشان می‌دهیم. */
+        const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+        if (isIos && !isStandalone() && storage.get(PWA_DISMISS_KEY) !== "1") {
+            window.setTimeout(showInstallBanner, 4000);
+        }
+
+        setupManifest();
+        registerServiceWorker();
+
+        /* =====================================================
+           ۴.الف.۴ — آخرین بازدید / نشان «دیده‌شده»
+        ===================================================== */
+        const VIEWED_KEY = "aliGraphViewedWorks";
+        const VIEWED_MAX = 20;
+
+        function readViewedWorks() {
+            const list = storage.read(VIEWED_KEY, []);
+            if (!Array.isArray(list)) return [];
+
+            const clean = list
+                .filter(entry => entry && entry.id)
+                .map(entry => ({ id: String(entry.id), t: Number(entry.t) || Date.now() }));
+
+            /* همیشه فقط ۲۰ مورد آخر نگه داشته می‌شود (حتی اگر داده دستی تغییر کرده باشد). */
+            if (clean.length > VIEWED_MAX) {
+                storage.write(VIEWED_KEY, clean.slice(0, VIEWED_MAX));
+            }
+            return clean.slice(0, VIEWED_MAX);
+        }
+
+        function markWorkAsViewed(workId) {
+            if (!workId) return;
+            const id = String(workId);
+            const list = readViewedWorks().filter(entry => entry.id !== id);
+            list.unshift({ id: id, t: Date.now() });
+            storage.write(VIEWED_KEY, list.slice(0, VIEWED_MAX));
+            renderViewedBadges();
+        }
+
+        function createViewedBadge() {
+            const badge = document.createElement("span");
+            badge.className = "viewed-badge";
+            badge.setAttribute("data-uilabel-fa", "قبلاً دیده‌شده");
+            badge.setAttribute("data-uilabel-en", "Viewed before");
+            badge.setAttribute("data-uititle-fa", "قبلاً دیده‌شده");
+            badge.setAttribute("data-uititle-en", "Viewed before");
+            badge.innerHTML =
+                '<i aria-hidden="true"><svg fill="none" stroke="currentColor" stroke-width="1.6" ' +
+                'stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">' +
+                '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/>' +
+                '<circle cx="12" cy="12" r="2.8"/></svg></i>' +
+                '<span class="viewed-badge-text" data-en="Viewed" data-fa="دیده‌شده">دیده‌شده</span>';
+
+            applyBilingualLabels(badge);
+            return badge;
+        }
+
+        function renderViewedBadges() {
+            const viewed = new Set(readViewedWorks().map(entry => entry.id));
+
+            galleryCards.forEach(card => {
+                const id = String(card.dataset.workId || card.dataset.image || "");
+                let badge = card.querySelector(":scope > .viewed-badge");
+
+                if (viewed.has(id) && id) {
+                    if (!badge) {
+                        badge = createViewedBadge();
+                        card.appendChild(badge);
+                    }
+                } else if (badge) {
+                    badge.remove();
+                }
+            });
+        }
+
+        /* =====================================================
+           ۴.الف.۲ — کپی لینکِ عمیق نمونه‌کار
+        ===================================================== */
+        function pageBaseUrl() {
+            if (window.location.origin && window.location.origin !== "null") {
+                return window.location.origin + window.location.pathname;
+            }
+            return window.location.href.split("#")[0];
+        }
+
+        function workShareUrl(workId) {
+            return pageBaseUrl() + "#work-" + encodeURIComponent(String(workId));
+        }
+
+        async function copyText(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    return true;
+                } catch (_) { /* ادامه به روش پشتیبان */ }
+            }
+
+            try {
+                const helper = document.createElement("textarea");
+                helper.value = text;
+                helper.setAttribute("readonly", "");
+                helper.style.position = "fixed";
+                helper.style.top = "-1000px";
+                helper.style.opacity = "0";
+                document.body.appendChild(helper);
+                helper.select();
+                const ok = document.execCommand("copy");
+                helper.remove();
+                return ok;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        document.getElementById("copyLinkButton").addEventListener("click", async () => {
+            const card = galleryCards[currentGalleryIndex];
+            const workId = card ? (card.dataset.workId || card.dataset.image) : "";
+
+            if (!workId) {
+                showToast(isEnglish() ? "No work selected." : "کاری انتخاب نشده است.", "error");
+                return;
+            }
+
+            const ok = await copyText(workShareUrl(workId));
+            showToast(
+                ok
+                    ? (isEnglish() ? "Work link copied." : "لینک این نمونه‌کار کپی شد.")
+                    : (isEnglish() ? "Unable to copy the link." : "کپی لینک انجام نشد."),
+                ok ? "success" : "error"
+            );
+            trackEvent("copy_link", { workId: workId, ok: ok });
+        });
+
+        /* ---- باز کردن خودکارِ کار از روی هشِ صفحه ---- */
+        function openWorkFromHash() {
+            const hash = window.location.hash || "";
+            if (hash.indexOf("#work-") !== 0) return;
+
+            const id = decodeURIComponent(hash.slice("#work-".length));
+            if (!id) return;
+
+            const card = galleryCards.filter(item =>
+                item.dataset.workId === id || item.dataset.image === id)[0];
+            if (!card) return;
+
+            const delay = document.body.classList.contains("splash-done") ? 150 : 1900;
+            window.setTimeout(() => {
+                if (!portfolioModal.classList.contains("active")) openPortfolio(card);
+            }, delay);
+        }
+
+        /* =====================================================
+           اتصالِ «باز شدنِ کار» به نشانِ دیده‌شده، هش و analytics
+        ===================================================== */
+        const nativeOpenPortfolio = window.openPortfolio;
+        window.openPortfolio = function openPortfolio(card) {
+            const result = nativeOpenPortfolio(card);
+
+            try {
+                const workId = card && (card.dataset.workId || card.dataset.image);
+                if (workId) {
+                    markWorkAsViewed(workId);
+                    if (window.history && window.history.replaceState) {
+                        window.history.replaceState(null, "", "#work-" + encodeURIComponent(String(workId)));
+                    }
+                }
+                trackEvent("portfolio_open", { workId: workId || null });
+            } catch (_) {}
+
+            return result;
+        };
+
+        const nativeClosePortfolio = window.closePortfolio;
+        window.closePortfolio = function closePortfolio() {
+            const result = nativeClosePortfolio.apply(this, arguments);
+            try {
+                if (window.history && window.history.replaceState) {
+                    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+                }
+            } catch (_) {}
+            return result;
+        };
+
+        /* =====================================================
+           ۴.الف.۳ — زمان مطالعه‌ی بیوگرافی
+        ===================================================== */
+        const aboutLongText = document.querySelector("#aboutPage .about-long");
+        const aboutReadTime = document.getElementById("aboutReadTime");
+
+        function renderReadTime() {
+            if (!aboutReadTime || !aboutLongText) return;
+
+            const text = (aboutLongText.textContent || "").trim();
+            const words = text ? text.split(/\s+/u).length : 0;
+            const perMinute = isEnglish() ? 220 : 200;
+            const minutes = Math.max(1, Math.round(words / perMinute));
+
+            aboutReadTime.textContent = isEnglish()
+                ? "~" + minutes + " min"
+                : "~" + faDigits(minutes) + " دقیقه";
+        }
+
+        /* =====================================================
+           ۴.ج.۱ — فرم تماس
+        ===================================================== */
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgaoejqk";
+
+        const FORM_MESSAGES = {
+            nameRequired: { fa: "نام خود را وارد کن.", en: "Please enter your name." },
+            nameShort: { fa: "نام باید حداقل ۲ حرف باشد.", en: "Your name must be at least 2 characters." },
+            contactRequired: { fa: "ایمیل یا آیدی پیام‌رسان را وارد کن.", en: "Enter an email address or messenger ID." },
+            contactInvalid: { fa: "فرمت ایمیل درست نیست.", en: "That email address looks invalid." },
+            messageRequired: { fa: "توضیحات پروژه را بنویس.", en: "Please describe your project." },
+            messageShort: { fa: "توضیحات باید حداقل ۲۰ کاراکتر باشد.", en: "Please write at least 20 characters." },
+            submitError: { fa: "ارسال انجام نشد؛ دوباره تلاش کن.", en: "Sending failed. Please try again." },
+            submitOk: { fa: "پیام شما ارسال شد. به‌زودی پاسخ می‌دم.", en: "Your message was sent. I will reply soon." }
+        };
+
+        const formMessage = key => {
+            const entry = FORM_MESSAGES[key] || FORM_MESSAGES.submitError;
+            return isEnglish() ? entry.en : entry.fa;
+        };
+
+        const contactForm = document.getElementById("contactForm");
+        const contactName = document.getElementById("contactName");
+        const contactContact = document.getElementById("contactContact");
+        const contactMessage = document.getElementById("contactMessage");
+        const contactType = document.getElementById("contactType");
+        const contactSubmit = document.getElementById("contactSubmit");
+        const contactCharCount = document.getElementById("contactCharCount");
+
+        const formFields = [
+            { input: contactName, error: document.getElementById("contactNameError") },
+            { input: contactContact, error: document.getElementById("contactContactError") },
+            { input: contactMessage, error: document.getElementById("contactMessageError") }
+        ];
+
+        const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u;
+
+        function looksLikeEmail(value) {
+            return value.indexOf("@") !== -1 && !/^@/u.test(value);
+        }
+
+        function validateField(field) {
+            const input = field.input;
+            if (!input) return null;
+
+            const value = (input.value || "").trim();
+
+            if (input === contactName) {
+                if (!value) return "nameRequired";
+                if (value.length < 2) return "nameShort";
+                return null;
+            }
+
+            if (input === contactContact) {
+                if (!value) return "contactRequired";
+                if (looksLikeEmail(value) && !EMAIL_PATTERN.test(value)) return "contactInvalid";
+                return null;
+            }
+
+            if (input === contactMessage) {
+                if (!value) return "messageRequired";
+                if (value.length < 20) return "messageShort";
+                return null;
+            }
+
+            return null;
+        }
+
+        function setFieldError(field, messageKey) {
+            if (!field || !field.input || !field.error) return;
+
+            if (!messageKey) {
+                field.input.removeAttribute("aria-invalid");
+                field.error.hidden = true;
+                field.error.textContent = "";
+                return;
+            }
+
+            field.input.setAttribute("aria-invalid", "true");
+            field.error.hidden = false;
+            field.error.textContent = formMessage(messageKey);
+        }
+
+        function renderCharCount() {
+            if (!contactCharCount || !contactMessage) return;
+            const length = (contactMessage.value || "").length;
+            contactCharCount.textContent = isEnglish()
+                ? length + " / 1000"
+                : faDigits(length) + " / " + faDigits(1000);
+        }
+
+        function refreshFormMessages() {
+            formFields.forEach(field => {
+                if (field.error && !field.error.hidden && field.error.dataset.messageKey) {
+                    field.error.textContent = formMessage(field.error.dataset.messageKey);
+                }
+            });
+            renderCharCount();
+        }
+
+        formFields.forEach(field => {
+            if (!field.input) return;
+
+            field.input.addEventListener("blur", () => {
+                const key = validateField(field);
+                if (key) field.error.dataset.messageKey = key;
+                setFieldError(field, key);
+            });
+
+            field.input.addEventListener("input", () => {
+                renderCharCount();
+                if (field.input.getAttribute("aria-invalid") === "true") {
+                    const key = validateField(field);
+                    if (key) field.error.dataset.messageKey = key;
+                    setFieldError(field, key);
+                }
+            });
+        });
+
+        if (contactForm) {
+            contactForm.addEventListener("submit", async event => {
+                event.preventDefault();
+
+                let firstInvalid = null;
+                let invalidCount = 0;
+
+                formFields.forEach(field => {
+                    const key = validateField(field);
+                    if (key) {
+                        field.error.dataset.messageKey = key;
+                        invalidCount++;
+                        if (!firstInvalid) firstInvalid = field.input;
+                    }
+                    setFieldError(field, key);
+                });
+
+                if (invalidCount) {
+                    if (firstInvalid) firstInvalid.focus();
+                    trackEvent("contact_form_submit", { status: "invalid", fields: invalidCount });
+                    showToast(
+                        isEnglish() ? "Please fix the highlighted fields." : "لطفاً موارد مشخص‌شده را اصلاح کن.",
+                        "error"
+                    );
+                    return;
+                }
+
+                const icon = contactSubmit.querySelector("i");
+                const originalIconClass = icon ? icon.className : "";
+                const payload = {
+                    name: (contactName.value || "").trim(),
+                    contact: (contactContact.value || "").trim(),
+                    projectType: contactType ? contactType.value : "",
+                    message: (contactMessage.value || "").trim(),
+                    language: currentLanguage,
+                    page: window.location.href
+                };
+
+                contactSubmit.disabled = true;
+                contactForm.classList.add("is-busy");
+                if (icon) icon.className = "fa-solid fa-spinner fa-spin";
+
+                try {
+                    const response = await fetch(FORMSPREE_ENDPOINT, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", Accept: "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) throw new Error("formspree failed");
+
+                    contactForm.reset();
+                    formFields.forEach(field => setFieldError(field, null));
+                    renderCharCount();
+                    showToast(formMessage("submitOk"), "success");
+                    trackEvent("contact_form_submit", { status: "ok", projectType: payload.projectType });
+                } catch (_) {
+                    showToast(formMessage("submitError"), "error");
+                    trackEvent("contact_form_submit", { status: "error" });
+                } finally {
+                    contactSubmit.disabled = false;
+                    contactForm.classList.remove("is-busy");
+                    if (icon) icon.className = originalIconClass;
+                }
+            });
+        }
+
+        /* =====================================================
+           ۴.ج.۴ — اعلان‌های وب (سبک)
+        ===================================================== */
+        const NOTIFY_KEY = "aliGraphNotificationState";
+        const notifyButton = document.getElementById("enableNotifications");
+
+        function refreshNotificationButton() {
+            if (!notifyButton) return;
+
+            if (!("Notification" in window)) { notifyButton.hidden = true; return; }
+            if (Notification.permission === "granted" || Notification.permission === "denied") {
+                notifyButton.hidden = true;
+                return;
+            }
+            if (storage.get(NOTIFY_KEY) === "dismissed") { notifyButton.hidden = true; return; }
+
+            notifyButton.hidden = false;
+        }
+
+        function requestNotificationPermission() {
+            return new Promise(resolve => {
+                try {
+                    const result = Notification.requestPermission(value => resolve(value));
+                    if (result && typeof result.then === "function") {
+                        result.then(resolve, () => resolve(Notification.permission));
+                    }
+                } catch (_) {
+                    resolve("denied");
+                }
+            });
+        }
+
+        if (notifyButton) {
+            refreshNotificationButton();
+
+            notifyButton.addEventListener("click", async () => {
+                const permission = await requestNotificationPermission();
+                storage.set(NOTIFY_KEY, permission);
+                trackEvent("notifications_permission", { permission: permission });
+
+                if (permission === "granted") {
+                    try {
+                        /* eslint-disable no-new */
+                        new Notification(
+                            isEnglish() ? "Ali Graph" : "علی گراف",
+                            {
+                                body: isEnglish()
+                                    ? "From now on I will let you know about new work."
+                                    : "از این به بعد نمونه‌کارهای جدید رو خبر می‌دم",
+                                icon: "logo.webp",
+                                badge: "logo.webp"
+                            }
+                        );
+                    } catch (_) {}
+                    showToast(
+                        isEnglish() ? "Notifications are enabled." : "اعلان‌ها فعال شدند.",
+                        "success"
+                    );
+                } else if (permission === "denied") {
+                    showToast(
+                        isEnglish() ? "Notifications were blocked in the browser." : "اعلان‌ها در مرورگر مسدود شدند.",
+                        "error"
+                    );
+                }
+
+                refreshNotificationButton();
+            });
+        }
+
+        /* =====================================================
+           برچسب‌های دو زبانه‌ی عناصر ساخته‌شده با JS
+        ===================================================== */
+        function applyBilingualLabels(element) {
+            const english = isEnglish();
+            if (element.dataset.uilabelFa) {
+                element.setAttribute("aria-label", english ? (element.dataset.uilabelEn || element.dataset.uilabelFa) : element.dataset.uilabelFa);
+            }
+            if (element.dataset.uititleFa) {
+                element.title = english ? (element.dataset.uititleEn || element.dataset.uititleFa) : element.dataset.uititleFa;
+            }
+        }
+
+        /* =====================================================
+           راه‌اندازی و همگام‌سازی با تغییر زبان
+        ===================================================== */
+        function syncPart4Ui() {
+            renderViewedBadges();
+            renderReadTime();
+            refreshFormMessages();
+            refreshNotificationButton();
+        }
+
+        new MutationObserver(syncPart4Ui).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["lang"]
+        });
+
+        renderViewedBadges();
+        renderReadTime();
+        renderCharCount();
+        openWorkFromHash();
+    })();
+
 </script>
 </body>
 </html>
