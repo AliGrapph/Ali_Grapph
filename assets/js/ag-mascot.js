@@ -1,4 +1,4 @@
-/* Ali Grapph mascot v1 — vanilla JS, no changes to existing site functions.
+/* Ali Grapph mascot v2.0.0 — vanilla JS, no changes to existing site functions.
    Public lifecycle: window.AliGrapphMascot.destroy() / init().
    Set window.AG_MASCOT_OPTIONS before this file to opt into interaction.
 */
@@ -9,8 +9,16 @@
   const assetURL = scriptURL
     ? new URL('../mascot/ag-mascot.webp', scriptURL).href
     : 'assets/mascot/ag-mascot.webp';
-  const options = Object.assign({ interactive: false, asset: assetURL }, window.AG_MASCOT_OPTIONS || {});
-  let dispose = null;
+  const config = window.AG_MASCOT_OPTIONS || {};
+  const framesURL = scriptURL ? new URL('../mascot/frames/', scriptURL).href : 'assets/mascot/frames/';
+  const options = Object.assign({
+    interactive: false,
+    asset: assetURL,
+    frames: !config.asset, // Custom single-image assets keep their existing behavior.
+    framesBase: framesURL
+  }, config);
+  const frameBase = new URL(options.framesBase.replace(/\/?$/, '/'), document.baseURI).href;
+  let dispose = null, readState = () => ({ version: '2.0.0', initialized: false });
 
   function init() {
     if (dispose || !document.body || document.getElementById('ali-grapph-mascot')) return;
@@ -43,6 +51,10 @@
     let requested = false, ready = false, failed = false, running = false;
     let position = null, lastAction = '', size = 58, width = 0, height = 0;
     let boxes = [], obstacles = [], focused = false;
+    let spriteTimer = 0, spriteIndex = 0, currentFrame = '', wantedFrame = '';
+    let spritesEnabled = options.frames !== false, stuckCount = 0, firstMove = true;
+    let lastLocation = null;
+    const frameCache = new Map();
     const animations = new Set();
     const unlisten = [];
     const random = (a, b) => a + Math.random() * (b - a);
@@ -63,6 +75,90 @@
       timer = 0;
       if (!dead) timer = setTimeout(() => { timer = 0; if (!dead) fn(); }, delay);
     }
+    // A short-lived frame clock exists only during movement, never during idle.
+    // The movement decision timer is not running while a movement is in progress.
+    function stopFrames() {
+      clearTimeout(spriteTimer);
+      spriteTimer = 0;
+    }
+    function fetchPicture(key, url, done) {
+      let record = frameCache.get(key);
+      if (record) {
+        if (record.state === 'loading') { if (done) record.callbacks.push(done); }
+        else if (done) done(record.state === 'ready', record);
+        return;
+      }
+      const preloader = new Image();
+      preloader.decoding = 'async';
+      preloader.fetchPriority = 'low';
+      record = { state: 'loading', image: preloader, url, callbacks: done ? [done] : [] };
+      frameCache.set(key, record);
+      const finish = ok => {
+        record.state = ok ? 'ready' : 'missing';
+        preloader.onload = preloader.onerror = null;
+        const callbacks = record.callbacks.splice(0);
+        if (!dead) callbacks.forEach(fn => fn(ok, record));
+      };
+      preloader.onload = () => finish(preloader.naturalWidth > 0);
+      preloader.onerror = () => finish(false);
+      preloader.src = url;
+    }
+    function requestPose(name, done) {
+      fetchPicture(name, new URL(name + '.webp', frameBase).href, done);
+    }
+    function displayPicture(name, record, isFrame) {
+      if (dead || !record || record.state !== 'ready') return;
+      currentFrame = name;
+      if (image.getAttribute('src') !== record.url) image.src = record.url;
+      // Frames have generous transparent margins; keep the visible character small
+      // but legible. The safety gap also reserves room for this slight enlargement.
+      image.style.transform = isFrame ? 'scale(1.12)' : 'none';
+    }
+    function setPose(name) {
+      if (!spritesEnabled) return;
+      wantedFrame = name;
+      requestPose(name, (ok, record) => {
+        if (ok && wantedFrame === name && running && !blocked()) displayPicture(name, record, true);
+      });
+    }
+    function playFrames(names, duration) {
+      stopFrames();
+      if (!spritesEnabled || motion.matches || !names.length) return;
+      names.forEach(name => requestPose(name));
+      const until = performance.now() + duration;
+      const delay = compact.matches ? 165 : 130; // ~6 / ~8 fps, only on a moving 42/58px image.
+      spriteIndex = 0;
+      const tick = () => {
+        spriteTimer = 0;
+        if (dead || blocked() || !running || motion.matches) return;
+        const loaded = names.filter(name => frameCache.get(name)?.state === 'ready');
+        if (loaded.length) setPose(loaded[spriteIndex++ % loaded.length]);
+        const remaining = until - performance.now();
+        if (remaining > 20) spriteTimer = setTimeout(tick, Math.min(delay, remaining));
+      };
+      tick();
+    }
+    function loadInitialPicture() {
+      if (dead || blocked()) return;
+      const legacy = () => {
+        spritesEnabled = false;
+        fetchPicture('__single', options.asset, (ok, record) => {
+          if (!ok) { failed = true; stop(); return; }
+          ready = true;
+          displayPicture('single-image', record, false);
+          sync();
+        });
+      };
+      if (!spritesEnabled) { legacy(); return; }
+      requestPose('idle-01', (ok, record) => {
+        if (!ok) { legacy(); return; }
+        ready = true;
+        displayPicture('idle-01', record, true);
+        sync();
+        // Do not preload all 28 files: just four tiny walking frames, after Loader.
+        if (!motion.matches && !blocked()) ['walk-01','walk-02','walk-03','walk-04'].forEach(name => requestPose(name));
+      });
+    }
     function label() {
       if (options.interactive) inner.setAttribute('aria-label', document.documentElement.lang === 'en'
         ? 'Say hello to the little mascot' : 'سلام به مسکات کوچولو');
@@ -80,6 +176,9 @@
     }
     function stop() {
       ++revision;
+      stopFrames();
+      wantedFrame = '';
+      if (position) lastLocation = { x: position.x, y: position.y };
       clearTimeout(timer); timer = 0;
       animations.forEach(a => a.cancel()); animations.clear();
       actor.className = 'ag-mascot';
@@ -147,7 +246,7 @@
       range.detach();
     }
     function clearRect(x, y, r, b) {
-      const gap = compact.matches ? 6 : 8;
+      const gap = compact.matches ? 4 : 8;
       return !boxes.some(o => r + gap > o.x && x - gap < o.r && b + gap > o.y && y - gap < o.b);
     }
     function safe(p) {
@@ -160,42 +259,64 @@
     }
     function places() {
       if (width < size + 16 || height < size + 32) return [];
-      const result = [];
-      // On mobile stay near the floor, just above existing fixed navigation.
+      const result = [], used = new Set();
       let floor = height - size - 8;
       const nav = document.querySelector('.floating-nav');
       if (compact.matches && nav) {
         const r = nav.getBoundingClientRect();
         if (r.top > height / 2 && r.top < height) floor = Math.min(floor, r.top - size - 12);
       }
-      // Include safe-area inset without changing any page styles.
-      const inset = parseFloat(getComputedStyle(root).paddingBottom) || 0;
-      floor -= inset;
-      const rows = compact.matches ? [floor, floor - size - 16] : [floor, floor - size - 18, floor - 2 * size - 36];
-      for (const y of rows) {
-        for (let x = 8; x <= width - size - 8; x += compact.matches ? 22 : 32) {
-          const p = { x, y }; if (safe(p)) result.push(p);
-        }
+      floor -= parseFloat(getComputedStyle(root).paddingBottom) || 0;
+      function add(x, y) {
+        const key = x + ':' + y;
+        const p = { x, y };
+        if (!used.has(key) && safe(p)) { used.add(key); result.push(p); }
       }
-      if (!compact.matches) {
+      const rows = [floor, floor - size - 16, floor - 2 * size - 32];
+      for (const y of rows) for (let x = 8; x <= width - size - 8; x += compact.matches ? 16 : 32) add(x, y);
+      if (compact.matches) {
+        // V1 checked only two rows above the bottom menu. On a real phone both
+        // often intersected the hero artwork. Search other genuine whitespace too.
+        const header = document.querySelector('.top-nav');
+        const top = Math.max(84, header ? header.getBoundingClientRect().bottom + 10 : 84);
+        for (let y = floor; y >= top; y -= 20) {
+          for (let x = 4; x <= width - size - 4; x += 16) add(x, y);
+          add(width - size - 4, y);
+        }
+      } else {
         for (let y = Math.max(90, height * .3); y < floor; y += 32) {
-          for (const x of [8, width - size - 8]) { const p = { x, y }; if (safe(p)) result.push(p); }
+          add(8, y); add(width - size - 8, y);
         }
       }
-      return result;
+      // Prefer a spot with room to take an actual step, rather than an isolated
+      // hole in the layout. Never weaken collision protection for text/buttons.
+      const movable = result.filter(p =>
+        [-24, 24].some(dx => route(p, { x: p.x + dx, y: p.y }, 2)) ||
+        [-24, 24].some(dy => route(p, { x: p.x, y: p.y + dy }, 2)));
+      const pool = movable.length ? movable : result;
+      const fresh = lastLocation ? pool.filter(p => Math.hypot(p.x - lastLocation.x, p.y - lastLocation.y) > size) : pool;
+      return fresh.length ? fresh : pool;
     }
     function choose(array) { return array[Math.floor(Math.random() * array.length)]; }
     function idle() {
+      stopFrames();
       actor.className = 'ag-mascot ag-mascot--visible ag-mascot--idle';
       running = true;
+      setPose('idle-01');
       // Reduced motion: completely static; no recurring decision timer.
-      if (!motion.matches && !focused) schedule(step, random(compact.matches ? 4200 : 2200, compact.matches ? 8500 : 5200));
+      if (!motion.matches && !focused) {
+        const delay = firstMove ? random(850, 1250) : random(compact.matches ? 1800 : 2000, compact.matches ? 3200 : 4300);
+        firstMove = false;
+        schedule(step, delay);
+      }
     }
     function reveal(p) {
       position = p;
+      stuckCount = 0; firstMove = true;
       actor.style.transform = translate(p);
       actor.className = 'ag-mascot ag-mascot--visible';
       running = true;
+      setPose('idle-01');
       if (motion.matches) { idle(); return; }
       // Enter from below only if the entire entry corridor is clear.
       const canEnter = p.y > height - size * 2 && clearRect(p.x, p.y, p.x + size, height);
@@ -224,14 +345,20 @@
         animate(inner, [{ transform: 'scale(1)' }, { transform: 'scale(1.04, .97)' }, { transform: 'scale(1)' }], { duration });
       }
       lastAction = mode;
+      if (mode === 'walk') playFrames(climb
+        ? ['climb-01','climb-02','climb-03','climb-04']
+        : ['walk-01','walk-02','walk-03','walk-04'], duration);
+      else setPose(mode === 'jump' ? 'fly-01' : 'dash-01');
       animate(actor, keys, { duration, easing: jump ? 'ease-in-out' : 'linear' }, () => {
         position = to;
+        stuckCount = 0;
         actor.style.transform = translate(to);
         idle();
       });
     }
     function vanish() {
       lastAction = 'hide';
+      stopFrames();
       actor.className = 'ag-mascot ag-mascot--visible';
       let exit = null;
       if (position.x < size * 1.5) exit = { x: -size - 2, y: position.y };
@@ -242,7 +369,7 @@
       const keys = [{ opacity: 1, transform: translate(position) }, { opacity: 0, transform: translate(exit || position) }];
       animate(actor, keys, { duration: compact.matches ? 220 : 360, easing: 'ease-in' }, () => {
         stop();
-        schedule(sync, random(3500, compact.matches ? 11000 : 7500));
+        schedule(sync, random(compact.matches ? 1400 : 2500, compact.matches ? 3000 : 6000));
       });
     }
     function step() {
@@ -251,15 +378,15 @@
       survey();
       if (!position || !safe(position)) { stop(); sync(); return; }
       const roll = Math.random();
-      if (lastAction !== 'hide' && roll < .12) { vanish(); return; }
-      if (roll < .34 && lastAction !== 'idle') { lastAction = 'idle'; idle(); return; }
+      if (lastAction && lastAction !== 'hide' && roll < .08) { vanish(); return; }
+      if (lastAction && roll < .18 && lastAction !== 'idle') { lastAction = 'idle'; idle(); return; }
       const jumpLift = compact.matches ? 7 : 12;
       if (roll > .9 && lastAction !== 'jump' && position.y > jumpLift + 6 && route(position, position, jumpLift)) {
         move({ ...position }, 'jump'); return;
       }
       const maxDistance = compact.matches ? 100 : 300;
       const targets = [];
-      for (const dx of [-maxDistance, -maxDistance / 2, -26, 26, maxDistance / 2, maxDistance]) {
+      for (const dx of [-maxDistance, -maxDistance / 2, -32, -20, -12, 12, 20, 32, maxDistance / 2, maxDistance]) {
         const p = { x: Math.max(8, Math.min(width - size - 8, position.x + dx)), y: position.y };
         if (Math.abs(p.x - position.x) > 10 && route(position, p, 2)) targets.push(p);
       }
@@ -270,9 +397,25 @@
           if (route(position, p, 2)) targets.push(p);
         }
       }
-      if (!targets.length) { lastAction = 'idle'; idle(); return; }
+      if (compact.matches && !targets.length) {
+        // Small vertical steps inside whitespace are allowed on phones, but no
+        // wall-climbing or free flight across the content column.
+        for (const dy of [-32, -20, -12, 12, 20, 32]) {
+          const p = { x: position.x, y: position.y + dy };
+          if (route(position, p, 2)) targets.push(p);
+        }
+      }
+      if (!targets.length) {
+        ++stuckCount;
+        if (stuckCount >= 2) { vanish(); return; }
+        lastAction = 'idle';
+        idle();
+        setPose('look-up-01');
+        return;
+      }
       const mode = !compact.matches && roll > .78 && lastAction !== 'dash' ? 'dash' : 'walk';
-      move(choose(targets), mode);
+      const longerSteps = targets.filter(p => Math.hypot(p.x - position.x, p.y - position.y) >= (compact.matches ? 28 : 50));
+      move(choose(longerSteps.length ? longerSteps : targets), mode);
     }
     function sync() {
       if (dead || failed) return;
@@ -281,12 +424,12 @@
       if (!requested) {
         requested = true;
         // Do not start the image request until AFTER the existing loader finishes.
-        schedule(() => { image.src = options.asset; }, 700);
+        schedule(loadInitialPicture, 700);
         return;
       }
       if (!ready) {
         // If a visibility/overlay event cancelled the deferred image request.
-        if (!image.getAttribute('src')) schedule(() => { image.src = options.asset; }, 700);
+        if (![...frameCache.values()].some(record => record.state === 'loading')) schedule(loadInitialPicture, 700);
         return;
       }
       if (running) return;
@@ -317,6 +460,7 @@
       stop(); position = keep; running = true;
       actor.style.transform = translate(keep);
       actor.className = 'ag-mascot ag-mascot--visible';
+      setPose('happy-01');
       animate(inner, [
         { transform: 'scale(1) rotate(0)' },
         { transform: 'scale(1.04, .96) rotate(-7deg)' },
@@ -325,8 +469,6 @@
       ], { duration: 480, easing: 'ease-in-out' }, idle);
     }
 
-    listen(image, 'load', () => { ready = image.naturalWidth > 0; sync(); });
-    listen(image, 'error', () => { failed = true; stop(); });
     listen(document, 'visibilitychange', () => invalidate(300));
     listen(document, 'fullscreenchange', () => invalidate());
     listen(window, 'scroll', geometryChanged, { passive: true });
@@ -391,12 +533,28 @@
       observer.disconnect(); contentObserver.disconnect();
       if (resizeObserver) resizeObserver.disconnect();
       unlisten.forEach(fn => fn());
+      frameCache.forEach(record => {
+        record.image.onload = record.image.onerror = null;
+        record.callbacks.length = 0;
+      });
+      frameCache.clear();
+      readState = () => ({ version: '2.0.0', initialized: false });
       root.remove();
       dispose = null;
     };
+    readState = () => ({
+      version: '2.0.0', initialized: !dead,
+      reducedMotion: motion.matches, mobile: compact.matches,
+      visible: actor.classList.contains('ag-mascot--visible'),
+      blocked: !!blocked(), frame: currentFrame,
+      spritesEnabled,
+      loadedFrames: [...frameCache.values()].filter(record => record.state === 'ready').length,
+      moving: actor.classList.contains('ag-mascot--moving'),
+      position: position ? { x: position.x, y: position.y } : null
+    });
     label();
     sync();
   }
-  window.AliGrapphMascot = Object.freeze({ init, destroy() { if (dispose) dispose(); } });
+  window.AliGrapphMascot = Object.freeze({ version: '2.0.0', init, destroy() { if (dispose) dispose(); }, getState() { return readState(); } });
   init();
 })();
