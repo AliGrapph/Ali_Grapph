@@ -2114,13 +2114,13 @@ html[lang=en] .hero-social::before{content:'Stay connected'}
 .marquee-track{animation-duration:42s}
 .marquee-track span{font-size:13px;color:#fff!important;letter-spacing:2px;padding:0 28px}
 .marquee-track span:nth-child(even){font-size:20px;line-height:1;color:#ffb4aa!important}
-.section-heading{text-align:start;max-width:none;margin:0 0 42px;position:relative;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.section-heading{text-align:start;max-width:none;margin:0 0 42px;position:relative;padding-bottom:26px;padding-right:58px;border-bottom:1px solid var(--line)}
 .section-label{color:var(--muted);font-size:9px;letter-spacing:2.5px;gap:10px}
 .section-label::before{background:var(--red);width:17px}
 .section-label::after{display:none}
 .section-heading h2{font-size:clamp(30px,3.5vw,44px);line-height:1.5;margin-top:9px;letter-spacing:-1px}
 .section-heading p{font-size:12px;margin-top:10px;max-width:540px}
-.section-number{position:absolute;inset-inline-end:0;top:8px;font-size:12px;color:var(--muted-2);direction:ltr;letter-spacing:2px}
+.section-number{position:absolute;inset-inline-end:0;top:8px;font-size:12px;color:var(--muted-2);direction:ltr;letter-spacing:2px;white-space:nowrap}
 #portfolio{padding-top:88px}
 .portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
 .portfolio-card{border:0;border-radius:0;background:#21211e;overflow:hidden;box-shadow:none}
@@ -2176,7 +2176,7 @@ html[lang=en] #pricing .section-heading h2::after{content:' / Design services'}
 .pricing-disclaimer{margin-top:24px;font-size:11px}
 .contact-section{padding-top:0;padding-bottom:65px}
 #order{background:var(--red);color:#fff;border-radius:12px;padding:46px;position:relative;overflow:hidden;--line:#ffffff40;--muted:#ffdad3}
-#order .section-heading{border:0;padding:0;margin-bottom:29px}
+#order .section-heading{border:0;padding:0 58px 0 0;margin-bottom:29px}
 #order .section-label{color:#ffd6cf}
 #order .section-label::before{background:#fff}
 #order .section-heading h2{font-size:40px;color:#fff}
@@ -3703,6 +3703,616 @@ body.no-scroll .section-indicator { opacity: 0; transform: translateY(10px); }
     }
     .floating-nav a { padding: 0 4px; white-space: nowrap; }
 }
+
+/* ===========================================================
+   BLOG / ARTICLES
+   بخش مقاله — استایل کارت‌ها + صفحه‌ی مطالعه‌ی مقاله
+   همه‌ی رنگ‌ها از متغیرهای سایت گرفته شده‌اند.
+=========================================================== */
+
+/* ---- اطلاعیه بالای مقالات ---- */
+.blog-notice {
+    display: block;
+    margin: 0 0 42px;
+    padding: clamp(10px, 1.4vw, 16px);
+    border: 1px solid var(--line-red);
+    border-radius: 14px;
+    background:
+        linear-gradient(135deg, rgba(238, 64, 53, 0.09), transparent 55%),
+        rgba(244, 241, 233, 0.025);
+    transition: var(--transition);
+}
+
+.blog-notice-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.blog-notice-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.blog-notice-badge i { display: inline-flex; font-size: 12px; }
+
+.blog-notice-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-red), transparent);
+}
+
+.blog-notice-media {
+    display: block;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: #131311;
+}
+
+.blog-notice-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* تصویر کامل دیده می‌شود و بریده نمی‌شود (برای بنرهایی که متن دارند). */
+    object-fit: contain;
+    transition: transform 0.7s var(--ease), filter 0.4s var(--ease);
+}
+
+a.blog-notice:hover .blog-notice-media img { transform: scale(1.02); filter: brightness(1.06); }
+a.blog-notice:active { transform: scale(0.996); }
+
+@media (max-width: 620px) {
+    .blog-notice { margin-bottom: 32px; padding: 9px; border-radius: 12px; }
+    .blog-notice-head { margin-bottom: 9px; gap: 9px; }
+    .blog-notice-badge { font-size: 9px; padding: 5px 10px; }
+    .blog-notice-media { max-width: 100%; }
+}
+
+#blog {
+    padding: 88px 0 96px;
+    background: #0b0b0a;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 34px 24px;
+}
+
+.blog-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: start;
+    cursor: pointer;
+    transform: translateZ(0);
+    transition: transform 0.45s var(--ease), opacity 0.45s var(--ease);
+    transition-delay: 0s !important;
+}
+
+.blog-card:hover { transform: translateY(-7px); }
+.blog-card:active { transform: translateY(-2px) scale(0.995); }
+
+.blog-card.is-opening {
+    transform: translateY(-13px) scale(1.012);
+}
+
+/* ---- تصویر بنر ۱۶:۹ ---- */
+.blog-card-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background:
+        linear-gradient(135deg, rgba(238, 64, 53, 0.10), transparent 55%),
+        #191917;
+}
+
+.blog-card-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease), filter 0.5s var(--ease);
+}
+
+.blog-card:hover .blog-card-media img {
+    transform: scale(1.045);
+    filter: brightness(1.08);
+}
+
+.blog-card-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 50%, rgba(8, 8, 7, 0.6));
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+}
+
+.blog-card:hover .blog-card-media::after { opacity: 1; }
+
+.blog-card.image-error .blog-card-media img { opacity: 0; }
+
+.blog-card.image-error .blog-card-media::before {
+    content: "ALI GRAPPH";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    letter-spacing: 6px;
+    color: var(--muted-2);
+}
+
+/* ---- زمان مطالعه روی کارت ---- */
+.blog-card-time {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    inset-inline-end: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 241, 233, 0.2);
+    background: rgba(9, 9, 8, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    color: var(--text-soft);
+    font-size: 9.5px;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.blog-card-time i {
+    display: inline-flex;
+    font-size: 11px;
+    color: var(--red-light);
+}
+
+/* ---- متن کارت ---- */
+.blog-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 9px;
+    padding: 16px 2px 0;
+}
+
+.blog-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 9px;
+    letter-spacing: 1.4px;
+    color: var(--muted-2);
+}
+
+.blog-card-meta::before {
+    content: "";
+    width: 16px;
+    height: 1px;
+    background: var(--red);
+    flex: none;
+}
+
+.blog-card-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.75;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    transition: color 0.3s var(--ease);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-card:hover .blog-card-title { color: #ffffff; }
+
+.blog-card-excerpt {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 2.05;
+    color: var(--muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blog-card-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 10.5px;
+    color: var(--muted);
+    transition: color 0.3s var(--ease);
+}
+
+.blog-card:hover .blog-card-cta { color: var(--text); }
+
+.blog-card-cta i {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    margin-inline-start: auto;
+    border: 1px solid var(--line-2);
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 11px;
+    transition: var(--transition);
+}
+
+.blog-card:hover .blog-card-cta i {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    body.custom-cursor-active .blog-card { cursor: none; }
+}
+
+@media (max-width: 1024px) {
+    .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+    .section-heading { padding-right: 40px; }
+    #blog { padding: 66px 0 72px; }
+    .blog-grid { grid-template-columns: 1fr; gap: 30px; }
+    .blog-card-title { font-size: 16px; }
+    .blog-card-excerpt { font-size: 11.5px; }
+}
+
+/* ===========================================================
+   ARTICLE VIEWER (صفحه‌ی مطالعه)
+   با کلیک روی کارت، کارت «بالا می‌آید» و به مقاله باز می‌شود.
+=========================================================== */
+
+.article-view {
+    position: fixed;
+    inset: 0;
+    z-index: 1950;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(7, 7, 6, 0.82);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    transition: opacity 0.42s var(--ease), visibility 0.42s var(--ease);
+}
+
+.article-view.active { opacity: 1; visibility: visible; }
+
+.article-topbar {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px max(18px, calc((100% - 900px) / 2));
+    pointer-events: none;
+}
+
+.article-topbar button { pointer-events: auto; }
+
+.article-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(22, 22, 20, 0.9);
+    color: var(--text-soft);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.article-back i { display: inline-flex; font-size: 13px; color: var(--red-light); }
+
+.article-back:hover {
+    border-color: var(--line-red-2);
+    color: var(--text);
+    background: rgba(32, 32, 29, 0.95);
+}
+
+.article-close {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--line-2);
+    background: rgba(22, 22, 20, 0.9);
+    color: var(--text);
+    font-size: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.article-close:hover {
+    border-color: var(--line-red-2);
+    color: var(--red-light);
+    transform: rotate(90deg);
+}
+
+.article-scroll {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: calc(72px + env(safe-area-inset-top)) 18px 84px;
+}
+
+.article-sheet {
+    width: min(880px, 100%);
+    margin: 0 auto;
+    padding: clamp(16px, 2.4vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #151513;
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.62);
+    will-change: transform, opacity;
+    transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+.article-view.is-closing .article-sheet {
+    transform: translateY(28px) scale(0.985);
+    opacity: 0;
+}
+
+/* ---- زمان مطالعه / دسته ---- */
+.article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 16px;
+}
+
+.article-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(244, 241, 233, 0.035);
+    color: var(--muted);
+    font-size: 10.5px;
+    line-height: 1.4;
+}
+
+.article-pill i { display: inline-flex; font-size: 12px; color: var(--red-light); }
+
+.article-pill.article-time-pill {
+    border-color: var(--line-red);
+    background: rgba(238, 64, 53, 0.07);
+    color: var(--text-soft);
+}
+
+.article-pill[hidden] { display: none; }
+
+/* ---- بنر ۱۶:۹ ---- */
+.article-banner {
+    position: relative;
+    margin: 0 0 24px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background:
+        linear-gradient(135deg, rgba(238, 64, 53, 0.12), transparent 55%),
+        #1c1c1a;
+}
+
+.article-banner img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-banner.image-error img { opacity: 0; }
+
+.article-banner.image-error::after {
+    content: "ALI GRAPPH";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    letter-spacing: 7px;
+    color: var(--muted-2);
+}
+
+/* ---- عنوان و متن ---- */
+.article-title {
+    margin: 0 0 4px;
+    font-size: clamp(24px, 3.4vw, 38px);
+    font-weight: 700;
+    line-height: 1.65;
+    letter-spacing: -0.8px;
+    color: var(--text);
+}
+
+.article-content {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 2.25;
+    color: var(--text-soft);
+}
+
+.article-content > *:first-child { margin-top: 0; }
+.article-content p { margin: 0 0 18px; }
+
+.article-content h2 {
+    margin: 32px 0 14px;
+    font-size: clamp(18px, 2vw, 23px);
+    font-weight: 700;
+    line-height: 1.8;
+    letter-spacing: -0.3px;
+    color: var(--text);
+}
+
+.article-content h3 {
+    margin: 24px 0 10px;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.9;
+    color: var(--text);
+}
+
+.article-content ul,
+.article-content ol {
+    display: grid;
+    gap: 7px;
+    margin: 0 0 20px;
+    padding-inline-start: 20px;
+}
+
+.article-content li::marker { color: var(--red-light); }
+
+.article-content blockquote {
+    margin: 24px 0;
+    padding: 14px 18px;
+    border-inline-start: 2px solid var(--red);
+    border-radius: 8px;
+    background: rgba(238, 64, 53, 0.055);
+    color: var(--text-soft);
+}
+
+.article-content blockquote p:last-child { margin: 0; }
+.article-content strong { font-weight: 700; color: var(--text); }
+
+.article-content a {
+    color: var(--red-light);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.article-content img { margin: 22px 0; border-radius: 8px; }
+
+.article-content hr {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+}
+
+.article-content code {
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: rgba(244, 241, 233, 0.07);
+    font-family: monospace;
+    font-size: 0.9em;
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
+.article-content .article-body[data-lang] { display: block; }
+
+/* ---- ورود پله‌ای اجزای مقاله ---- */
+.article-view.is-revealed .article-banner { animation: articlePartIn 0.7s var(--ease) both; }
+.article-view.is-revealed .article-title { animation: articlePartIn 0.7s 0.07s var(--ease) both; }
+.article-view.is-revealed .article-content { animation: articlePartIn 0.7s 0.14s var(--ease) both; }
+
+@keyframes articlePartIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+    .article-topbar { padding: 10px 12px; }
+
+    .article-back {
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 10px;
+    }
+
+    .article-back span { display: none; }
+
+    .article-close { width: 38px; height: 38px; font-size: 13px; }
+
+    .article-scroll {
+        padding: calc(60px + env(safe-area-inset-top)) 12px 60px;
+    }
+
+    .article-sheet { padding: 12px; border-radius: 12px; }
+
+    .article-banner { margin-bottom: 18px; }
+
+    .article-title { font-size: 22px; line-height: 1.7; }
+
+    .article-content {
+        margin-top: 14px;
+        padding-top: 14px;
+        font-size: 13.5px;
+        line-height: 2.2;
+    }
+
+    .article-content h2 { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blog-card,
+    .blog-card-media img,
+    .article-sheet { transition: none !important; }
+    .article-view.is-revealed .article-banner,
+    .article-view.is-revealed .article-title,
+    .article-view.is-revealed .article-content { animation: none !important; }
+}
+
+/* جهت آیکون‌ها در حالت انگلیسی */
+html[dir="ltr"] .article-back i svg,
+html[dir="ltr"] .blog-card-cta i svg { transform: rotate(180deg); }
 </style>
 <!-- Ali Grapph Mascot: independent additive stylesheet -->
 <link rel="stylesheet" href="assets/css/ag-mascot.css"/>
@@ -3782,6 +4392,10 @@ body.no-scroll .section-indicator { opacity: 0; transform: translateY(10px); }
 <a class="menu-link" href="#portfolio">
 <i aria-hidden="true" class="fa-solid fa-images"><svg aria-hidden="true" viewbox="0 0 24 24"><rect height="16" rx="2" width="16" x="5" y="3"></rect><path d="M2 7v13a2 2 0 0 0 2 2h13M6 16l5-5 4 4 2-2 4 4"></path><circle cx="16" cy="8" r="1.5"></circle></svg></i>
 <span data-en="Portfolio" data-fa="نمونه‌کارها">نمونه‌کارها</span>
+</a>
+<a class="menu-link" href="#blog">
+<i aria-hidden="true" class="fa-solid fa-newspaper"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M4 4h13v16H6a2 2 0 0 1-2-2V4Z"></path><path d="M17 8h3v10a2 2 0 0 1-2 2M7 8h7M7 12h7M7 16h4"></path></svg></i>
+<span data-en="Articles" data-fa="مقالات">مقالات</span>
 </a>
 <a class="menu-link" href="#pricing">
 <i aria-hidden="true" class="fa-solid fa-tags"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="m3 3 9 1 9 9-8 8-9-9L3 3Z"></path><circle cx="8" cy="8" r="1.5"></circle></svg></i>
@@ -4241,6 +4855,265 @@ To learn more, click on View Full Biography." data-fa="من امیرعلیم ؛ 
 </div>
 </section>
 <!-- =========================================================
+     BLOG / ARTICLES  (بخش مقالات)
+     ─────────────────────────────────────────────────────
+     ✏️ برای اضافه کردن مقاله‌ی جدید:
+     کل بلوک  <article class="blog-card ..."> ... </article>  را کپی کن،
+     بعد این چند مورد را عوض کن:
+
+       1) data-blog-id        → یک شماره/شناسه‌ی یکتا (۱، ۲، ۳، ...)
+       2) src تصویر <img>     → مسیر بنر ۱۶:۹ ؛ مثلاً baner/baner4.webp
+       3) data-fa / data-en   → عنوان، توضیح کوتاه و دسته‌بندی کارت
+          (همان متن‌هایی که داخل کارت می‌بینی)
+       4) متن کامل مقاله        → داخل <template class="blog-article-template">
+          دو بلوک دارد: data-lang="fa" و data-lang="en"
+          (بلوک انگلیسی اختیاری است؛ اگر نباشد نسخه‌ی فارسی نمایش داده می‌شود)
+       5) (اختیاری) data-reading="4" روی کارت → زمان مطالعه‌ی ثابت.
+          اگر این عدد را ننویسی، زمان مطالعه خودکار از روی متن مقاله حساب می‌شود.
+
+     📣 اطلاعیه: بالای همین بخش، بلاک «اطلاعیه» با عکس baner/etela.webp قرار دارد
+        (قابل تعویض یا حذف؛ توضیحاتش بالای همان بلاک نوشته شده).
+
+     ⚠️ نکته: بنر باید نسبت ۱۶:۹ باشد. پیشنهاد: ۱۶۰۰×۹۰۰ پیکسل، فرمت webp.
+     نیازی به تعریف جداگانه در جاوااسکریپت نیست؛ با هر کارت جدید،
+     مقاله به‌صورت خودکار در بخش، در جستجو (Ctrl+K) و در زمان مطالعه لحاظ می‌شود.
+========================================================= -->
+<section class="section" id="blog">
+<div class="container">
+<div class="section-heading reveal">
+<div class="section-label">JOURNAL / BLOG</div>
+<h2 data-en="Articles" data-fa="مقالات">مقالات</h2>
+<p data-en="Notes, tips and tutorials from the world of graphic design; practical reading for designers and business owners." data-fa="یادداشت‌ها، نکته‌ها و آموزش‌های دنیای گرافیک؛ خواندنی‌های کاربردی برای طراح‌ها و صاحبان کسب‌وکار.">
+                یادداشت‌ها، نکته‌ها و آموزش‌های دنیای گرافیک؛ خواندنی‌های کاربردی برای طراح‌ها و صاحبان کسب‌وکار.
+            </p>
+<span aria-hidden="true" class="section-number">07 /</span></div>
+
+<!-- ============ اطلاعیه بالای مقالات ============
+     عکس اطلاعیه با مسیر baner/etela.webp خوانده می‌شود (نسبت پیشنهادی ۱۶:۹ یا عریض‌تر).
+     • برای عوض کردن عکس، فقط src تصویر پایین را تغییر بده؛ مثلاً baner/etela1.webp
+     • اگر می‌خواهی کل اطلاعیه با کلیک به جایی برود، بلاک <div class="blog-notice ...">
+       را با <a class="blog-notice ..." href="آدرس-مقصد"> جایگزین کن.
+     • برای حذف کامل اطلاعیه، همین بلاک تا خط پایانش را پاک کن.
+=============================================== -->
+<div class="blog-notice reveal">
+<div class="blog-notice-head">
+<span class="blog-notice-badge">
+<i aria-hidden="true" class="fa-solid fa-bullhorn"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="m3 11 15-6v14L3 13v-2Zm0 0v4a3 3 0 0 0 3 3h1"></path></svg></i>
+<span data-en="Announcement" data-fa="اطلاعیه">اطلاعیه</span>
+</span>
+<span aria-hidden="true" class="blog-notice-line"></span>
+</div>
+<figure class="blog-notice-media">
+<img alt="اطلاعیه علی گراف" decoding="async" loading="lazy" src="baner/etela.webp"/>
+</figure>
+</div>
+
+<div class="blog-grid stagger-grid">
+
+<!-- ==================== مقاله ۱ ==================== -->
+<article aria-haspopup="dialog" class="blog-card glass reveal" data-blog-id="1" role="button" style="--i:0" tabindex="0">
+<div class="blog-card-media">
+<img alt="بنر مقاله‌ی هفت قدم طراحی پوستر حرفه‌ای" decoding="async" loading="lazy" src="baner/baner1.webp"/>
+<span class="blog-card-time">
+<i aria-hidden="true" class="fa-solid fa-clock"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg></i>
+<span class="blog-card-time-text">۳ دقیقه مطالعه</span>
+</span>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-meta"><span class="blog-card-tag" data-en="Tutorial" data-fa="آموزش">آموزش</span></span>
+<h3 class="blog-card-title" data-en="A professional poster in 7 steps; from idea to final file" data-fa="پوستر حرفه‌ای در ۷ قدم؛ از ایده تا فایل نهایی">پوستر حرفه‌ای در ۷ قدم؛ از ایده تا فایل نهایی</h3>
+<p class="blog-card-excerpt" data-en="From defining the core message to layout and type choices; the path that turns an ordinary poster into a professional one." data-fa="از تعیین پیام اصلی تا چیدمان و انتخاب فونت؛ مسیری که یک پوستر معمولی را به یک پوستر حرفه‌ای تبدیل می‌کند.">از تعیین پیام اصلی تا چیدمان و انتخاب فونت؛ مسیری که یک پوستر معمولی را به یک پوستر حرفه‌ای تبدیل می‌کند.</p>
+<span class="blog-card-cta"><span data-en="Read article" data-fa="خواندن مقاله">خواندن مقاله</span>
+<i aria-hidden="true" class="fa-solid fa-arrow-left"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M20 12H4m6-6-6 6 6 6"></path></svg></i>
+</span>
+</div>
+<template class="blog-article-template">
+<div class="article-body" data-lang="fa" dir="rtl">
+<p>پوستر خوب فقط یک تصویر زیبا نیست؛ یک پیام است که باید در چند ثانیه دیده، فهمیده و به‌خاطر سپرده شود. خیلی از طرح‌ها از نظر بصری خوب‌اند، اما مخاطب بعد از نگاه کردن به آن‌ها نمی‌داند قرار است چه کاری انجام دهد. در این یادداشت، مسیر ساخت یک پوستر را از صفر تا فایل نهایی مرور می‌کنیم؛ قدم‌هایی که تفاوت یک طرح معمولی و یک پوستر حرفه‌ای را می‌سازند.</p>
+<h2>۱. پیام اصلی را پیدا کن</h2>
+<p>قبل از باز کردن نرم‌افزار، یک جمله بنویس: «این پوستر باید چه چیزی را به مخاطب بگوید؟» اگر نتوانی پیام را در یک جمله خلاصه کنی، مخاطب هم نمی‌تواند آن را در یک نگاه دریافت کند. پیام اصلی، مرجع همه‌ی تصمیم‌های بعدی است؛ از انتخاب رنگ تا اندازه‌ی فونت.</p>
+<h2>۲. یک ایده‌ی مرکزی انتخاب کن</h2>
+<p>هر پوستر قوی یک ایده‌ی بصری دارد؛ یک فرم، یک ترکیب‌بندی یا یک تضاد که کل طرح را به هم وصل می‌کند. ایده را انتخاب کن و بعد همه‌ی عناصر را حول همان ایده بچین. اگر هر قسمت از پوستر داستان جداگانه‌ای تعریف کند، هیچ داستانی به مخاطب نمی‌رسد.</p>
+<h2>۳. سلسله‌مراتب بصری بساز</h2>
+<p>مخاطب باید بداند اول کجا را ببیند، بعد کجا. عنوان بزرگ‌تر، تصویر پرکنتراست‌تر و اطلاعات فرعی کوچک‌تر؛ همین سه سطح برای شروع کافی است. اندازه، وزن فونت و رنگ، سه ابزار اصلی برای ساختن این سلسله‌مراتب‌اند.</p>
+<blockquote><p>اگر همه‌چیز در پوستر مهم باشد، هیچ‌چیز مهم نیست. اولین کاری که مخاطب باید انجام دهد، دیدن پیام اصلی است.</p></blockquote>
+<h2>۴. رنگ را هدفمند انتخاب کن</h2>
+<p>رنگ را بر اساس حس پروژه انتخاب کن، نه سلیقه‌ی لحظه‌ای. یک رنگ اصلی، یک رنگ مکمل و یک رنگ خنثی معمولاً کافی است. کنتراست متن و پس‌زمینه را قبل از هر چیز بررسی کن؛ پوستری که خوانده نشود، هرچقدر هم زیبا باشد کار خودش را انجام نداده است.</p>
+<h2>۵. فونت را درست بچین</h2>
+<p>حداکثر دو خانواده‌ی فونت کافی است؛ یکی برای عنوان و یکی برای متن. اندازه، فاصله‌ی خطوط و فاصله‌ی حروف را جدی بگیر؛ خوانایی همیشه مقدم بر زیبایی است. برای متن‌های فارسی، فاصله‌ی خطوط بیشتر از آنچه در نگاه اول لازم به‌نظر می‌رسد، به خواندن کمک می‌کند.</p>
+<h2>۶. فضای منفی را جدی بگیر</h2>
+<p>فضای خالی دشمن طراحی نیست؛ نفس‌کشیدن طرح است. اگر احساس می‌کنی چیزی کم است، معمولاً باید چیزی را حذف کنی، نه اضافه. پوسترهای شلوغ، مخاطب را خسته می‌کنند و پیام را پنهان می‌سازند.</p>
+<h2>۷. قبل از تحویل تست کن</h2>
+<ul>
+<li>پوستر را از فاصله‌ی دو متری ببین؛ آیا پیام اصلی هنوز خواناست؟</li>
+<li>اندازه‌ها را یک‌بار در چاپ و یک‌بار در موبایل بررسی کن.</li>
+<li>فایل را با کیفیت و ابعاد درست خروجی بگیر و نسخه‌ی لایه‌دار را نگه دار.</li>
+<li>متن‌ها را یک‌بار دیگر از نظر املا و فاصله‌گذاری بخوان.</li>
+</ul>
+<p>هفت قدم بالا ساده به‌نظر می‌رسد، اما همان چیزی است که تفاوت یک طرح معمولی و یک پوستر حرفه‌ای را می‌سازد. اگر در مسیر طراحی به کمک نیاز داشتی، از بخش سفارش طراحی پیام بده تا با هم پروژه‌ات را جلو ببریم.</p>
+</div>
+<div class="article-body" data-lang="en" dir="ltr">
+<p>A good poster is more than a pretty picture; it is a message that must be seen, understood and remembered within seconds. This note walks through the process of building a poster from scratch to the final file.</p>
+<h2>1. Find the core message</h2>
+<p>Before opening any software, write one sentence: what should this poster tell the audience? If you cannot summarise the message in a sentence, the viewer will not get it at a glance. That sentence becomes the reference for every later decision.</p>
+<h2>2. Choose one central idea</h2>
+<p>Every strong poster has one visual idea: a form, a composition or a contrast that connects the whole design. Pick it, then arrange everything around it.</p>
+<h2>3. Build a visual hierarchy</h2>
+<p>The viewer must know where to look first and where to look next. A larger headline, a higher-contrast image and smaller secondary information are enough to start.</p>
+<blockquote><p>If everything on the poster is important, nothing is.</p></blockquote>
+<h2>4. Choose colour with intent</h2>
+<p>Pick colours based on the project’s feeling, not on a momentary preference. One primary, one accent and one neutral colour are usually enough. Check text contrast before anything else.</p>
+<h2>5. Set type properly</h2>
+<p>Two font families at most: one for headlines, one for body text. Take size, line height and letter spacing seriously; readability always comes before beauty.</p>
+<h2>6. Respect negative space</h2>
+<p>Empty space is not the enemy of design; it is how the design breathes. If something feels missing, usually something needs to be removed, not added.</p>
+<h2>7. Test before delivery</h2>
+<ul>
+<li>Look at the poster from two metres away: is the main message still readable?</li>
+<li>Check the dimensions in print and on mobile.</li>
+<li>Export at the right size and quality, and keep the layered file.</li>
+<li>Read the copy once more for spelling and spacing.</li>
+</ul>
+<p>These seven steps look simple, but they are exactly what separates an ordinary design from a professional poster. If you need help along the way, send a message through the Order section.</p>
+</div>
+</template>
+</article>
+
+<!-- ==================== مقاله ۲ ==================== -->
+<article aria-haspopup="dialog" class="blog-card glass reveal" data-blog-id="2" role="button" style="--i:1" tabindex="0">
+<div class="blog-card-media">
+<img alt="بنر مقاله‌ی روان‌شناسی رنگ در طراحی برند" decoding="async" loading="lazy" src="baner/baner2.webp"/>
+<span class="blog-card-time">
+<i aria-hidden="true" class="fa-solid fa-clock"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg></i>
+<span class="blog-card-time-text">۳ دقیقه مطالعه</span>
+</span>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-meta"><span class="blog-card-tag" data-en="Branding" data-fa="برندینگ">برندینگ</span></span>
+<h3 class="blog-card-title" data-en="Colour psychology in branding; what does each colour say?" data-fa="روان‌شناسی رنگ در طراحی برند؛ هر رنگ چه می‌گوید؟">روان‌شناسی رنگ در طراحی برند؛ هر رنگ چه می‌گوید؟</h3>
+<p class="blog-card-excerpt" data-en="Red means energy, blue means trust, green means calm; but choosing a brand colour is far more than a simple rule." data-fa="قرمز یعنی هیجان، آبی یعنی اعتماد و سبز یعنی آرامش؛ اما انتخاب رنگ برند فقط یک قاعده‌ی ساده نیست.">قرمز یعنی هیجان، آبی یعنی اعتماد و سبز یعنی آرامش؛ اما انتخاب رنگ برند فقط یک قاعده‌ی ساده نیست.</p>
+<span class="blog-card-cta"><span data-en="Read article" data-fa="خواندن مقاله">خواندن مقاله</span>
+<i aria-hidden="true" class="fa-solid fa-arrow-left"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M20 12H4m6-6-6 6 6 6"></path></svg></i>
+</span>
+</div>
+<template class="blog-article-template">
+<div class="article-body" data-lang="fa" dir="rtl">
+<p>رنگ، اولین چیزی است که مخاطب قبل از خواندن متن می‌بیند. حتی وقتی اسم برند را به‌خاطر نمی‌سپارد، ممکن است حس آن رنگ در ذهنش بماند. به همین دلیل انتخاب رنگ در طراحی برند، یک تصمیم سلیقه‌ای نیست؛ یک تصمیم راهبردی است.</p>
+<h2>رنگ فقط زیبایی نیست</h2>
+<p>هر رنگ می‌تواند مجموعه‌ای از حس‌ها و معناها را منتقل کند، اما این معناها ثابت نیستند. فرهنگ، سن، صنعت و حتی رنگ‌های رقیب روی برداشت مخاطب اثر می‌گذارند. یعنی نمی‌شود گفت «این رنگ همیشه یعنی این»، بلکه باید پرسید «این رنگ برای این مخاطب و در این بازار چه معنایی دارد؟»</p>
+<h2>قرمز: انرژی، هیجان و حرکت</h2>
+<p>قرمز رنگ توجه است. در برندهای غذایی، ورزشی و سرگرمی معمولاً خوب کار می‌کند، چون اشتها یا هیجان را تحریک می‌کند. اما در فضای حرفه‌ای و مالی باید با احتیاط استفاده شود؛ چون می‌تواند حس خطر یا عجله را هم منتقل کند.</p>
+<h2>آبی: اعتماد، آرامش و ثبات</h2>
+<p>آبی یکی از امن‌ترین انتخاب‌ها برای برندهایی است که می‌خواهند حس اعتماد بدهند: بانک، بیمه، فناوری و خدمات درمانی. مشکل اینجاست که به‌خاطر محبوبیت زیاد، اگر تنها به آبی بسنده کنی، برندت شبیه بقیه می‌شود. ترکیب آبی با یک رنگ مکمل غیرمنتظره می‌تواند این مشکل را حل کند.</p>
+<h2>سبز: رشد، طبیعت و تعادل</h2>
+<p>سبز حس تازگی، سلامتی و پایداری می‌دهد؛ به همین دلیل در برندهای غذایی، آرایشی و محیط‌زیستی زیاد دیده می‌شود. طیف‌های تیره‌تر آن حس لوکس و کلاسیک دارند و طیف‌های روشن، حس سرزنده و جوان.</p>
+<h2>مشکی و طلایی: لوکس و مینیمال</h2>
+<p>ترکیب مشکی با طلایی یا نقره‌ای، یکی از کلاسیک‌ترین راه‌های رسیدن به حس لوکس است. مشکی، فضا را جدی و متمرکز می‌کند و رنگ‌های روشن را برجسته‌تر نشان می‌دهد. در برندهای پرمیوم، این ترکیب هنوز هم جواب می‌دهد؛ به شرطی که اجرا تمیز و بدون شلوغی باشد.</p>
+<h2>نکته‌ی مهم: مخاطب را ببین</h2>
+<p>قبل از انتخاب رنگ، سه سؤال بپرس: مخاطب اصلی کیست؟ برند چه حسی می‌خواهد منتقل کند؟ رقبا از چه رنگ‌هایی استفاده می‌کنند؟ پاسخ این سه سؤال، دایره‌ی انتخاب را خیلی کوچک‌تر و دقیق‌تر می‌کند.</p>
+<ul>
+<li>رنگ را در کنار لوگو، در حالت کوچک و بزرگ تست کن.</li>
+<li>کنتراست متن روی رنگ را فراموش نکن؛ زیبایی بدون خوانایی بی‌فایده است.</li>
+<li>نسخه‌ی تیره و روشن رنگ برند را از قبل تعریف کن.</li>
+<li>رنگ را در چاپ هم بررسی کن؛ آنچه روی مانیتور می‌بینی در کاغذ همان‌طور چاپ نمی‌شود.</li>
+</ul>
+<p>در نهایت، رنگ یک ابزار است، نه یک هدف. وقتی رنگ برند درست انتخاب شود، مخاطب پیش از خواندن حتی یک کلمه، حس برند را دریافت می‌کند.</p>
+</div>
+<div class="article-body" data-lang="en" dir="ltr">
+<p>Colour is the first thing an audience sees, before they read a single word. Long after they forget the name, the feeling of that colour may stay. That is why choosing a brand colour is a strategic decision, not just a matter of taste.</p>
+<h2>Colour is not only decoration</h2>
+<p>Every colour can carry a set of feelings and meanings, but those meanings are not fixed. Culture, age, industry and even competitors’ colours shape how the audience reads it. The question is not “what does this colour always mean?”, but “what does it mean for this audience, in this market?”</p>
+<h2>Red: energy, excitement and movement</h2>
+<p>Red is the colour of attention. It works well for food, sport and entertainment brands, but in professional and financial contexts it should be used carefully, since it can also signal risk or urgency.</p>
+<h2>Blue: trust, calm and stability</h2>
+<p>Blue is one of the safest choices for brands that need to feel reliable: banking, insurance, technology and healthcare. Its popularity is also its risk: with blue alone, a brand can look like everyone else. Pairing it with an unexpected accent colour can solve that.</p>
+<h2>Green: growth, nature and balance</h2>
+<p>Green suggests freshness, health and sustainability, which is why food, cosmetics and environmental brands use it often. Darker shades feel premium and classic; brighter shades feel young and alive.</p>
+<h2>Black and gold: luxury and minimalism</h2>
+<p>Black with gold or silver is a classic route to a premium feel. Black makes a space serious and focused, and helps lighter colours stand out. For premium brands this combination still works, as long as it is executed cleanly.</p>
+<h2>The key: look at the audience</h2>
+<p>Before choosing a colour, ask three questions: who is the main audience, what feeling should the brand convey, and what colours do competitors use? The answers narrow the choice considerably.</p>
+<ul>
+<li>Test the colour with the logo, small and large.</li>
+<li>Never forget text contrast; beauty without readability is pointless.</li>
+<li>Define light and dark versions of the brand colour in advance.</li>
+<li>Check the colour in print; what you see on screen is not always what the paper shows.</li>
+</ul>
+<p>In the end, colour is a tool, not a goal. When the brand colour is chosen well, the audience feels the brand before reading a single word.</p>
+</div>
+</template>
+</article>
+
+<!-- ==================== مقاله ۳ ==================== -->
+<article aria-haspopup="dialog" class="blog-card glass reveal" data-blog-id="3" role="button" style="--i:2" tabindex="0">
+<div class="blog-card-media">
+<img alt="بنر مقاله‌ی تفاوت لوگو و هویت بصری" decoding="async" loading="lazy" src="baner/baner3.webp"/>
+<span class="blog-card-time">
+<i aria-hidden="true" class="fa-solid fa-clock"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg></i>
+<span class="blog-card-time-text">۳ دقیقه مطالعه</span>
+</span>
+</div>
+<div class="blog-card-body">
+<span class="blog-card-meta"><span class="blog-card-tag" data-en="Visual Identity" data-fa="هویت بصری">هویت بصری</span></span>
+<h3 class="blog-card-title" data-en="Logo or visual identity? What is the difference?" data-fa="لوگو یا هویت بصری؟ تفاوت کجاست">لوگو یا هویت بصری؟ تفاوت کجاست</h3>
+<p class="blog-card-excerpt" data-en="Many people think a logo is the brand; in reality a visual identity has more layers than a single mark." data-fa="خیلی‌ها لوگو و هویت بصری را یکی می‌دانند؛ در حالی که هویت بصری لایه‌های بیشتری از یک نشانه‌ی ساده دارد.">خیلی‌ها لوگو و هویت بصری را یکی می‌دانند؛ در حالی که هویت بصری لایه‌های بیشتری از یک نشانه‌ی ساده دارد.</p>
+<span class="blog-card-cta"><span data-en="Read article" data-fa="خواندن مقاله">خواندن مقاله</span>
+<i aria-hidden="true" class="fa-solid fa-arrow-left"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M20 12H4m6-6-6 6 6 6"></path></svg></i>
+</span>
+</div>
+<template class="blog-article-template">
+<div class="article-body" data-lang="fa" dir="rtl">
+<p>«یه لوگو می‌خوام»؛ این جمله‌ای است که خیلی از پروژه‌های طراحی با آن شروع می‌شود. اما در عمل، بیشتر کسب‌وکارها به چیزی بیشتر از یک نشانه نیاز دارند: یک هویت بصری کامل که همه‌ی نقطه‌های تماس برند را یکدست کند.</p>
+<h2>لوگو چیست؟</h2>
+<p>لوگو یک نشانه‌ی گرافیکی است که برند را قابل‌شناسایی می‌کند؛ یک نماد، یک لوگوتایپ یا ترکیبی از هر دو. کار اصلی لوگو این است که در کوچک‌ترین اندازه هم قابل تشخیص باشد و در ذهن بماند. لوگو بخشی از هویت است، نه کل آن.</p>
+<h2>هویت بصری چیست؟</h2>
+<p>هویت بصری مجموعه‌ای از قواعد و عناصر است که باعث می‌شود همه‌ی خروجی‌های برند، از کارت ویزیت تا پست شبکه‌های اجتماعی و بسته‌بندی، شبیه به یک خانواده باشند. لوگو مهم‌ترین عضو این خانواده است، اما تنها عضو نیست.</p>
+<h2>اجزای یک هویت بصری</h2>
+<ul>
+<li><strong>لوگو:</strong> نشانه‌ی اصلی و نسخه‌های افقی، عمودی و تک‌رنگ آن.</li>
+<li><strong>رنگ سازمانی:</strong> رنگ اصلی، مکمل و خنثی به‌همراه کدهای دقیق چاپی و دیجیتال.</li>
+<li><strong>تایپوگرافی:</strong> فونت عنوان و متن، اندازه‌ها و فاصله‌های استاندارد.</li>
+<li><strong>الگوها و فرم‌ها:</strong> المان‌های تکرارشونده‌ای که فضاهای خالی را پر می‌کنند.</li>
+<li><strong>سبک تصویر:</strong> عکاسی، تصویرسازی یا آیکون‌ها با حس و تنظیمات مشخص.</li>
+<li><strong>لحن نوشتاری:</strong> شیوه‌ی حرف زدن برند؛ رسمی، صمیمی، طنزآمیز یا فنی.</li>
+</ul>
+<h2>چرا این تفاوت مهم است؟</h2>
+<p>وقتی فقط لوگو داشته باشی، هر طراحی بعدی به سلیقه‌ی طراح یا سفارش‌دهنده بستگی پیدا می‌کند. نتیجه این می‌شود که هر پست و هر بنر، حس متفاوتی دارد و برند در ذهن مخاطب شکل نمی‌گیرد. اما با یک هویت بصری مکتوب، هر کسی که برای برند طراحی می‌کند، در یک مسیر مشخص حرکت می‌کند.</p>
+<blockquote><p>لوگو در را باز می‌کند؛ هویت بصری کاری می‌کند که مخاطب داخل خانه احساس آشنایی کند.</p></blockquote>
+<h2>از کجا شروع کنیم؟</h2>
+<p>برای بیشتر کسب‌وکارهای کوچک، شروع با لوگو، رنگ سازمانی و تایپوگرافی کافی است. بعد از آن، به‌مرور الگوها، سبک تصویر و قالب‌های آماده‌ی شبکه‌های اجتماعی اضافه می‌شوند. مهم این است که این عناصر در یک سند ساده ثبت شوند تا همه از آن استفاده کنند.</p>
+<p>اگر مطمئن نیستی پروژه‌ات به لوگو نیاز دارد یا به یک هویت بصری کامل، از بخش سفارش طراحی پیام بده تا با توجه به اندازه و هدف کسب‌وکارت، مسیر درست را انتخاب کنیم.</p>
+</div>
+<div class="article-body" data-lang="en" dir="ltr">
+<p>“I need a logo” is how many design projects begin. In practice, most businesses need more than a single mark: a complete visual identity that keeps every touchpoint consistent.</p>
+<h2>What is a logo?</h2>
+<p>A logo is a graphic mark that makes a brand recognisable: a symbol, a wordmark, or a combination of both. Its main job is to stay recognisable at the smallest size. A logo is part of the identity, not the whole identity.</p>
+<h2>What is a visual identity?</h2>
+<p>A visual identity is a set of rules and elements that make all of a brand’s outputs, from business cards to social posts and packaging, feel like one family. The logo is the most important member, but not the only one.</p>
+<h2>Elements of a visual identity</h2>
+<ul>
+<li><strong>Logo:</strong> the primary mark plus horizontal, vertical and one-colour versions.</li>
+<li><strong>Brand colours:</strong> primary, accent and neutral, with precise print and digital codes.</li>
+<li><strong>Typography:</strong> headline and body fonts, sizes and standard spacing.</li>
+<li><strong>Patterns and shapes:</strong> repeating elements that fill empty spaces.</li>
+<li><strong>Image style:</strong> photography, illustration or icons with a defined mood.</li>
+<li><strong>Tone of voice:</strong> how the brand speaks: formal, friendly, playful or technical.</li>
+</ul>
+<h2>Why the difference matters</h2>
+<p>With only a logo, every future design depends on the taste of the designer or the client. Each post and banner ends up feeling different, and the brand never takes shape in the audience’s mind. With a written identity, anyone designing for the brand follows the same direction.</p>
+<blockquote><p>A logo opens the door; a visual identity makes the audience feel at home inside.</p></blockquote>
+<h2>Where to start</h2>
+<p>For most small businesses, a logo, brand colours and typography are enough to begin. Patterns, image style and social templates can be added over time. What matters is documenting these elements so everyone uses them consistently.</p>
+<p>If you are not sure whether your project needs a logo or a full visual identity, send a message through the Order section and we will choose the right path together.</p>
+</div>
+</template>
+</article>
+
+</div>
+</div>
+</section>
+
+<!-- =========================================================
      FREE PACKS (PROMO BANNER)
 ========================================================= -->
 <section class="section-tight" id="promo">
@@ -4251,7 +5124,7 @@ To learn more, click on View Full Biography." data-fa="من امیرعلیم ؛ 
 <p data-en="Download free icon and emoji packs to use in your own designs." data-fa="از اینجا میتونی برای طراحیت ابزار دانلود کنی!">
                 از اینجا میتونی برای طراحیت ابزار دانلود کنی!
             </p>
-<span aria-hidden="true" class="section-number">07 /</span></div>
+<span aria-hidden="true" class="section-number">08 /</span></div>
 <div class="promo-slider" id="promoSlider"></div>
 </div>
 <script>
@@ -4334,6 +5207,7 @@ const PROMO_INTERVAL_MS = 10000;
 <div class="footer-links">
 <a data-en="About Me" data-fa="درباره من" href="#about">درباره من</a>
 <a data-en="Portfolio" data-fa="نمونه‌کارها" href="#portfolio">نمونه‌کارها</a>
+<a data-en="Articles" data-fa="مقالات" href="#blog">مقالات</a>
 <a data-en="Pricing" data-fa="تعرفه‌ها" href="#pricing">تعرفه‌ها</a>
 <a data-en="Order Design" data-fa="سفارش طراحی" href="#order">سفارش طراحی</a>
 <a data-en="Social Media" data-fa="شبکه‌های اجتماعی" href="#social">شبکه‌های اجتماعی</a>
@@ -4405,6 +5279,36 @@ const PROMO_INTERVAL_MS = 10000;
 </a>
 </div>
 </div>
+<!-- =========================================================
+     ARTICLE VIEWER (صفحه‌ی مطالعه‌ی مقاله)
+     ─────────────────────────────────────────────────────
+     این بخش ثابت است و نیازی به ویرایش ندارد.
+     عنوان، زمان مطالعه، بنر و متن هر مقاله به‌صورت خودکار
+     از روی کارت همان مقاله خوانده می‌شود.
+========================================================= -->
+<div aria-labelledby="articleViewTitle" aria-modal="true" class="article-view" id="articleView" role="dialog">
+<div class="article-topbar">
+<button class="article-back" id="articleBack" type="button">
+<i aria-hidden="true"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"></path></svg></i>
+<span data-en="Back to articles" data-fa="بازگشت به مقالات">بازگشت به مقالات</span>
+</button>
+<button aria-label="بستن مقاله" class="article-close" data-uilabel-en="Close article" data-uilabel-fa="بستن مقاله" id="articleClose" type="button">
+<i aria-hidden="true"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"></path></svg></i>
+</button>
+</div>
+<div class="article-scroll" id="articleScroll">
+<article class="article-sheet" id="articleSheet">
+<div class="article-meta">
+<span class="article-pill article-time-pill"><i aria-hidden="true"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2.2"></path></svg></i><span id="articleReadTime">۳ دقیقه مطالعه</span></span>
+<span class="article-pill article-tag-pill" hidden="hidden" id="articleTag"></span>
+</div>
+<figure class="article-banner" id="articleBannerWrap"><img alt="" decoding="async" id="articleBanner" src=""/></figure>
+<h1 class="article-title" id="articleViewTitle"></h1>
+<div class="article-content" id="articleContent"></div>
+</article>
+</div>
+</div>
+
 <!-- =========================================================
      PORTFOLIO VIEWER
 ========================================================= -->
@@ -5242,6 +6146,266 @@ window.addEventListener("load", () => {
 
 
     /* =========================================================
+       BLOG / ARTICLES VIEWER
+       ─────────────────────────────────────────────────────────
+       همه‌ی کارت‌های .blog-card به‌صورت خودکار به این بخش وصل می‌شوند.
+       برای مقاله‌ی جدید فقط یک بلوک <article class="blog-card">
+       در HTML اضافه کن؛ نیازی به تغییر این کد نیست.
+    ========================================================= */
+
+    const blogCards = Array.from(document.querySelectorAll(".blog-card"));
+    const articleView = document.getElementById("articleView");
+    const articleScroll = document.getElementById("articleScroll");
+    const articleSheet = document.getElementById("articleSheet");
+    const articleBanner = document.getElementById("articleBanner");
+    const articleBannerWrap = document.getElementById("articleBannerWrap");
+    const articleTitle = document.getElementById("articleViewTitle");
+    const articleContent = document.getElementById("articleContent");
+    const articleReadTime = document.getElementById("articleReadTime");
+    const articleTag = document.getElementById("articleTag");
+
+    const BLOG_FA_DIGITS = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    const BLOG_WORDS_PER_MINUTE = { fa: 170, en: 200 };
+
+    let activeArticleCard = null;
+    let articleOpening = false;
+    let articleClosing = false;
+
+    const blogFaDigits = value => String(value).replace(/[0-9]/g, digit => BLOG_FA_DIGITS[Number(digit)]);
+
+    function blogLocalizedText(element, language) {
+        if (!element) return "";
+        return (element.dataset[language] || element.textContent || "").trim();
+    }
+
+    function blogArticleBody(card, language) {
+        const template = card ? card.querySelector(".blog-article-template") : null;
+        if (!template) return null;
+
+        const root = template.content || template;
+        return root.querySelector('.article-body[data-lang="' + language + '"]')
+            || root.querySelector(".article-body");
+    }
+
+    function blogReadingMinutes(card, language) {
+        const fixed = Number(card && card.dataset ? card.dataset.reading : NaN);
+        if (fixed > 0) return Math.max(1, Math.round(fixed));
+
+        const body = blogArticleBody(card, language);
+        const text = body ? (body.textContent || "").replace(/\s+/g, " ").trim() : "";
+        const words = text ? text.split(" ").length : 0;
+        const speed = BLOG_WORDS_PER_MINUTE[language] || BLOG_WORDS_PER_MINUTE.fa;
+
+        return Math.max(1, Math.ceil(words / speed));
+    }
+
+    function blogReadingLabel(minutes, language) {
+        return language === "en"
+            ? minutes + " min read"
+            : blogFaDigits(minutes) + " دقیقه مطالعه";
+    }
+
+    function refreshBlogReadingTimes() {
+        blogCards.forEach(card => {
+            const minutes = blogReadingMinutes(card, currentLanguage);
+            const label = card.querySelector(".blog-card-time-text");
+            if (label) label.textContent = blogReadingLabel(minutes, currentLanguage);
+        });
+
+        if (activeArticleCard) {
+            articleReadTime.textContent = blogReadingLabel(
+                blogReadingMinutes(activeArticleCard, currentLanguage),
+                currentLanguage
+            );
+        }
+    }
+
+    function renderArticleView(card) {
+        if (!card) return;
+
+        const titleElement = card.querySelector(".blog-card-title");
+        const image = card.querySelector(".blog-card-media img");
+        const tagElement = card.querySelector(".blog-card-tag");
+        const bannerSource = image ? image.getAttribute("src") : "";
+
+        articleTitle.textContent = blogLocalizedText(titleElement, currentLanguage);
+
+        articleBannerWrap.classList.remove("image-error");
+        if (bannerSource) {
+            articleBanner.src = bannerSource;
+            articleBanner.alt = image && image.getAttribute("alt") ? image.getAttribute("alt") : articleTitle.textContent;
+        } else {
+            articleBanner.removeAttribute("src");
+        }
+
+        if (tagElement && blogLocalizedText(tagElement, currentLanguage)) {
+            articleTag.hidden = false;
+            articleTag.textContent = blogLocalizedText(tagElement, currentLanguage);
+        } else {
+            articleTag.hidden = true;
+            articleTag.textContent = "";
+        }
+
+        const body = blogArticleBody(card, currentLanguage);
+        articleContent.innerHTML = body ? body.innerHTML : "";
+        articleContent.setAttribute("dir", currentLanguage === "en" ? "ltr" : "rtl");
+
+        articleReadTime.textContent = blogReadingLabel(
+            blogReadingMinutes(card, currentLanguage),
+            currentLanguage
+        );
+
+        refreshBlogReadingTimes();
+    }
+
+    function openArticle(card) {
+        if (!card || articleView.classList.contains("active") || articleOpening) return;
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const first = card.getBoundingClientRect();
+
+        articleOpening = true;
+        articleClosing = false;
+        card.classList.add("is-opening");
+
+        activeArticleCard = card;
+        renderArticleView(card);
+
+        articleView.classList.remove("is-closing");
+        articleView.classList.remove("is-revealed");
+        articleView.classList.add("active");
+        document.body.classList.add("no-scroll");
+        articleScroll.scrollTop = 0;
+
+        /* افکت «بالا آمدن کارت»: پنل مقاله از همان جای کارت باز می‌شود. */
+        if (!reduced && typeof articleSheet.animate === "function" && first.width > 0) {
+            const last = articleSheet.getBoundingClientRect();
+
+            if (last.width > 0) {
+                const scale = Math.max(0.18, Math.min(1, first.width / last.width));
+                const moveX = (first.left + first.width / 2) - (last.left + last.width / 2);
+                const moveY = first.top - last.top;
+
+                articleSheet.animate([
+                    {
+                        transformOrigin: "top center",
+                        transform: "translate(" + moveX + "px," + moveY + "px) scale(" + scale + ")",
+                        opacity: 0.55,
+                        borderRadius: "10px"
+                    },
+                    {
+                        transformOrigin: "top center",
+                        transform: "translate(0px, 0px) scale(1)",
+                        opacity: 1,
+                        borderRadius: "16px"
+                    }
+                ], {
+                    duration: 680,
+                    easing: "cubic-bezier(.22, .8, .32, 1)"
+                });
+            }
+        }
+
+        window.setTimeout(() => {
+            if (!articleView.classList.contains("active")) return;
+            articleView.classList.add("is-revealed");
+            trapFocus(articleView);
+        }, reduced ? 0 : 360);
+
+        window.setTimeout(() => {
+            card.classList.remove("is-opening");
+            articleOpening = false;
+        }, reduced ? 0 : 700);
+    }
+
+    function closeArticle() {
+        if (!articleView.classList.contains("active") || articleClosing) return;
+
+        articleClosing = true;
+        articleView.classList.remove("is-revealed");
+        articleView.classList.add("is-closing");
+
+        const finish = () => {
+            if (!articleClosing) return;
+
+            articleView.classList.remove("active", "is-closing");
+            document.body.classList.remove("no-scroll");
+            articleContent.innerHTML = "";
+            articleBanner.removeAttribute("src");
+            articleBannerWrap.classList.remove("image-error");
+            activeArticleCard = null;
+            articleClosing = false;
+            releaseFocus(articleView);
+        };
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) finish();
+        else window.setTimeout(finish, 300);
+    }
+
+    if (articleView) {
+        document.addEventListener("click", event => {
+            const card = event.target.closest ? event.target.closest(".blog-card") : null;
+            if (!card) return;
+            openArticle(card);
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            const card = event.target.closest ? event.target.closest(".blog-card") : null;
+            if (!card) return;
+            event.preventDefault();
+            openArticle(card);
+        });
+
+        document.getElementById("articleBack").addEventListener("click", closeArticle);
+        document.getElementById("articleClose").addEventListener("click", closeArticle);
+
+        articleView.addEventListener("click", event => {
+            if (event.target === articleView || event.target === articleScroll) closeArticle();
+        });
+
+        articleBanner.addEventListener("load", () => articleBannerWrap.classList.remove("image-error"));
+        articleBanner.addEventListener("error", () => {
+            if (articleBanner.getAttribute("src")) articleBannerWrap.classList.add("image-error");
+        });
+
+        /* وضعیت خطای تصویر بنر، مثل کارت‌های نمونه‌کار. */
+        blogCards.forEach(card => {
+            const image = card.querySelector(".blog-card-media img");
+            if (!image) return;
+
+            const failed = () => card.classList.add("image-error");
+            const loaded = () => card.classList.remove("image-error");
+            image.addEventListener("error", failed);
+            image.addEventListener("load", loaded);
+            if (image.complete && !image.naturalWidth) failed();
+
+            const title = card.querySelector(".blog-card-title");
+            if (title) card.setAttribute("aria-label", blogLocalizedText(title, currentLanguage));
+        });
+
+        refreshBlogReadingTimes();
+
+        /* با تغییر زبان، زمان مطالعه و محتوای مقاله‌ی باز هم به‌روز می‌شود. */
+        new MutationObserver(() => {
+            refreshBlogReadingTimes();
+
+            blogCards.forEach(card => {
+                const title = card.querySelector(".blog-card-title");
+                if (title) card.setAttribute("aria-label", blogLocalizedText(title, currentLanguage));
+            });
+
+            if (activeArticleCard && articleView.classList.contains("active")) {
+                renderArticleView(activeArticleCard);
+            }
+        }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["lang"]
+        });
+    }
+
+
+    /* =========================================================
        WATERMARKED DOWNLOAD
     ========================================================= */
 
@@ -5381,7 +6545,7 @@ window.addEventListener("load", () => {
             });
         }, { passive: true });
 
-        document.querySelectorAll(".portfolio-card").forEach(card => {
+        document.querySelectorAll(".portfolio-card, .blog-card").forEach(card => {
             card.addEventListener("mouseenter", () => {
                 customCursor.classList.add("show");
                 document.body.classList.add("custom-cursor-active");
@@ -5510,6 +6674,7 @@ window.addEventListener("load", () => {
         closeMoreModal();
         closeInternalPage(aboutPage);
         closeInternalPage(faqPage);
+        closeArticle();
     });
 
 
@@ -6156,6 +7321,7 @@ document.addEventListener("visibilitychange", async () => {
             { id: "order",     selector: "#order",  fa: "سفارش طراحی",       en: "Order Design", icon: "briefcase" },
             { id: "social",    selector: "#social", fa: "شبکه‌های اجتماعی",  en: "Social Media", icon: "share" },
             { id: "contact",   selector: "#contact", fa: "ارسال پیام",       en: "Contact",      icon: "briefcase" },
+            { id: "blog",      selector: "#blog",   fa: "مقالات",            en: "Articles",     icon: "file" },
             { id: "promo",     selector: "#promo",  fa: "ابزارهای رایگان",   en: "Free Tools",   icon: "download" }
         ];
 
@@ -6316,6 +7482,7 @@ document.addEventListener("visibilitychange", async () => {
         const GROUP_LABELS = {
             sections: { fa: "بخش‌ها", en: "Sections" },
             works:    { fa: "نمونه‌کارها", en: "Works" },
+            articles: { fa: "مقالات", en: "Articles" },
             actions:  { fa: "فرمان‌ها", en: "Commands" }
         };
 
@@ -6371,6 +7538,25 @@ document.addEventListener("visibilitychange", async () => {
                     action: function () {
                         closeCommandPalette();
                         openPortfolio(card);
+                    }
+                });
+            });
+
+            blogCards.forEach(function (card, index) {
+                const titleElement = card.querySelector(".blog-card-title");
+                const banner = card.querySelector(".blog-card-media img");
+                items.push({
+                    group: "articles",
+                    icon: "file",
+                    thumb: banner ? banner.getAttribute("src") : "",
+                    titleFa: titleElement ? (titleElement.dataset.fa || titleElement.textContent) : "مقاله " + (index + 1),
+                    titleEn: titleElement ? (titleElement.dataset.en || titleElement.textContent) : "Article " + (index + 1),
+                    hintFa: "مقاله",
+                    hintEn: "Article",
+                    keywords: "article blog مقاله بلاگ مطلب " + (titleElement ? (titleElement.dataset.fa || "") + " " + (titleElement.dataset.en || "") : ""),
+                    action: function () {
+                        closeCommandPalette();
+                        openArticle(card);
                     }
                 });
             });
@@ -6570,7 +7756,7 @@ document.addEventListener("visibilitychange", async () => {
             palette.classList.remove("active");
             paletteInput.removeAttribute("aria-activedescendant");
 
-            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .shortcuts-help.active");
+            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .shortcuts-help.active, .article-view.active");
             if (!anotherOverlay) document.body.classList.remove("no-scroll");
 
             releaseFocus(palette.querySelector(".command-panel"));
@@ -6621,7 +7807,7 @@ document.addEventListener("visibilitychange", async () => {
             shortcutsOpen = false;
             shortcutsHelp.classList.remove("active");
 
-            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .command-palette.active");
+            const anotherOverlay = document.querySelector(".modal.active, .menu-overlay.active, .internal-page.active, .command-palette.active, .article-view.active");
             if (!anotherOverlay) document.body.classList.remove("no-scroll");
 
             releaseFocus(shortcutsHelp.querySelector(".shortcuts-box"));
@@ -7616,5 +8802,5 @@ document.addEventListener("visibilitychange", async () => {
 
 <!-- Ali Grapph Mascot: does not modify the existing loader or site code -->
 <script defer src="assets/js/ag-mascot.js?v=2.0.0"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4d178d6cf7ed22f',t:'MTc5MjQzMDYyMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
