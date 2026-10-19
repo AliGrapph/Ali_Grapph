@@ -1,0 +1,16 @@
+{
+  "name": "علی گراف | Ali Grapph",
+  "short_name": "Ali Grapph",
+  "description": "طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111110",
+  "theme_color": "#111110",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    { "src": "logo.webp", "sizes": "any", "type": "image/webp", "purpose": "any" }
+  ]
+}

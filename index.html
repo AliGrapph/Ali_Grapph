@@ -3656,6 +3656,53 @@ body.no-scroll .section-indicator { opacity: 0; transform: translateY(10px); }
 .enable-notifications i { display: inline-flex; color: var(--red-light); font-size: 13px; }
 .enable-notifications[hidden] { display: none; }
 
+
+/* =====================================================
+   PERFORMANCE + DESKTOP NAV (override layer)
+   - حذف بازرسم‌های تمام‌صفحه‌ی مداوم (نویز با blend + انیمیشن background-position)
+   - جایگزینی blur سنگین بلوب‌ها با گرادیان نرم هم‌ظاهر
+   - حذف backdrop-filter های تو‌در‌تو و انیمیت‌شونده
+===================================================== */
+.noise-overlay { mix-blend-mode: normal; animation: none; opacity: .022; }
+.hero-grid { animation: none; }
+
+.aurora-blob { filter: none; }
+.aurora-blob--red { background: radial-gradient(closest-side, rgba(238, 64, 53, .15), rgba(238, 64, 53, .07) 45%, transparent 100%); }
+.aurora-blob--stone { background: radial-gradient(closest-side, rgba(198, 192, 180, .10), rgba(198, 192, 180, .045) 45%, transparent 100%); }
+.aurora-blob--violet { background: radial-gradient(closest-side, rgba(107, 79, 245, .08), rgba(107, 79, 245, .035) 45%, transparent 100%); }
+
+.hero-glow span { filter: none; }
+.hero-glow span:nth-child(1) { background: radial-gradient(closest-side, rgba(255, 30, 40, .20), rgba(255, 30, 40, .09) 45%, transparent 100%); }
+.hero-glow span:nth-child(2) { background: radial-gradient(closest-side, rgba(217, 163, 90, .15), rgba(217, 163, 90, .065) 45%, transparent 100%); }
+
+.cursor-glow { filter: none; mix-blend-mode: normal; }
+.quick-contact-toggle { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.section-indicator { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(23, 23, 21, .94); }
+
+/* هدر: دیگر محتوای زیرش را نشان نمی‌دهد. */
+.top-nav {
+    background: rgba(17, 17, 16, .93);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* دسکتاپ: نویگیشن روی هدر نشسته؛ فقط یک لایه blur کافی است. */
+@media (min-width: 801px) {
+    .floating-nav {
+        background: rgba(36, 36, 33, .88);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        border: 1px solid rgba(255, 255, 255, .07);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+        box-sizing: border-box;
+        min-width: 0;
+        padding: 0 26px;
+        gap: 26px;
+        justify-content: center;
+        align-items: center;
+    }
+    .floating-nav a { padding: 0 4px; white-space: nowrap; }
+}
 </style></head>
 <body>
 <!-- Skip link — اولین عنصر قابل فوکوس صفحه. -->
@@ -6971,8 +7018,8 @@ document.addEventListener("visibilitychange", async () => {
                 name: "علی گراف | Ali Grapph",
                 short_name: "Ali Grapph",
                 description: "طراحی لوگو، پوستر، بنر و کاور با تمرکز بر خلاقیت و ارائه حرفه‌ای.",
-                start_url: "./",
-                scope: "./",
+                start_url: new URL("./", window.location.href).href,
+                scope: new URL("./", window.location.href).href,
                 display: "standalone",
                 orientation: "portrait",
                 background_color: "#111110",
