@@ -1,4 +1,4 @@
-/* Ali Grapph mascot v2.0.0 — vanilla JS, no changes to existing site functions.
+/* Ali Grapph mascot + Grappy v3.0.0 — vanilla JS, no changes to existing site functions.
    Public lifecycle: window.AliGrapphMascot.destroy() / init().
    Set window.AG_MASCOT_OPTIONS before this file to opt into interaction.
 */
@@ -12,13 +12,13 @@
   const config = window.AG_MASCOT_OPTIONS || {};
   const framesURL = scriptURL ? new URL('../mascot/frames/', scriptURL).href : 'assets/mascot/frames/';
   const options = Object.assign({
-    interactive: false,
+    interactive: true,
     asset: assetURL,
     frames: !config.asset, // Custom single-image assets keep their existing behavior.
     framesBase: framesURL
   }, config);
   const frameBase = new URL(options.framesBase.replace(/\/?$/, '/'), document.baseURI).href;
-  let dispose = null, readState = () => ({ version: '2.0.0', initialized: false });
+  let dispose = null, readState = () => ({ version: '3.0.0', initialized: false });
 
   function init() {
     if (dispose || !document.body || document.getElementById('ali-grapph-mascot')) return;
@@ -54,6 +54,7 @@
     let spriteTimer = 0, spriteIndex = 0, currentFrame = '', wantedFrame = '';
     let spritesEnabled = options.frames !== false, stuckCount = 0, firstMove = true;
     let lastLocation = null;
+    let grappyPanel = null;
     const frameCache = new Map();
     const animations = new Set();
     const unlisten = [];
@@ -161,7 +162,7 @@
     }
     function label() {
       if (options.interactive) inner.setAttribute('aria-label', document.documentElement.lang === 'en'
-        ? 'Say hello to the little mascot' : 'سلام به مسکات کوچولو');
+        ? 'Grappy — tap for a message' : 'گرپی — برای یک پیام ضربه بزن');
     }
     function loaderDone() {
       return !splash || document.body.classList.contains('splash-done');
@@ -169,6 +170,7 @@
     function blocked() {
       const vv = window.visualViewport;
       return document.hidden || !loaderDone() || document.body.classList.contains('no-scroll') ||
+        (grappyPanel && grappyPanel.classList.contains('active')) ||
         !!document.fullscreenElement || !!document.querySelector('input:focus, textarea:focus, select:focus, [contenteditable="true"]:focus') ||
         (vv && (vv.scale > 1.05 || vv.height < window.innerHeight * .75)) ||
         overlayNodes.some(el => el.classList.contains('active') || el.classList.contains('open') ||
@@ -311,6 +313,11 @@
       }
     }
     function reveal(p) {
+      if (introPending) {
+        // Fast scrollers never get the intro; everyone else gets it exactly once.
+        if (Math.abs(window.scrollY - introScrollY) > 140) introDismissed();
+        else { grappyIntro(p); return; }
+      }
       position = p;
       stuckCount = 0; firstMove = true;
       actor.style.transform = translate(p);
@@ -454,7 +461,9 @@
       if (!frame) frame = requestAnimationFrame(() => { frame = 0; invalidate(compact.matches ? 950 : 650); });
     }
     function greet() {
-      if (!options.interactive || !position || blocked() || motion.matches) return;
+      if (!options.interactive || !position || blocked()) return;
+      grappyTapLine();
+      if (motion.matches) return;
       const rect = actor.getBoundingClientRect();
       const keep = { x: rect.left, y: rect.top };
       stop(); position = keep; running = true;
@@ -487,6 +496,8 @@
     if (options.interactive) {
       listen(inner, 'click', greet);
       listen(inner, 'focus', () => {
+        // Keyboard focus pauses walking; touch taps must never freeze Grappy.
+        if (!inner.matches(':focus-visible')) return;
         focused = true;
         if (position) {
           const rect = actor.getBoundingClientRect();
@@ -494,7 +505,11 @@
           stop(); position = keep; actor.style.transform = translate(keep); idle();
         }
       });
-      listen(inner, 'blur', () => { focused = false; invalidate(300); });
+      listen(inner, 'blur', () => {
+        if (!focused) return;
+        focused = false;
+        invalidate(300);
+      });
     }
     mediaListen(motion, () => invalidate(0));
     mediaListen(compact, () => invalidate());
@@ -525,6 +540,343 @@
     listen(window, 'pagehide', () => { stop(); if (frame) cancelAnimationFrame(frame); frame = 0; });
     listen(window, 'pageshow', () => invalidate(300));
 
+    /* =========================================================
+       GRAPPY — personality layer (v3)
+       Additive only: tap dialogues, first-visit intro, Grappy
+       button beside Eitaa/Telegram, and the preset chat panel.
+       Extension API: AliGrapphMascot.grappy.{addQA,addTapLine,say,…}
+    ========================================================= */
+    let introPending = true;
+    const introScrollY = window.scrollY;
+    try { if (localStorage.getItem('grappy_intro_seen') === 'true') introPending = false; } catch (_) {}
+
+    let bubbleEl = null, bubbleTimer = 0, lastBubbleData = null, lastTapIndex = -1;
+    let chatLog = null, typing = false, panelTimer = 0;
+    let chatBox = null, chipsBox = null, orderButton = null, panelClose = null, panelTitle = null, panelSub = null;
+    let trapHandler = null, trapContainer = null, lastFocus = null, langObserver = null;
+
+    const grappyLang = () => (document.documentElement.lang === 'en' ? 'en' : 'fa');
+    const grappyText = map => (typeof map === 'string' ? map : (map && map[grappyLang()]) || '');
+    const grappySet = (el, map) => { if (el) el.textContent = grappyText(map); };
+
+    function introDismissed() {
+      introPending = false;
+      try { localStorage.setItem('grappy_intro_seen', 'true'); } catch (_) {}
+    }
+    function grappyIntro(p) {
+      introPending = false;
+      try { localStorage.setItem('grappy_intro_seen', 'true'); } catch (_) {}
+      position = p;
+      stuckCount = 0;
+      firstMove = true;
+      actor.style.transform = translate(p);
+      actor.className = 'ag-mascot ag-mascot--visible';
+      running = true;
+      setPose('idle-01');
+      // Reduced motion: a static mascot with a plain bubble, nothing more.
+      if (motion.matches) { idle(); showBubble(GRAPPY_INTRO, 4200); return; }
+      // First visit: Grappy drops in from the top of the viewport, bounces once…
+      const from = { x: p.x, y: -size - 14 };
+      animate(actor, [
+        { transform: translate(from) + ' scale(.92)', opacity: 0 },
+        { transform: translate({ x: p.x, y: p.y + 11 }) + ' scale(1.05,.95)', opacity: 1, offset: .58 },
+        { transform: translate({ x: p.x, y: p.y - 7 }) + ' scale(.97,1.04)', offset: .76 },
+        { transform: translate({ x: p.x, y: p.y + 3 }) + ' scale(1.02,.98)', offset: .9 },
+        { transform: translate(p) + ' scale(1)' }
+      ], { duration: 900, easing: 'cubic-bezier(.22,.9,.28,1)' }, () => {
+        idle();
+        showBubble(GRAPPY_INTRO, 4200); // …then the hello bubble, 4s, then normal life.
+      });
+    }
+
+    function ensureBubble() {
+      if (bubbleEl || dead) return bubbleEl;
+      bubbleEl = document.createElement('div');
+      bubbleEl.className = 'ag-mascot-bubble';
+      bubbleEl.setAttribute('role', 'status');
+      bubbleEl.setAttribute('aria-live', 'polite');
+      const bubbleText = document.createElement('div');
+      bubbleText.className = 'ag-mascot-bubble-text';
+      bubbleEl.append(bubbleText);
+      actor.append(bubbleEl);
+      return bubbleEl;
+    }
+    function placeBubble() {
+      if (!bubbleEl || !position) return;
+      bubbleEl.classList.toggle('ag-mascot-bubble--below', position.y < 118);
+      bubbleEl.classList.toggle('ag-mascot-bubble--start', position.x < 96);
+      bubbleEl.classList.toggle('ag-mascot-bubble--end', position.x + size > width - 96);
+    }
+    function hideBubble() {
+      clearTimeout(bubbleTimer);
+      bubbleTimer = 0;
+      if (bubbleEl) bubbleEl.classList.remove('is-shown');
+    }
+    function showBubble(data, duration = 3200) {
+      const b = ensureBubble();
+      if (!b || dead) return;
+      lastBubbleData = data;
+      grappySet(b.querySelector('.ag-mascot-bubble-text'), data);
+      b.dir = grappyLang() === 'en' ? 'ltr' : 'rtl';
+      placeBubble();
+      b.classList.remove('is-shown');
+      void b.offsetWidth;
+      b.classList.add('is-shown');
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(hideBubble, duration);
+    }
+    function grappyTapLine() {
+      const pool = GRAPPY_TAP_LINES.map((_, i) => i).filter(i => i !== lastTapIndex);
+      const pick = pool.length ? pool[Math.floor(Math.random() * pool.length)] : 0;
+      lastTapIndex = pick;
+      showBubble(GRAPPY_TAP_LINES[pick]);
+    }
+
+    function grappyTrap(container) {
+      grappyReleaseTrap();
+      trapContainer = container;
+      trapHandler = event => {
+        if (event.key !== 'Tab') return;
+        const items = [...container.querySelectorAll(
+          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        )].filter(el => el.offsetParent !== null);
+        if (!items.length) return;
+        const first = items[0], last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      };
+      container.addEventListener('keydown', trapHandler);
+      const first = container.querySelector('button, [href], input, [tabindex]:not([tabindex="-1"])');
+      if (first) first.focus();
+    }
+    function grappyReleaseTrap() {
+      if (trapContainer && trapHandler) trapContainer.removeEventListener('keydown', trapHandler);
+      trapHandler = null;
+      trapContainer = null;
+    }
+
+    function renderChat() {
+      if (!chatBox) return;
+      chatBox.textContent = '';
+      for (const item of chatLog) {
+        const row = document.createElement('div');
+        row.className = 'ag-grappy-msg ' + (item.type === 'user' ? 'ag-grappy-msg--user' : 'ag-grappy-msg--bot');
+        const bubble = document.createElement('div');
+        bubble.className = 'ag-grappy-msg-bubble';
+        bubble.textContent = grappyText(item.text);
+        row.append(bubble);
+        chatBox.append(row);
+      }
+      if (typing) {
+        const row = document.createElement('div');
+        row.className = 'ag-grappy-msg ag-grappy-msg--bot';
+        const dots = document.createElement('div');
+        dots.className = 'ag-grappy-typing';
+        dots.setAttribute('aria-label', grappyLang() === 'en' ? 'Grappy is typing' : 'گرپی در حال نوشتن');
+        dots.append(document.createElement('i'), document.createElement('i'), document.createElement('i'));
+        row.append(dots);
+        chatBox.append(row);
+      }
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    function renderChips() {
+      if (!chipsBox) return;
+      chipsBox.textContent = '';
+      GRAPPY_QA.forEach((qa, index) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'ag-grappy-chip';
+        chip.textContent = grappyText(qa.question);
+        chip.disabled = typing;
+        chip.addEventListener('click', () => grappyAsk(index));
+        chipsBox.append(chip);
+      });
+    }
+    function grappyAsk(index) {
+      if (typing || dead || !chatLog) return;
+      const qa = GRAPPY_QA[index];
+      if (!qa) return;
+      chatLog.push({ type: 'user', text: qa.question });
+      typing = true;
+      renderChat();
+      renderChips();
+      clearTimeout(panelTimer);
+      panelTimer = setTimeout(() => {
+        typing = false;
+        chatLog.push({ type: 'bot', text: qa.answer });
+        renderChat();
+        renderChips();
+      }, motion.matches ? 160 : 620);
+    }
+
+    function buildGrappyPanel() {
+      grappyPanel = document.createElement('div');
+      grappyPanel.id = 'ag-grappy-panel';
+      grappyPanel.className = 'ag-grappy-panel';
+      grappyPanel.setAttribute('role', 'dialog');
+      grappyPanel.setAttribute('aria-modal', 'true');
+      grappyPanel.setAttribute('aria-hidden', 'true');
+      grappyPanel.setAttribute('aria-labelledby', 'agGrappyTitle');
+      const box = document.createElement('div');
+      box.className = 'ag-grappy-box';
+      const head = document.createElement('div');
+      head.className = 'ag-grappy-head';
+      const avatar = document.createElement('img');
+      avatar.className = 'ag-grappy-avatar';
+      avatar.alt = '';
+      avatar.width = 44;
+      avatar.height = 44;
+      avatar.decoding = 'async';
+      avatar.src = spritesEnabled ? new URL('idle-01.webp', frameBase).href : options.asset;
+      avatar.addEventListener('error', () => { avatar.src = options.asset; }, { once: true });
+      const titles = document.createElement('div');
+      titles.className = 'ag-grappy-titles';
+      panelTitle = document.createElement('h2');
+      panelTitle.id = 'agGrappyTitle';
+      panelSub = document.createElement('p');
+      panelClose = document.createElement('button');
+      panelClose.type = 'button';
+      panelClose.className = 'ag-grappy-close';
+      panelClose.innerHTML = '<svg aria-hidden="true" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>';
+      titles.append(panelTitle, panelSub);
+      head.append(avatar, titles, panelClose);
+      chatBox = document.createElement('div');
+      chatBox.className = 'ag-grappy-msgs';
+      chatBox.setAttribute('aria-live', 'polite');
+      chipsBox = document.createElement('div');
+      chipsBox.className = 'ag-grappy-chips';
+      box.append(head, chatBox, chipsBox);
+      grappyPanel.append(box);
+      document.body.append(grappyPanel);
+      panelClose.addEventListener('click', closeGrappy);
+      grappyPanel.addEventListener('click', event => {
+        if (event.target === grappyPanel) closeGrappy();
+      });
+    }
+
+    function openGrappy() {
+      if (dead || !grappyPanel || grappyPanel.classList.contains('active')) return;
+      lastFocus = document.activeElement;
+      hideBubble();
+      grappyPanel.classList.add('active');
+      grappyPanel.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('ag-grappy-lock');
+      renderChat();
+      renderChips();
+      grappyTrap(grappyPanel);
+      invalidate(60);
+    }
+    function closeGrappy() {
+      if (!grappyPanel || !grappyPanel.classList.contains('active')) return;
+      grappyPanel.classList.remove('active');
+      grappyPanel.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('ag-grappy-lock');
+      clearTimeout(panelTimer);
+      panelTimer = 0;
+      typing = false;
+      grappyReleaseTrap();
+      const back = lastFocus && lastFocus.isConnected ? lastFocus : orderButton;
+      if (back && back.focus) back.focus({ preventScroll: true });
+      invalidate(150);
+    }
+    function toggleGrappy() {
+      if (!grappyPanel) return;
+      if (grappyPanel.classList.contains('active')) closeGrappy();
+      else openGrappy();
+    }
+
+    function injectOrderButton() {
+      const grid = document.querySelector('.orders-grid');
+      if (!grid || orderButton) return;
+      orderButton = document.createElement('button');
+      orderButton.type = 'button';
+      orderButton.className = 'order-card ag-grappy-order';
+      orderButton.id = 'agGrappyOpen';
+      const icon = document.createElement('div');
+      icon.className = 'order-icon ag-grappy-order-icon';
+      const img = document.createElement('img');
+      img.alt = '';
+      img.width = 30;
+      img.height = 30;
+      img.decoding = 'async';
+      img.src = spritesEnabled ? new URL('idle-01.webp', frameBase).href : options.asset;
+      img.addEventListener('error', () => { img.src = options.asset; }, { once: true });
+      icon.append(img);
+      const copy = document.createElement('div');
+      const h3 = document.createElement('h3');
+      h3.dataset.en = 'Grappy';
+      h3.dataset.fa = 'گرپی';
+      const p = document.createElement('p');
+      p.dataset.en = 'Have a quick chat with Grappy, your site buddy';
+      p.dataset.fa = 'گپ کوتاه با گرپی، رفیق سایت';
+      copy.append(h3, p);
+      orderButton.append(icon, copy);
+      orderButton.addEventListener('click', openGrappy);
+      grid.append(orderButton);
+    }
+
+    function syncGrappyLang() {
+      const en = grappyLang() === 'en';
+      if (orderButton) {
+        orderButton.querySelectorAll('[data-fa]').forEach(el => {
+          el.textContent = en ? el.dataset.en : el.dataset.fa;
+        });
+      }
+      if (grappyPanel) {
+        grappyPanel.dir = en ? 'ltr' : 'rtl';
+        grappySet(panelTitle, en ? 'Grappy' : 'گرپی');
+        grappySet(panelSub, en ? "Ali Grapph's buddy" : 'همراه علی گراف');
+        if (panelClose) panelClose.setAttribute('aria-label', en ? 'Close' : 'بستن');
+      }
+      renderChat();
+      renderChips();
+      if (bubbleEl && bubbleEl.classList.contains('is-shown') && lastBubbleData) {
+        grappySet(bubbleEl.querySelector('.ag-mascot-bubble-text'), lastBubbleData);
+        bubbleEl.dir = en ? 'ltr' : 'rtl';
+      }
+    }
+
+    buildGrappyPanel();
+    injectOrderButton();
+    if (!chatLog) chatLog = [{ type: 'bot', text: GRAPPY_GREETING }];
+    syncGrappyLang();
+    langObserver = new MutationObserver(() => syncGrappyLang());
+    langObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+    listen(document, 'keydown', event => {
+      if (event.key === 'Escape' && grappyPanel && grappyPanel.classList.contains('active')) closeGrappy();
+    });
+
+    grappyBridge = {
+      addQA(qa) { if (qa && qa.question && qa.answer) { GRAPPY_QA.push(qa); renderChips(); } },
+      addTapLine(line) { if (line) GRAPPY_TAP_LINES.push(line); },
+      say(data, duration) { showBubble(data, duration || 3600); },
+      open: openGrappy,
+      close: closeGrappy,
+      toggle: toggleGrappy,
+      resetIntro() {
+        try { localStorage.removeItem('grappy_intro_seen'); } catch (_) {}
+        introPending = true;
+      }
+    };
+
+    function grappyDispose() {
+      hideBubble();
+      clearTimeout(panelTimer);
+      panelTimer = 0;
+      typing = false;
+      grappyReleaseTrap();
+      if (langObserver) langObserver.disconnect();
+      langObserver = null;
+      if (grappyPanel) grappyPanel.remove();
+      grappyPanel = null;
+      if (orderButton) orderButton.remove();
+      orderButton = null;
+      document.body.classList.remove('ag-grappy-lock');
+      chatBox = chipsBox = panelClose = panelTitle = panelSub = null;
+      chatLog = null;
+      bubbleEl = null;
+    }
+
     dispose = () => {
       dead = true;
       stop();
@@ -538,23 +890,135 @@
         record.callbacks.length = 0;
       });
       frameCache.clear();
-      readState = () => ({ version: '2.0.0', initialized: false });
+      grappyDispose();
+      grappyBridge = null;
+      readState = () => ({ version: '3.0.0', initialized: false });
       root.remove();
       dispose = null;
     };
     readState = () => ({
-      version: '2.0.0', initialized: !dead,
+      version: '3.0.0', initialized: !dead,
       reducedMotion: motion.matches, mobile: compact.matches,
       visible: actor.classList.contains('ag-mascot--visible'),
       blocked: !!blocked(), frame: currentFrame,
       spritesEnabled,
       loadedFrames: [...frameCache.values()].filter(record => record.state === 'ready').length,
       moving: actor.classList.contains('ag-mascot--moving'),
-      position: position ? { x: position.x, y: position.y } : null
+      position: position ? { x: position.x, y: position.y } : null,
+      grappy: {
+        panelOpen: !!(grappyPanel && grappyPanel.classList.contains('active')),
+        bubble: !!(bubbleEl && bubbleEl.classList.contains('is-shown')),
+        introPending
+      }
     });
     label();
     sync();
   }
-  window.AliGrapphMascot = Object.freeze({ version: '2.0.0', init, destroy() { if (dispose) dispose(); }, getState() { return readState(); } });
+  /* Grappy content lives at module scope so AliGrapphMascot.grappy.addQA()
+     and addTapLine() survive destroy()/init() cycles. */
+  const GRAPPY_INTRO = {
+    fa: 'سلام! 👋\nمن گرپی‌ام!\nاگه توی سایت کمکی خواستی، من هستم 😎',
+    en: "Hey! 👋\nI'm Grappy!\nIf you need any help around the site, I'm here 😎"
+  };
+  const GRAPPY_GREETING = {
+    fa: 'سلاممم 👋\nمن گرپی‌ام!\nاگه درباره سایت، نمونه‌کارها، سفارش یا علی گراف سوالی داری، روی یکی از گزینه‌ها بزن 😎',
+    en: "Heeey 👋\nI'm Grappy!\nIf you have questions about the site, the portfolio, ordering or Ali Grapph, tap one of the options 😎"
+  };
+  const GRAPPY_TAP_LINES = [
+    { fa: 'آییی دردم گرفت 😭', en: 'Ouch, that hurt 😭' },
+    { fa: 'نکن دیگه 😂', en: 'Stop it already 😂' },
+    { fa: 'کار نداری؟', en: 'Got nothing better to do?' },
+    { fa: 'بی‌جنبه 🗿', en: 'Real smooth 🗿' },
+    { fa: 'عه! باز اومدی؟ 👀', en: "Oh! You're back? 👀" },
+    { fa: 'چیه خب؟ 😐', en: 'What? 😐' },
+    { fa: 'فقط یه ضربه بود دیگه!', en: 'It was just one tap!' },
+    { fa: 'منو ول کن دارم کار می‌کنم 😂', en: "Leave me alone, I'm working 😂" },
+    { fa: 'آروم‌تر داداش 😭', en: 'Easy there, buddy 😭' },
+    { fa: 'باز منو پیدا کردی؟', en: 'You found me again?' }
+  ];
+  const GRAPPY_QA = [
+    {
+      id: 'about',
+      question: { fa: 'علی گراف کیه؟', en: 'Who is Ali Grapph?' },
+      answer: {
+        fa: 'علی گراف یعنی امیرعلی؛ طراح گرافیک که از موبایل شروع کرد و حالا روی پوستر، لوگو، بنر و کاور کار می‌کنه. همه‌ی کارهاش همین پایینه 🎨',
+        en: 'Ali Grapph is Amirali — a graphic designer who started on mobile and now works on posters, logos, banners and covers. All his work is right down there 🎨'
+      }
+    },
+    {
+      id: 'services',
+      question: { fa: 'چه خدماتی ارائه میشه؟', en: 'What services do you offer?' },
+      answer: {
+        fa: 'لوگو، پوستر، بنر، کاور و کارهای گرافیکی برای برندها و کسب‌وکارها. برای جزئیات برو بخش تعرفه‌ها 😉',
+        en: 'Logos, posters, banners, covers and graphic work for brands and businesses. Check the Pricing section for details 😉'
+      }
+    },
+    {
+      id: 'portfolio',
+      question: { fa: 'نمونه‌کارها کجاست؟', en: "Where's the portfolio?" },
+      answer: {
+        fa: 'همین پایینِ سایت، بخش «نمونه‌کارها». روی هر کدوم بزنی بزرگش می‌کنه و می‌تونی دانلودشون هم بکنی 👀',
+        en: "Scroll down to the Portfolio section. Tap any work to view it bigger — you can download them too 👀"
+      }
+    },
+    {
+      id: 'order',
+      question: { fa: 'چطور سفارش بدم؟', en: 'How do I order?' },
+      answer: {
+        fa: 'خیلی راحته 😎\nبرو بخش سفارش، اطلاعات کارت رو بفرست و درخواستت رو ثبت کن. بعدش علی بررسیش می‌کنه. منم از دور حواسم هست 😂',
+        en: "Super easy 😎\nGo to the Order section, send your details and submit your request. Ali will review it — I'll keep an eye from afar 😂"
+      }
+    },
+    {
+      id: 'articles',
+      question: { fa: 'مقالات جدید چیا هستن؟', en: "What's new in articles?" },
+      answer: {
+        fa: 'یه بخش مخصوص مقاله‌ها داریم 👀\nاونجا می‌تونی آموزش‌ها، مطالب گرافیکی و چیزای جدیدی که منتشر می‌شن رو ببینی.',
+        en: "We have a dedicated Articles section 👀\nThere you'll find tutorials, graphic design posts and everything new as it's published."
+      }
+    },
+    {
+      id: 'news',
+      question: { fa: 'آخرین اطلاعیه‌ها چیه؟', en: 'Any recent announcements?' },
+      answer: {
+        fa: 'اطلاعیه‌های مهم بالای بخش مقالات قرار می‌گیره 📢 اگه خبر مهمی باشه، همونجا اول از همه می‌بینیش.',
+        en: 'Important announcements live at the top of the Articles section 📢 Any big news shows up there first.'
+      }
+    },
+    {
+      id: 'contact',
+      question: { fa: 'راه‌های ارتباطی کجاست؟', en: 'How can I get in touch?' },
+      answer: {
+        fa: 'ایتا، تلگرام، اینستاگرام و روبیکا؛ همه‌شون توی بخش سفارش و شبکه‌های اجتماعی هستن. هرکدوم راحت‌تری بزن 💬',
+        en: 'Eitaa, Telegram, Instagram and Rubika — all in the Order and Social sections. Pick whichever you like 💬'
+      }
+    },
+    {
+      id: 'grappy',
+      question: { fa: 'گرپی تو این سایت چیکار می‌کنه؟ 😐', en: 'What do you do here, Grappy? 😐' },
+      answer: {
+        fa: 'من؟ 😂\nمن مسئول رسمیِ راه رفتن بی‌هدف توی سایتم!\nالبته اگه سوالی داشته باشی هم کمکت می‌کنم 🗿🚬',
+        en: "Me? 😂\nI'm the official manager of walking around the site for no reason!\nBut I'll help if you have a question 🗿🚬"
+      }
+    }
+  ];
+  let grappyBridge = null;
+  const grappyApi = {
+    addQA(qa) { if (grappyBridge) grappyBridge.addQA(qa); },
+    addTapLine(line) { if (grappyBridge) grappyBridge.addTapLine(line); },
+    say(data, duration) { if (grappyBridge) grappyBridge.say(data, duration); },
+    open() { if (grappyBridge) grappyBridge.open(); },
+    close() { if (grappyBridge) grappyBridge.close(); },
+    toggle() { if (grappyBridge) grappyBridge.toggle(); },
+    resetIntro() { if (grappyBridge) grappyBridge.resetIntro(); }
+  };
+
+  window.AliGrapphMascot = Object.freeze({
+    version: '3.0.0',
+    init,
+    destroy() { if (dispose) dispose(); },
+    getState() { return readState(); },
+    grappy: grappyApi
+  });
   init();
 })();
