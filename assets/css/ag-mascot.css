@@ -1,0 +1,88 @@
+/* Ali Grapph mascot — isolated, additive layer; no site selectors are changed. */
+#ali-grapph-mascot {
+  --ag-mascot-size: 58px;
+  position: fixed;
+  inset: 0;
+  z-index: 650; /* below contact FAB, navigation, dialogs, toast and splash */
+  overflow: hidden;
+  contain: strict;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  isolation: isolate;
+  pointer-events: none;
+  direction: ltr;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#ali-grapph-mascot, #ali-grapph-mascot * { box-sizing: border-box; }
+#ali-grapph-mascot .ag-mascot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--ag-mascot-size);
+  height: var(--ag-mascot-size);
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+}
+#ali-grapph-mascot .ag-mascot--visible { visibility: visible; opacity: 1; }
+#ali-grapph-mascot .ag-mascot--moving { will-change: transform; }
+#ali-grapph-mascot .ag-mascot-facing,
+#ali-grapph-mascot .ag-mascot-inner {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 85%;
+  pointer-events: none;
+}
+#ali-grapph-mascot .ag-mascot-facing { transform: scaleX(var(--ag-mascot-direction, 1)); }
+#ali-grapph-mascot .ag-mascot-inner {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 12px;
+  line-height: 1;
+  color: inherit;
+  font: inherit;
+}
+#ali-grapph-mascot .ag-mascot-inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+#ali-grapph-mascot.ag-mascot-interactive .ag-mascot--visible .ag-mascot-inner {
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+#ali-grapph-mascot .ag-mascot-inner:focus-visible { outline: 2px solid #f96363; outline-offset: 2px; }
+#ali-grapph-mascot .ag-mascot--walking .ag-mascot-inner { animation: agMascotWalk .38s ease-in-out infinite; }
+#ali-grapph-mascot .ag-mascot--climbing .ag-mascot-inner { animation: agMascotWalk .5s ease-in-out infinite; }
+#ali-grapph-mascot .ag-mascot--idle .ag-mascot-inner { animation: agMascotIdle 2.4s ease-in-out 2; }
+@keyframes agMascotWalk {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-2deg); }
+  50% { transform: translate3d(0, -1.6px, 0) rotate(2deg); }
+}
+@keyframes agMascotIdle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.018, .988); }
+}
+@media (max-width: 800px), (pointer: coarse) {
+  #ali-grapph-mascot { --ag-mascot-size: 42px; }
+  #ali-grapph-mascot .ag-mascot--walking .ag-mascot-inner { animation-duration: .48s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #ali-grapph-mascot *, #ali-grapph-mascot *::before, #ali-grapph-mascot *::after {
+    animation: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+}
+@media print { #ali-grapph-mascot { display: none !important; } }
