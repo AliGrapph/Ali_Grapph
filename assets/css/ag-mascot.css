@@ -86,3 +86,293 @@
   }
 }
 @media print { #ali-grapph-mascot { display: none !important; } }
+
+/* =========================================================
+   GRAPPY — personality layer (v3): bubble, button, chat panel
+   Additive only; every selector is scoped to its own layer.
+========================================================= */
+
+/* Slightly larger tap target than the sprite; layout stays untouched. */
+#ali-grapph-mascot.ag-mascot-interactive .ag-mascot-inner { position: relative; }
+#ali-grapph-mascot.ag-mascot-interactive .ag-mascot-inner::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 18px;
+}
+@media (max-width: 800px), (pointer: coarse) {
+  #ali-grapph-mascot.ag-mascot-interactive .ag-mascot-inner::after { inset: -5px; }
+}
+
+/* ---- speech bubble ---- */
+#ali-grapph-mascot .ag-mascot-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 2;
+  width: max-content;
+  max-width: min(230px, calc(100vw - 30px));
+  padding: 9px 13px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 48, 56, .38);
+  background: rgba(23, 23, 21, .94);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, .38);
+  color: #fff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.85;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: pre-line;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(5px) scale(.96);
+  transform-origin: 50% 100%;
+  transition: opacity .22s ease, transform .22s ease, visibility .22s;
+}
+#ali-grapph-mascot .ag-mascot-bubble.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+#ali-grapph-mascot .ag-mascot-bubble--start {
+  left: -6px;
+  transform: translateY(5px) scale(.96);
+}
+#ali-grapph-mascot .ag-mascot-bubble--start.is-shown {
+  transform: translateY(0) scale(1);
+}
+#ali-grapph-mascot .ag-mascot-bubble--end {
+  left: auto;
+  right: -6px;
+  transform: translateY(5px) scale(.96);
+}
+#ali-grapph-mascot .ag-mascot-bubble--end.is-shown {
+  transform: translateY(0) scale(1);
+}
+#ali-grapph-mascot .ag-mascot-bubble--below {
+  bottom: auto;
+  top: calc(100% + 10px);
+  transform-origin: 50% 0;
+}
+
+/* ---- Grappy button beside the Eitaa / Telegram order cards ---- */
+.ag-grappy-order {
+  grid-column: 1 / -1;
+  width: 100%;
+  text-align: start;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.ag-grappy-order-icon img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* ---- chat panel ---- */
+body.ag-grappy-lock { overflow: hidden; }
+
+.ag-grappy-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 2300;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(8, 8, 7, .78);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .26s ease, visibility .26s;
+}
+.ag-grappy-panel.active {
+  opacity: 1;
+  visibility: visible;
+}
+.ag-grappy-box {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: min(430px, 100%);
+  max-height: min(78vh, 660px);
+  padding: 17px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 16px;
+  background: rgba(23, 23, 21, .95);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 28px 70px rgba(0, 0, 0, .5);
+  transform: translateY(14px) scale(.96);
+  opacity: 0;
+  transition: transform .26s cubic-bezier(.22, .9, .28, 1), opacity .26s ease;
+}
+.ag-grappy-panel.active .ag-grappy-box {
+  transform: none;
+  opacity: 1;
+}
+.ag-grappy-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex: 0 0 auto;
+}
+.ag-grappy-avatar {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 48, 56, .45);
+  background: rgba(255, 48, 56, .12);
+  object-fit: contain;
+}
+.ag-grappy-titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ag-grappy-titles h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.ag-grappy-titles p {
+  margin: 2px 0 0;
+  font-size: 10px;
+  color: #9b9b93;
+}
+.ag-grappy-close {
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .05);
+  color: #d8d8d2;
+  cursor: pointer;
+  transition: background .2s ease, transform .15s ease;
+}
+.ag-grappy-close svg { width: 15px; height: 15px; }
+.ag-grappy-close:hover { background: rgba(255, 48, 56, .18); color: #fff; }
+.ag-grappy-close:active { transform: scale(.92); }
+.ag-grappy-close:focus-visible { outline: 2px solid #f96363; outline-offset: 2px; }
+
+.ag-grappy-msgs {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1 1 auto;
+  min-height: 130px;
+  max-height: min(46vh, 380px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 3px 2px;
+  scrollbar-width: thin;
+}
+.ag-grappy-msg { display: flex; }
+.ag-grappy-msg--user { justify-content: flex-end; }
+.ag-grappy-msg-bubble {
+  max-width: 86%;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 12px;
+  line-height: 1.95;
+  letter-spacing: 0;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
+.ag-grappy-msg--bot .ag-grappy-msg-bubble {
+  background: rgba(255, 255, 255, .055);
+  border: 1px solid rgba(255, 255, 255, .09);
+  color: #ecece6;
+  border-start-start-radius: 5px;
+}
+.ag-grappy-msg--user .ag-grappy-msg-bubble {
+  background: #ee4035;
+  border: 1px solid rgba(255, 255, 255, .14);
+  color: #fff;
+  border-end-end-radius: 5px;
+}
+.ag-grappy-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 11px 14px;
+  border: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 14px;
+  border-start-start-radius: 5px;
+  background: rgba(255, 255, 255, .055);
+}
+.ag-grappy-typing i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #9b9b93;
+  animation: agGrappyDot 1s ease-in-out infinite;
+}
+.ag-grappy-typing i:nth-child(2) { animation-delay: .15s; }
+.ag-grappy-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes agGrappyDot {
+  0%, 100% { opacity: .35; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+}
+
+.ag-grappy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  flex: 0 0 auto;
+  max-height: 32vh;
+  overflow-y: auto;
+  padding: 2px;
+}
+.ag-grappy-chip {
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
+  color: #d8d8d2;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease, transform .15s ease;
+}
+.ag-grappy-chip:hover:not(:disabled) {
+  background: rgba(255, 48, 56, .16);
+  border-color: rgba(255, 48, 56, .5);
+  color: #fff;
+}
+.ag-grappy-chip:active:not(:disabled) { transform: scale(.95); }
+.ag-grappy-chip:disabled { opacity: .45; cursor: default; }
+.ag-grappy-chip:focus-visible { outline: 2px solid #f96363; outline-offset: 2px; }
+
+@media (max-width: 800px), (pointer: coarse) {
+  .ag-grappy-panel { padding: 12px; }
+  .ag-grappy-box { gap: 11px; padding: 14px; max-height: min(80vh, 620px); }
+  .ag-grappy-msgs { max-height: min(42vh, 340px); }
+  .ag-grappy-chip { padding: 8px 11px; font-size: 10.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ali-grapph-mascot .ag-mascot-bubble,
+  .ag-grappy-panel,
+  .ag-grappy-box,
+  .ag-grappy-close,
+  .ag-grappy-chip,
+  .ag-grappy-typing i {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media print {
+  .ag-grappy-panel, body.ag-grappy-lock .ag-grappy-panel { display: none !important; }
+}
