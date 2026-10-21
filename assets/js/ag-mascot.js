@@ -1,4 +1,4 @@
-/* Ali Grapph mascot + Grappy v3.0.0 — vanilla JS, no changes to existing site functions.
+/* Ali Grapph mascot + Grappy v3.1.0 — vanilla JS, no changes to existing site functions.
    Public lifecycle: window.AliGrapphMascot.destroy() / init().
    Set window.AG_MASCOT_OPTIONS before this file to opt into interaction.
 */
@@ -18,7 +18,7 @@
     framesBase: framesURL
   }, config);
   const frameBase = new URL(options.framesBase.replace(/\/?$/, '/'), document.baseURI).href;
-  let dispose = null, readState = () => ({ version: '3.0.0', initialized: false });
+  let dispose = null, readState = () => ({ version: '3.1.0', initialized: false });
 
   function init() {
     if (dispose || !document.body || document.getElementById('ali-grapph-mascot')) return;
@@ -55,6 +55,7 @@
     let spritesEnabled = options.frames !== false, stuckCount = 0, firstMove = true;
     let lastLocation = null;
     let grappyPanel = null;
+    let exitRunning = false;
     const frameCache = new Map();
     const animations = new Set();
     const unlisten = [];
@@ -177,6 +178,7 @@
           el.getAttribute('aria-hidden') === 'false' || el.hasAttribute('open'));
     }
     function stop() {
+      exitRunning = false;
       ++revision;
       stopFrames();
       wantedFrame = '';
@@ -386,6 +388,8 @@
       if (!position || !safe(position)) { stop(); sync(); return; }
       const roll = Math.random();
       if (lastAction && lastAction !== 'hide' && roll < .08) { vanish(); return; }
+      // Short trick performances while standing: jump, backflip, spin, cheer.
+      if (!motion.matches && lastAction !== 'trick' && roll >= .72 && roll < .84) { playTrick(); return; }
       if (lastAction && roll < .18 && lastAction !== 'idle') { lastAction = 'idle'; idle(); return; }
       const jumpLift = compact.matches ? 7 : 12;
       if (roll > .9 && lastAction !== 'jump' && position.y > jumpLift + 6 && route(position, position, jumpLift)) {
@@ -455,8 +459,15 @@
       if (!blocked()) schedule(sync, delay);
     }
     function geometryChanged() {
-      // Hide immediately during scroll; one rAF coalesces invalidation only.
-      // There is no requestAnimationFrame animation or geometry polling loop.
+      // Scrolling triggers a real exit gesture (jump up & vanish or dash off
+      // the side) instead of an instant pop; one rAF still coalesces later
+      // revalidation. There is no scroll-linked animation or polling loop.
+      if (dead || exitRunning) return;
+      if (!motion.matches && running && position &&
+          actor.classList.contains('ag-mascot--visible') && !blocked()) {
+        scrollExit();
+        return;
+      }
       actor.className = 'ag-mascot';
       if (!frame) frame = requestAnimationFrame(() => { frame = 0; invalidate(compact.matches ? 950 : 650); });
     }
@@ -541,10 +552,11 @@
     listen(window, 'pageshow', () => invalidate(300));
 
     /* =========================================================
-       GRAPPY — personality layer (v3)
+       GRAPPY — personality layer (v3.1)
        Additive only: tap dialogues, first-visit intro, Grappy
-       button beside Eitaa/Telegram, and the preset chat panel.
-       Extension API: AliGrapphMascot.grappy.{addQA,addTapLine,say,…}
+       button beside Eitaa/Telegram, preset chat panel, scroll
+       exit gestures and idle trick performances.
+       Extension API: AliGrapphMascot.grappy.{addQA,addTapLine,say,trick,…}
     ========================================================= */
     let introPending = true;
     const introScrollY = window.scrollY;
@@ -554,6 +566,7 @@
     let chatLog = null, typing = false, panelTimer = 0;
     let chatBox = null, chipsBox = null, orderButton = null, panelClose = null, panelTitle = null, panelSub = null;
     let trapHandler = null, trapContainer = null, lastFocus = null, langObserver = null;
+    let lastExit = null, lastTrick = null;
 
     const grappyLang = () => (document.documentElement.lang === 'en' ? 'en' : 'fa');
     const grappyText = map => (typeof map === 'string' ? map : (map && map[grappyLang()]) || '');
@@ -630,6 +643,104 @@
       const pick = pool.length ? pool[Math.floor(Math.random() * pool.length)] : 0;
       lastTapIndex = pick;
       showBubble(GRAPPY_TAP_LINES[pick]);
+    }
+
+    /* ---- scroll exits: jump up & vanish, or dash off the side ---- */
+    function scrollExit() {
+      if (dead || !position) { exitRunning = false; return; }
+      exitRunning = true;
+      lastExit = Math.random() < 0.5 ? 'jump' : 'dash';
+      const from = { x: position.x, y: position.y };
+      hideBubble();
+      stopFrames();
+      clearTimeout(timer);
+      timer = 0;
+      ++revision;
+      animations.forEach(a => a.cancel());
+      animations.clear();
+      running = true;
+      actor.style.transform = translate(from);
+      actor.className = 'ag-mascot ag-mascot--visible';
+      if (lastExit === 'jump') {
+        setPose('fly-01');
+        animate(actor, [
+          { transform: translate(from), opacity: 1 },
+          { transform: translate({ x: from.x, y: Math.max(-size, from.y - 90) }), opacity: 1, offset: .45 },
+          { transform: translate({ x: from.x, y: -size - 14 }), opacity: 0 }
+        ], { duration: 430, easing: 'ease-in' }, finishExit);
+      } else {
+        setPose('dash-01');
+        facing.style.setProperty('--ag-mascot-direction', from.x + size / 2 < width / 2 ? '-1' : '1');
+        const side = from.x + size / 2 < width / 2 ? -size - 12 : width + 12;
+        animate(actor, [
+          { transform: translate(from), opacity: 1 },
+          { transform: translate({ x: side, y: from.y }), opacity: 0 }
+        ], { duration: 340, easing: 'ease-in' }, finishExit);
+      }
+    }
+    function finishExit() {
+      if (dead) return;
+      exitRunning = false;
+      stop();
+      schedule(sync, compact.matches ? 950 : 650);
+    }
+
+    /* ---- idle tricks: jump, backflip, spin, cheer ---- */
+    function trickDone() {
+      setPose('idle-01');
+      idle();
+    }
+    function playTrick() {
+      if (dead || motion.matches || blocked() || !position) return;
+      lastAction = 'trick';
+      stopFrames();
+      clearTimeout(timer);
+      timer = 0;
+      ++revision;
+      animations.forEach(a => a.cancel());
+      animations.clear();
+      running = true;
+      actor.style.transform = translate(position);
+      actor.className = 'ag-mascot ag-mascot--visible';
+      const roll = Math.random();
+      if (roll < 0.3) { lastTrick = 'jump'; trickJump(); }
+      else if (roll < 0.55) { lastTrick = 'flip'; trickFlip(); }
+      else if (roll < 0.8) { lastTrick = 'spin'; trickSpin(); }
+      else { lastTrick = 'cheer'; trickCheer(); }
+    }
+    function trickJump() {
+      setPose('fly-01');
+      animate(inner, [
+        { transform: 'translate3d(0,0,0) scale(1)' },
+        { transform: 'translate3d(0,-22px,0) scale(.94,1.08)', offset: .42 },
+        { transform: 'translate3d(0,0,0) scale(1.08,.92)', offset: .72 },
+        { transform: 'translate3d(0,0,0) scale(1)' }
+      ], { duration: 560, easing: 'ease-out' }, trickDone);
+    }
+    function trickFlip() {
+      setPose('happy-01');
+      animate(inner, [
+        { transform: 'translate3d(0,0,0) rotate(0deg)' },
+        { transform: 'translate3d(0,-16px,0) rotate(-190deg)', offset: .5 },
+        { transform: 'translate3d(0,0,0) rotate(-360deg)' }
+      ], { duration: 700, easing: 'ease-in-out' }, trickDone);
+    }
+    function trickSpin() {
+      setPose('surprised-01');
+      animate(inner, [
+        { transform: 'rotate(0deg) scale(1)' },
+        { transform: 'rotate(360deg) scale(1.06)' }
+      ], { duration: 520, easing: 'cubic-bezier(.34,1.3,.5,1)' }, trickDone);
+    }
+    function trickCheer() {
+      setPose('happy-01');
+      animate(inner, [
+        { transform: 'translate3d(0,0,0) rotate(0deg)' },
+        { transform: 'translate3d(0,-8px,0) rotate(-8deg)', offset: .25 },
+        { transform: 'translate3d(0,0,0) rotate(8deg)', offset: .5 },
+        { transform: 'translate3d(0,-8px,0) rotate(-6deg)', offset: .75 },
+        { transform: 'translate3d(0,0,0) rotate(0deg)' }
+      ], { duration: 640, easing: 'ease-in-out' }, trickDone);
     }
 
     function grappyTrap(container) {
@@ -853,6 +964,7 @@
       open: openGrappy,
       close: closeGrappy,
       toggle: toggleGrappy,
+      trick: playTrick,
       resetIntro() {
         try { localStorage.removeItem('grappy_intro_seen'); } catch (_) {}
         introPending = true;
@@ -864,6 +976,7 @@
       clearTimeout(panelTimer);
       panelTimer = 0;
       typing = false;
+      exitRunning = false;
       grappyReleaseTrap();
       if (langObserver) langObserver.disconnect();
       langObserver = null;
@@ -892,12 +1005,12 @@
       frameCache.clear();
       grappyDispose();
       grappyBridge = null;
-      readState = () => ({ version: '3.0.0', initialized: false });
+      readState = () => ({ version: '3.1.0', initialized: false });
       root.remove();
       dispose = null;
     };
     readState = () => ({
-      version: '3.0.0', initialized: !dead,
+      version: '3.1.0', initialized: !dead,
       reducedMotion: motion.matches, mobile: compact.matches,
       visible: actor.classList.contains('ag-mascot--visible'),
       blocked: !!blocked(), frame: currentFrame,
@@ -908,7 +1021,9 @@
       grappy: {
         panelOpen: !!(grappyPanel && grappyPanel.classList.contains('active')),
         bubble: !!(bubbleEl && bubbleEl.classList.contains('is-shown')),
-        introPending
+        introPending,
+        lastExit,
+        lastTrick
       }
     });
     label();
@@ -934,7 +1049,17 @@
     { fa: 'فقط یه ضربه بود دیگه!', en: 'It was just one tap!' },
     { fa: 'منو ول کن دارم کار می‌کنم 😂', en: "Leave me alone, I'm working 😂" },
     { fa: 'آروم‌تر داداش 😭', en: 'Easy there, buddy 😭' },
-    { fa: 'باز منو پیدا کردی؟', en: 'You found me again?' }
+    { fa: 'باز منو پیدا کردی؟', en: 'You found me again?' },
+    { fa: 'هیس! دارم فکر می‌کنم 🤔', en: "Shh! I'm thinking 🤔" },
+    { fa: 'یکی دیگه بزن ببینم 💢', en: 'Do it again, I dare you 💢' },
+    { fa: 'وایسا ببینم چی شد 😳', en: 'Wait… what just happened 😳' },
+    { fa: 'داری با من ور می‌ری؟ 😏', en: 'Are you messing with me? 😏' },
+    { fa: 'این دفعه آخری بود ها 😤', en: 'That was the last time 😤' },
+    { fa: 'قربونت برم، ول کن دیگه 😜', en: 'Aw you love me, now stop 😜' },
+    { fa: 'یاااا! 🤩', en: 'Whoaa! 🤩' },
+    { fa: 'چته داداش؟ 😂', en: "What's up with you? 😂" },
+    { fa: 'حواست هست دیگه؟ 😬', en: "You're paying attention, right? 😬" },
+    { fa: 'گرپی‌ام، دکمه نیستم 😂', en: "I'm Grappy, not a button 😂" }
   ];
   const GRAPPY_QA = [
     {
@@ -1010,11 +1135,12 @@
     open() { if (grappyBridge) grappyBridge.open(); },
     close() { if (grappyBridge) grappyBridge.close(); },
     toggle() { if (grappyBridge) grappyBridge.toggle(); },
+    trick() { if (grappyBridge) grappyBridge.trick(); },
     resetIntro() { if (grappyBridge) grappyBridge.resetIntro(); }
   };
 
   window.AliGrapphMascot = Object.freeze({
-    version: '3.0.0',
+    version: '3.1.0',
     init,
     destroy() { if (dispose) dispose(); },
     getState() { return readState(); },
