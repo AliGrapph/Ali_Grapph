@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://aligraph-art.cv/</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/work1.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/work2.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/work3.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/work4.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more1.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more2.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more3.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more4.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more5.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more6.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more7.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more8.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more9.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more10.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more11.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more12.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more13.webp</image:loc></image:image>
+    <image:image><image:loc>https://aligraph-art.cv/portfolio/more14.webp</image:loc></image:image>
   </url>
 </urlset>
